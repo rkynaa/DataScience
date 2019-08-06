@@ -1,0 +1,7 @@
+<style>                     
+
+.chart-stage.chart-stage-flex, .container-fluid  {
+    background: #273238;
+}
+
+</style> 

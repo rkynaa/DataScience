@@ -1,0 +1,4 @@
+"0","df <- data.frame(gameResult, logicalVal)"
+"2","Error in data.frame(gameResult, logicalVal) : 
+  arguments imply differing number of rows: 4, 5
+"

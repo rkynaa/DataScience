@@ -1,0 +1,9 @@
+"0","#tr(yt_trend$trending_date)"
+"0","#head(wday(yt_trend$trending_date, label = T, abbr = F, week_start = 1))"
+"0","#yt_trend_undo<-yt_trend"
+"0","#yt_trend$trending_dow <- wday(yt_trend$trending_date, label = T, abbr = F, week_start = 1)"
+"0","#head(yt_trend$trending_dow)"
+"0","#yt_trend$trending_month <- month(yt_trend$trending_date, label = T)"
+"0","head(yt_trend$trending_month)"
+"1","NULL
+"

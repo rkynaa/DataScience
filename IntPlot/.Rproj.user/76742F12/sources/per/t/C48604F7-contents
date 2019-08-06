@@ -1,0 +1,113 @@
+---
+title: "Web Dashboard with R"
+date: "Updated: June 29, 2018"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+    css: flex.css
+---
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(plotly)
+```
+
+```{r}
+# Read our dataset in
+vids <- read.csv("youtubetrends.csv")
+vids$likesratio <- vids$likes/vids$views
+vids$dislikesratio <- vids$dislikes/vids$views
+```
+
+```{r}
+# Creates our theme
+theme_algoritma <- theme(legend.key = element_rect(fill="black"),
+           text = element_text(color="white"),
+           legend.background = element_rect(color="white", fill="#263238"),
+           plot.title = element_text(size=8),
+           plot.subtitle = element_text(size=6),
+           panel.background = element_rect(fill="#dddddd"),
+           panel.border = element_rect(fill=NA),
+           panel.grid.minor.x = element_blank(),
+           panel.grid.major.x = element_blank(),
+           panel.grid.major.y = element_line(color="darkgrey", linetype=2),
+           panel.grid.minor.y = element_blank(),
+           plot.background = element_rect(fill="#263238"),
+           axis.text = element_text(color="white"),
+           axis.title =  element_text(color="white", size=6.5)
+           )
+```
+
+
+```{r}
+# Data preparation:
+comedy <- vids[vids$category_id == "Comedy",]
+popularcomedy <- aggregate(trending_date ~ channel_title, comedy, length)
+popularcomedy <- popularcomedy[order(popularcomedy$trending_date, decreasing=T), ]
+popularcomedy <- popularcomedy[popularcomedy$trending_date >= 5, ]
+```
+
+```{r}
+# Create our plot
+hexp <- ggplot(comedy[comedy$channel_title %in% popularcomedy$channel_title,], aes(x=likesratio, y=dislikesratio))+
+  geom_point(aes(size=views, col=channel_title), alpha=0.6)+
+  labs(title="Likes vs Dislikes in Trending Comedy Videos", subtitle="Visualizing likes vs dislikes in the Algoritma theme, source: YouTube")+
+  guides(size=F)+
+  theme_algoritma
+
+hexp2 <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_hex(alpha=0.6, show.legend = F)+
+  theme_algoritma
+
+hexp3 <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_line(col="black", show.legend = F)+
+  theme_algoritma
+
+hexp4 <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_bin2d(show.legend=F)+
+  theme_algoritma
+```
+
+
+
+
+Column {data-width=700 data-height=600}
+-----------------------------------------------------------------------
+<h4>Built with Flex Dashboard</h4>
+Flex Dashboard is an R package that "easily create flexible, attractive, interactive dashboards with R". We visualize the underlying trends in the Comedy category using YouTube data up to January 2018.
+
+### A Bubble Plot of _Likes_ vs _Dislikes_ in Comedy
+```{r}
+ggplotly(hexp)
+```
+
+> College Humor, Cracked and Smosh videos share a similar _favorability_ index
+
+### Sample Data in Comedy videos
+```{r}
+table1 <- head(vids[vids$category_id == "Comedy", c(2,3,6,7,8)])
+knitr::kable(table1)
+```
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+### Hex Plot {data-height=200}
+```{r}
+ggplotly(hexp2)
+```
+
+### Line Plot {data-height=200}
+```{r}
+ggplotly(hexp3)
+```
+
+### 2d Bin Counts {data-height=200}
+```{r}
+ggplotly(hexp4)
+```
+
+
+

@@ -1,0 +1,6 @@
+"0","# Creating a normalize() function, which takes a vector x and for each value in that vector, subtracts the minimum value in x and divides by the range of x"
+"0","normalize <- function(x){"
+"0","  return ( "
+"0","    (x - min(x))/(max(x) - min(x)) "
+"0","           )"
+"0","}"

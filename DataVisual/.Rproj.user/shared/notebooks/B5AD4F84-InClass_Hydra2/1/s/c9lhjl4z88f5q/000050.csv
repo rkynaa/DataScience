@@ -1,0 +1,2 @@
+"0",""
+"0","ggplot(temp1, aes(x = Channel, y = Freq)) + geom_col() + theme(axis.text.x = element_text(angle = 90))"

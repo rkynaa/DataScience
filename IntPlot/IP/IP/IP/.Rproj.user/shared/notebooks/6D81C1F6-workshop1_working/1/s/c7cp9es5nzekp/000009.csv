@@ -1,0 +1,2 @@
+"0","prd.1200 <- predict(model.lm, newdata=data.frame(Sales = 1200))"
+"0","plot(copiers$Sales, copiers$Profit, pch=16, cex=0.8, main=""Sales vs Profit"", col=copiers$Ship.Mode)"

@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564700855343.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "C02BB074",
+    "lastKnownWriteTime" : 2459000718892870709,
+    "last_content_update" : 1564700855343,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "7F4A4AD",
+        "caption" : "conn",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=conn&cache_key=7F4A4AD",
+        "displayedObservations" : "236",
+        "environment" : "",
+        "expression" : "conn",
+        "object" : "conn",
+        "preview" : "0",
+        "totalObservations" : "236",
+        "variables" : "2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 17,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

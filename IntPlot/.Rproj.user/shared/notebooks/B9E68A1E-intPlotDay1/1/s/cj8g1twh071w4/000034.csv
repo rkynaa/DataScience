@@ -1,0 +1,3 @@
+"0","comedy2018.plot <- ggplot(comedy2018, aes(x = likesratio, y = dislikesratio, text = paste(""Likes: "",likes))) + geom_point(aes(size = views, col = channel_title), show.legend = F) + labs(x = ""Likes Ratio"", y = ""Dislikes Ratio"", title = ""Likes vs Dislikes in Trending Comedy Videos 2018"") + theme_algoritma + theme(legend.position = ""none"")"
+"0",""
+"0","comedy2018.plotly <- ggplotly(comedy2018.plot, tooltip = ""all"")"

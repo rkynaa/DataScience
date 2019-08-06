@@ -1,0 +1,3 @@
+"0","library(class)"
+"0","# We use k=21, ~sqrt(469) as its also an odd number we eliminate the prob. of getting a tie"
+"0","wbcd_pred <- knn(train = wbcd_train, test=wbcd_test, cl=wbcd_train_labels, k=21)"

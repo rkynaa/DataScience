@@ -1,0 +1,6 @@
+"0","vids %>% "
+"0","  group_by(category_id) %>% "
+"0","  summarise(total_likes = sum(likes)) %>%"
+"0","  arrange(-total_likes) %>% "
+"0","  ungroup() %>% "
+"0","  head()"

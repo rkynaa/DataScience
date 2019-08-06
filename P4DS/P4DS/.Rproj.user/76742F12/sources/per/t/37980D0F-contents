@@ -1,0 +1,155 @@
+---
+title: "r_day2"
+author: "Rakyan Satrya Adhikara"
+date: "9/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+```{r}
+getwd()
+setwd("C:/Users/Rakyan/Documents/DataScience/RStudio/P4DS/")
+```
+
+- read.csv()
+  ~ To insert a .csv file into our environment
+  ~ To set the separator, you can add parameter "sep"
+  ~ Other way to use it, click 'Import Dataset' and choose 'read text (base)'
+
+```{r}
+retail <- read.csv("P4DS/data_input/retail.csv")
+retail_master <- retail
+
+```
+
+- head()
+  ~ To display several first rows of our current data
+  ~ To control how many rows you want to display, you can add parameter with a number
+
+```{r}
+head(retail, 20)
+```
+
+- tail()
+  ~ To display several last rows of our current data
+  ~ To control how many rows you want to display, you can add parameter with a number
+
+```{r}
+tail(retail, 10)
+```
+
+- dim()
+  ~ To get the dimension (row and column) of our current data
+
+```{r}
+dim(retail)
+```
+
+- names()
+
+```{r}
+names(retail)
+```
+
+- str()
+
+```{r}
+str(retail)
+```
+
+- summary()
+
+```{r}
+summary(retail)
+
+```
+
+## Manipulation
+
+- as.Character()
+
+Tipe data factor yang seharusnya character:
+order.id 
+customer.id
+product.id
+pruduct.name
+```{r}
+retail$Order.ID <- as.character(retail$Order.ID)
+retail$Customer.ID <- as.character(retail$Customer.ID)
+retail$Product.ID <- as.character(retail$Product.ID)
+retail$Product.Name <- as.character(retail$Product.Name)
+str(retail)
+```
+
+- as.Date()
+
+```{r}
+retail$Order.Date <- as.Date(retail$Order.Date, "%m/%d/%y")
+retail$Ship.Date <- as.Date(retail$Ship.Date, "%m/%d/%y")
+head(retail)
+```
+
+## Subset abd sampling data
+
+- [,] -> [row, column]
+
+Subset data 'retail' with profit > 2000 and only display "Sales" and "Profit" column
+```{r}
+retail[retail$Profit>2000,c("Sales", "Profit")]
+```
+
+Subset data 'retail' with segment 'Corporate' that have sales > 1000
+
+```{r}
+retail[retail$Segment=="Corporate" & retail$Sales>1000,]
+```
+
+Subset data 'retail' with category 'Furniture', with segment 'Corporate' and only display "Sales" and "Profit" column
+
+```{r}
+retail[retail$Category=="Furniture" & retail$Segment=="Corporate",c("Sales", "Profit")]
+```
+
+- table()
+
+```{r}
+table(retail$Category, retail$Segment)
+```
+
+'Ship mode' vs 'Category'
+1. Category that oftenly shipped with 'First Class'? Office Supplies
+2. Technology rarely shipped with? Same Day
+
+```{r}
+prop.table(table(retail$Ship.Mode))
+```
+
+```{r}
+subset_sales <- retail[retail$Sales>=1000,]
+subset_first_class <- retail[retail$Ship.Mode=="First Class",]
+table(subset_sales$Segment, subset_sales$Category)
+prop.table(table(subset_first_class$Category))
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

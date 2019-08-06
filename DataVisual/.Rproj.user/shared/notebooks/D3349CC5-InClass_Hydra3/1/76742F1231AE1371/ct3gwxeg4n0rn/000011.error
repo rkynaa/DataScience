@@ -1,0 +1,1 @@
+{"frames":[{"character_number":0,"end_character_number":0,"end_line_number":0,"file":"","func":"addProviderTiles(providers$Stamen.Toner)","line_number":0}],"message":"Error: $ operator is invalid for atomic vectors\n"}

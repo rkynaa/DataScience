@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562847967528.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "230329595",
+    "id" : "E45334E2",
+    "lastKnownWriteTime" : 1540968794,
+    "last_content_update" : 1540968794,
+    "path" : "~/DataScience/RStudio/PracticalStats/PS/PS/PS/PS.Rmd",
+    "project_path" : "PS/PS/PS/PS.Rmd",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

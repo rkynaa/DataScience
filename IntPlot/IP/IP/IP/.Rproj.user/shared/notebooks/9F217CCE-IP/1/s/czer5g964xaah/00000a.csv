@@ -1,0 +1,5 @@
+"0","comedy <- vids[vids$category_id == ""Comedy"", ]"
+"0","comedy <- aggregate(trending_date ~ channel_title, comedy, length)"
+"0","comedy <- comedy[order(comedy$trending_date, decreasing=T), ]"
+"0","names(comedy) <- c(""channel_title"", ""count"")"
+"0","head(comedy)"

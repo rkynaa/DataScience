@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563187367742.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2109126064",
+    "id" : "BD3E5B1B",
+    "lastKnownWriteTime" : 1563199509,
+    "last_content_update" : 1563199509354,
+    "path" : "~/DataScience/RStudio/DataVisual/DataVisualDay1.Rmd",
+    "project_path" : "DataVisualDay1.Rmd",
+    "properties" : {
+        "cursorPosition" : "12,25",
+        "last_setup_crc32" : "",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

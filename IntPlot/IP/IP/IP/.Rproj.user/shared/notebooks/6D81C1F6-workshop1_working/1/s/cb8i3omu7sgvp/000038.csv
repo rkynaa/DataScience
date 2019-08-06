@@ -1,0 +1,1 @@
+"0","plot(x=copiers$Sales, y=copiers$Profit, pch=19, cex=0.8, main=""Sales vs Profit in Copiers Category"", col=copiers$Ship.Mode)"

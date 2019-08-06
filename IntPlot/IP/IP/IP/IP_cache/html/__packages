@@ -1,0 +1,16 @@
+base
+ggplot2
+ggthemes
+shiny
+magrittr
+ggpubr
+lubridate
+colorspace
+data.table
+VIM
+miniUI
+dplyr
+bindrcpp
+plotly
+reshape2
+hexbin

@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563795548188.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1444422713",
+    "id" : "C48604F7",
+    "lastKnownWriteTime" : 1531112118,
+    "last_content_update" : 1531112118,
+    "path" : "~/DataScience/RStudio/IntPlot/IP/IP/IP/flex.Rmd",
+    "project_path" : "IP/IP/IP/flex.Rmd",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

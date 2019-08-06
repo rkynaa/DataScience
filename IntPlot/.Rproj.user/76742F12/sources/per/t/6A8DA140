@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563970261382.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4251231121",
+    "id" : "6A8DA140",
+    "lastKnownWriteTime" : 1531112014,
+    "last_content_update" : 1531112014,
+    "path" : "~/DataScience/RStudio/IntPlot/IP/IP/IP/timetoshine.Rmd",
+    "project_path" : "IP/IP/IP/timetoshine.Rmd",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

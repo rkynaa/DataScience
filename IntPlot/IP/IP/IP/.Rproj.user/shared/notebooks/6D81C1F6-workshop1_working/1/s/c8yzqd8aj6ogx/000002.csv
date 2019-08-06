@@ -1,0 +1,3 @@
+"0","tbsc <- tbs[,-c(1, 14)]"
+"0","tbsc$Date <- mdy(tbsc$Date)"
+"0","tbsc$branch_id <- as.factor(tbsc$branch_id)"

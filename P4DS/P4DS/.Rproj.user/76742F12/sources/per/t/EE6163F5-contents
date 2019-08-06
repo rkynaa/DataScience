@@ -1,0 +1,84 @@
+---
+title: "R_Mark_1"
+author: "Rakyan Satrya Adhikara"
+date: "9/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+## Basic code setup
+
+```{r}
+getwd()
+retail_master <- retail
+```
+
+- set.seed()
+
+```{r}
+daerah <- c("Bogor", "Jakarta", "Depok", "Bandung")
+set.seed(1908)
+sample(daerah, 1)
+```
+
+
+
+```{r}
+set.seed(100)
+idx <- sample(nrow(retail), nrow(retail)*0.6)
+retail60 <- retail[idx]
+```
+
+- xtabs()
+
+```{r}
+agg1 <- xtabs(formula = Profit ~ Category + Segment, data = retail)
+agg1
+heatmap(agg1)
+plot(agg1, main = "Plot Segment V Category")
+
+```
+
+```{r}
+exer <- xtabs(formula = Sales ~ Segment + Ship.Mode, data = retail)
+exer
+plot(exer, main = "Plot Ship.Mode V Segment")
+```
+
+- aggregate()
+
+```{r}
+aggregate(formula = Profit ~ Segment, data = retail, FUN = mean)
+```
+
+```{r}
+aggregate(formula = Sales ~ Segment + Category, data = retail, FUN = max)
+```
+
+```{r}
+install.packages("dplyr")
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

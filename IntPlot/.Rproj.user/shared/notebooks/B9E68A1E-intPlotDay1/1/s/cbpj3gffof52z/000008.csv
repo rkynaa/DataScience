@@ -1,0 +1,3 @@
+"0","vids %>%"
+"0","  select(title, category_id, likes) %>% "
+"0","  select(category_id, likes)"

@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564062578856.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F091B847",
+    "lastKnownWriteTime" : 2392521138200,
+    "last_content_update" : 1564062578856,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "f193466b0d0b44d78dc927fd1246b0d4",
+        "name" : "plot.list",
+        "title" : "plot.list"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}

@@ -1,0 +1,6 @@
+"0","retail$Order.ID <- as.character(retail$Order.ID)"
+"0","class(retail$Order.ID)"
+"1","[1]"
+"1"," ""character"""
+"1","
+"

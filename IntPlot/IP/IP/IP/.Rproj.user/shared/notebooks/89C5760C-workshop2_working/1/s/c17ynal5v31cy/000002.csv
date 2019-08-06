@@ -1,0 +1,4 @@
+"0","# Create our dataset"
+"0","food <- data.frame(list(c(""apple"", ""bacon"", ""banana"", ""carrot"",""celery"", ""cheese"",""cucumber"", ""fish"", ""grape"", ""green bean"", ""lettuce"", ""nuts"", ""pear"", ""shrimp"",""orange""), c(10,1,10,6,3,1,2,3,10,3,1,3,10,2,9), c(9,4,1,10,10,1,8,2,5,7,10,5,7,2,3), c(""fruit"", ""protein"", ""fruit"", ""vegetable"", ""vegetable"", ""protein"", ""vegetable"", ""protein"", ""fruit"", ""vegetable"", ""vegetable"", ""proteins"", ""fruit"",""protein"", ""fruit"")))"
+"0","# Give each feature appropriate names"
+"0","colnames(food)<- c(""Ingredient"", ""Sweetness"", ""Crunchiness"", ""Type"")"

@@ -1,0 +1,45 @@
+WHAT
+	- Dashboardnya tentang apa?
+	Ans: Perkembangan 'Marvel Cinematic Universe dari tahun ke tahun'
+WHEN
+	- Dibuatnya kapan?
+	Ans: 29/07/2019
+	- Datasetnya rentang waktunya kapan?
+	Ans: 2008 - 2019
+	- Apakah masih relevan?
+	Ans: Relevan karena Marvel Cinematic Universe masih berjalan dan sekarang, sedang melaksanakan fase ke-4
+WHO
+	- Target yang mengakses dashboard tersebut
+	Ans: Marvel Studio & penggemar film Marvel Cinematic Universe
+WHERE
+	- Lingkup/luas dari data tersebut
+	Ans: Dari Domestic (AS) sampai Keliling Dunia
+WHY
+	- Mengapa pakai data tersebut?	
+	Ans: 
+		1. Untuk mengetahui pengaruh tokoh-tokoh dari Marvel Cinematic Universe terhadap laba kotor, rating film, dan total view trailer di youtube
+		2. Untuk mengetahui perkembanga Marvel Cinematic Universe dari tahun ke tahun
+		3. Untuk mengetahui negara-negara mana saja yang menyediakan semua data di atas
+	- Mengapa plotnya demikian?
+	Ans: 
+		1. Supaya mendapatkan informasi untuk prediksi Marvel Cinematic Universe fase berikutnya bagi para penggemar
+		2. Supaya bisa mengetahui kualitas setiap film dari tahun ke tahun bagi Marvel Studios
+		3. Supaya bisa menyiapkan film-film kedepan di Marvel Cinematic Universe berdasarkan hasil pemgolahan data
+HOW
+	- Bagaimana plot tersebut dapat menjawab pertanyaan/masalah yang diajukan
+	Ans:
+		1. Dengan membuat semua olahan data dalam bentuk visual sehingga mudah dimengerti, seperti:
+			a. Line plot pada hasil laba kotor setiap tahun secara domestic dan di seluruh dunia dan rating setiap tahun
+			b. bar plot pada 10 film Marvel Cinematic Universe yang mempunyai:
+				=> Rating Rotten Tomatoes' Tomatometer dan Audience Score
+				=> Rating IMDb dan CinemaScore
+				=> Hasil laba kotor
+			c. Pie chart pada film yang menampilkan tokoh utama tertentu, yang menampilkan:
+				=> Hasil laba koto
+				=> Rating Rotten Tomatoes' Audience Score
+				=> Total view pada trailer-trailer yang relevan pada film-filmnya
+	- Langkah-langkah yang dibutuhkan untuk membuat data menjadi bisa menjawab pertanyaan yang diajukan
+	Ans: 
+		1. What Q#1 :
+			a. Lihat di section 'General', sub-section 'Year of Release'
+		2. When Q#1 :

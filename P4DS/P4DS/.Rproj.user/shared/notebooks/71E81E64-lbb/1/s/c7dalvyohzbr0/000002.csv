@@ -1,0 +1,7 @@
+"0","gameResult <- c(""win"", ""lose"", ""win"")"
+"0","gameResult <- factor(gameResult)"
+"0","class(gameResult)"
+"1","[1]"
+"1"," ""factor"""
+"1","
+"

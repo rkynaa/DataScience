@@ -1,0 +1,5 @@
+"0",""
+"0","vids %>%"
+"0","  group_by(category_id, publish_when) %>% "
+"0","  summarise(total_likes = sum(likes),"
+"0","            mean_likes = mean(likes))"

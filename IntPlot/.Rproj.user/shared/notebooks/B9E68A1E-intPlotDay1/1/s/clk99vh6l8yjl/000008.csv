@@ -1,0 +1,5 @@
+"0","vids %>% "
+"0","  group_by(category_id) %>% "
+"0","  mutate(total = n()) %>% "
+"0","  ungroup() %>% "
+"0","  select(total)"

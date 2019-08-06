@@ -1,0 +1,1 @@
+"0","vids[,c(""views"", ""likes"", ""dislikes"", ""comment_count"")] <- lapply(vids[,c(""views"", ""likes"", ""dislikes"", ""comment_count"")], as.numeric)"

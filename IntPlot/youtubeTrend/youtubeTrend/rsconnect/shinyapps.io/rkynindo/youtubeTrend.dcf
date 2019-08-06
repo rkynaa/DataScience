@@ -1,0 +1,12 @@
+name: youtubeTrend
+title: youtubeTrend
+username:
+account: rkynindo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1050441
+bundleId: 2263576
+url: https://rkynindo.shinyapps.io/youtubeTrend/
+when: 1564055151.45502
+asMultiple: FALSE
+asStatic: FALSE

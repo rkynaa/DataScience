@@ -1,0 +1,9 @@
+"0","# install.packages(""ggplot2"")"
+"0","library(ggplot2)"
+"2","Need help getting started? Try the cookbook for R: http://www.cookbook-r.com/Graphs/
+"
+"0","# to load data to chart:"
+"0","library(ggpubr)"
+"2","Loading required package: magrittr
+"
+"0","library(png)"

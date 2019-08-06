@@ -1,0 +1,12 @@
+name: LBB_intplot_mk1
+title: LBB_intplot_mk1
+username:
+account: rkynindo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1052552
+bundleId: 2267523
+url: https://rkynindo.shinyapps.io/LBB_intplot_mk1/
+when: 1564153623.862
+asMultiple: FALSE
+asStatic: FALSE

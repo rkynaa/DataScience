@@ -1,0 +1,146 @@
+---
+title: "inclass"
+author: "david"
+date: "7/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## working directory
+cara mengecek working directory bisa menggunakan fungsi `getwd()`
+```{r}
+getwd()
+```
+
+## basic programming
+
+### comment
+
+untuk membuat komentar dalam chunk bisa menggunakan tanda `#` atau dengan shorcut `ctrl + shift + c`
+komentar tidak akan dijalankan dalam chunk
+```{r}
+# penjumlahan
+1+1
+```
+  
+### case sensitive
+R merupakan bahasa pemrograman yang case sensitive artinya perbedaan kapital dan non - kapital berpengaruh. cara cek apakah 2 nilai sama atau tidak bisa menggunakan operator `==`
+kalau nilainya `TRUE` berarti mereka merupakan hal yang sama `FALSE` nilai yang berbeda
+```{r}
+"Jakarta"=="jakarta"
+```
+  
+### math operation
+operasi matematika dalam R adalah :
+`+` operasi penjumlahan
+`-` operasi pengurangan
+`*` operasi perkalian
+`/` operasi pembagian
+`^` operasi pangkat
+
+```{r}
+(3 + 5)* 2
+```
+  
+### object
+suatu tempat untuk menampung nilai (variabel). nilai yang disimpan bisa apa aja
+```{r}
+algoritma <- 1 * 5 + 3
+algoritma
+```
+## tipe data di R
+### Character
+tipe data paling global (umum)
+```{r}
+nama <- c("David", "Handoyo", "Nabilla")
+class(nama)
+```
+### Numeric
+tipe data yang berisi angka, bisa nilai diskrit (1,2,3) atau kontinu (1.2, 7.4, 3.3)
+```{r}
+umur <- c(23, 24, 21.3)
+class(umur)
+```
+### Integer
+tipe data yang berisi hanya diskrit biasanya diakhiri dengan huruf L
+```{r}
+lama_kerja <- c(3L, 2L, 1L)
+lama_kerja
+class(lama_kerja)
+```
+### Logical
+tipe data yang berisi nilai TRUE atau FALSE. penulisan TRUE dan FALSE bisa disingkat dengan T dan F
+```{r}
+status <- c(TRUE, FALSE, F)
+class(status)
+```
+
+### campur?
+
+apabila dalam 1 vector terdapat beberapa nilai, tipe data yang akan diikuti adalah tipe data paling general. urutannya adalah character, numeric, integer, logical
+```{r}
+campur <- c(FALSE, TRUE)
+class(campur)
+```
+
+
+```{r}
+campur2 <- c("David", 1, TRUE)
+class(campur2)
+
+```
+## Struktur data di R
+### Vector
+suatu object yang terdiri dari beberapa nilai. vector sifatnya 1 dimensi.
+alt + - untuk membuat <-
+```{r}
+vector1 <- c("David", "Algoritma", TRUE)
+vector2 <- c(1,2,3)
+```
+### matrix
+tipe data dengan 2 dimensi (punya baris dan kolom) nilai 
+didalamnya harus memiliki tipe data yang sama
+
+`()` digunakan untuk fungsi
+`[]` digunakan untuk subset data
+
+```{r}
+mat1 <- matrix(data = 11:16, nrow = 2, ncol = 3)
+mat1[1,] # subset baris pertama kolom ke 3
+```
+
+```{r}
+data_algo <- cbind(lama_kerja, nama, status)
+data_algo
+```
+
+### factor
+factor adalah characher yang punya level
+```{r}
+gender <- c("female", "male", "male", "female")
+gender <- factor(gender)
+class(gender)
+```
+
+### list
+list itu tipe data 1 dimensi tapi didalamnya bisa mengandung vector.
+cara subset list bisa menggunakan `[]` atau `[[]]`.
+gunakan `[]` untuk subset list beserta indexnya
+gunakan `[[]]` untuk subset list tanpa indexnya
+```{r}
+our.list <- list(TRUE, "TRUE", c(1,6,12))
+our.list[3]
+our.list[[3]]
+```
+
+### data frame
+saya ingin membuat data frame dari object nama, status, umur
+```{r}
+df <- data.frame(nama, status, umur)
+```
+
+end day 1
+

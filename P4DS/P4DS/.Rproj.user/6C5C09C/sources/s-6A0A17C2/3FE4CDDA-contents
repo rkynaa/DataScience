@@ -1,0 +1,8 @@
+crstab <- function(){
+  retail <- read.csv("retail.csv")
+  plot(xtabs(Sales ~ Sub.Category + Ship.Mode, data=retail), main="Cross Tabulation: Sales vs Sub-Category & Shipping Method")  
+  
+}
+
+
+  

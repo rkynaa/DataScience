@@ -1,0 +1,273 @@
+---
+title: "intPlotDay1"
+author: "Rakyan Satrya Adhikara"
+date: "22/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo = F}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Basic Configuration
+
+## Install packages
+```{r, echo=FALSE}
+#install.packages(c("dplyr", "utils"))
+library(dplyr)
+library(utils)
+```
+
+
+## Read Data
+
+```{r, ech0 = F}
+vids <- read.csv("IP/IP/IP/youtubetrends.csv")
+```
+
+Take 'category_id', 'title' and 'likes' columns
+
+```{r}
+vids[,c("category_id","title","likes")]
+```
+
+## Functions in 'dplyr' package
+### Select
+
+Main use: to take specified variable(s) and/or column(s)
+in base R package -> subset columns [,]
+
+```{r}
+select(.data = vids, category_id, title, likes)
+```
+
+### Pipes (%>%)
+
+Main use: to connect one command to any other commands
+
+```{r}
+vids %>%
+  select(title, category_id, likes) %>% 
+  select(category_id, likes)
+```
+
+### Filter
+
+Main use: to filterize the list that returns only several rows of the original list based on the qualifications
+In base R: Subset row []
+
+```{r}
+# Using '[]' 
+vids[vids$views>1000000,]
+
+vids.clean <- vids %>% 
+  filter(views > 10000000) %>% 
+  select (title, category_id, likes, views)
+```
+
+### Mutate
+
+Main use: to manipulate the columns, either those that already exist or those that not
+in base R package: '$' sign
+
+> On this case, make a new column with label called 'likeability': likes / dislikes
+
+```{r}
+# Using '$' sign (from base R package)
+vids$likeability <- vids$likes / vids$dislikes
+
+# Using 'mutate()' function (from 'dplyr' package)
+vids %>% 
+  mutate(likeability = likes / dislikes)
+
+# Extra note: you can manipulate more than one columns at the same time
+```
+
+### Summarise
+
+Main use: to get result of data operations
+in base R package: aggregate ('aggr()') function
+
+```{r}
+vids %>% 
+  summarise(total_likes = sum(likes),
+            mean_likes = mean(likes))
+
+vids %>%
+  group_by(category_id, publish_when) %>% 
+  summarise(total_likes = sum(likes),
+            mean_likes = mean(likes))
+
+# Extra Notes: ungroup() function's main use is to remove any 'group_by' function-related variables
+
+vids %>% 
+  group_by(category_id) %>% 
+  mutate(total = n()) %>%  
+  select(total)
+
+vids %>% 
+  group_by(category_id) %>% 
+  mutate(total = n()) %>% 
+  ungroup() %>% 
+  select(total)
+```
+
+### Arrange
+
+Main use: to arrange the data in order
+
+> In this case, it arrange the data based on number of views
+
+```{r}
+vids %>% 
+  arrange(views)
+```
+
+```{r}
+vids %>% 
+  group_by(category_id) %>% 
+  summarise(total_likes = sum(likes)) %>%
+  arrange(-total_likes) %>% 
+  ungroup() %>% 
+  head()
+```
+
+Exercise #1 : Which category video that have views more than 1 Million? Make a new column that filled with total comment that
+```{r}
+vids %>% 
+  filter(views > 1000000) %>% 
+  group_by(category_id) %>% 
+  summarise(total_comment = sum(comment_count)) %>% 
+  ungroup() %>% 
+  arrange(-total_comment)
+```
+
+```{r}
+vids %>% 
+  group_by(category_id) %>% 
+  filter(views < 1000000) %>% 
+  summarise(mean_likes = mean(likes)) %>% 
+  ungroup() %>% 
+  arrange(-mean_likes)
+```
+
+```{r}
+comedy <- vids[vids$category_id == "Comedy",]
+comedy <- aggregate(trending_date ~ channel_title, comedy, length)
+comedy <- comedy[order(comedy$trending_date, decreasing = T),]
+names(comedy) <- c("channel_title", "count")
+head(comedy)
+```
+
+```{r}
+library(ggplot2)
+library(scales)
+library(plotly)
+comedy.dplyr <- vids %>% 
+  filter(category_id == "Comedy") %>%
+  group_by(channel_title) %>% 
+  summarise(count = n()) %>% 
+  arrange(-count)
+
+# head(comedy.dplyr) %>% ggplot(aes(x = channel_title, y = count)) + geom_col() + coord_flip()
+
+plot_vids <- vids %>% 
+  group_by(category_id) %>% 
+  summarise(total = sum(views)) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = reorder(category_id, total), y = total, text = paste("Total Views:", label = comma(total),"<br>","Category:",category_id))) +
+  geom_col(aes(fill = category_id)) +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(x = NULL, y = NULL, title = paste("Total Views Based on Category","<br>", "Title Dashboard")) + 
+  theme(legend.position = "none", title = element_text(hjust = .5, size)) + theme_algoritma
+  
+
+# Buat angka menjati bukan scientific
+options(scipen = 99)
+
+ggplotly(plot_vids, tooltip = "text")
+```
+
+```{r}
+theme_algoritma <- theme(legend.key = element_rect(fill="black"),
+           legend.background = element_rect(color="white", fill="#263238"),
+           plot.subtitle = element_text(size=6, color="white"),
+           panel.background = element_rect(fill="#dddddd"),
+           panel.border = element_rect(fill=NA),
+           panel.grid.minor.x = element_blank(),
+           panel.grid.major.x = element_blank(),
+           panel.grid.major.y = element_line(color="darkgrey", linetype=2),
+           panel.grid.minor.y = element_blank(),
+           plot.background = element_rect(fill="#263238"),
+           text = element_text(color="white"),
+           axis.text = element_text(color="white")
+           
+           )
+```
+
+```{r}
+vids.plot2 <- vids %>% 
+  mutate(publish_wday = factor(publish_wday, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))) %>% 
+  group_by(publish_wday, publish_when) %>% 
+  summarise(total_views = sum(views)) %>%
+  ggplot(aes(publish_wday, y = total_views, text = paste(comma(total_views), "views","\n","Published on",publish_when))) + 
+  geom_col(aes(fill = publish_when), position = "dodge") + 
+  labs(x = NULL, y = NULL, title = "Total Views Based on Publish Time") +
+  theme(legend.title = element_blank()) +
+  theme_algoritma +
+  scale_y_continuous(labels = comma)
+
+vids.plot2.ly <- ggplotly(vids.plot2, tooltip = "text")
+```
+
+```{r}
+library(lubridate)
+comedy2018 <- vids %>% 
+  mutate(trending_date = ymd(trending_date),
+         trending_year = year(trending_date)) %>% 
+  filter(trending_year == 2018, category_id == "Comedy") %>% 
+  mutate(likesratio = likes/views,
+         dislikesratio = dislikes/views,
+         channel_title = droplevels(channel_title))
+
+```
+
+```{r}
+comedy2018.plot <- ggplot(comedy2018, aes(x = likesratio, y = dislikesratio, text = paste("Likes: ",likes))) + geom_point(aes(size = views, col = channel_title), show.legend = F) + labs(x = "Likes Ratio", y = "Dislikes Ratio", title = "Likes vs Dislikes in Trending Comedy Videos 2018") + theme_algoritma + theme(legend.position = "none")
+
+comedy2018.plotly <- ggplotly(comedy2018.plot, tooltip = "all")
+```
+
+```{r}
+library(tidyr)
+library(magrittr)
+library(ggpubr)
+vids.plot3 <- vids %>% 
+  filter(comments_disabled == F) %>% 
+  gather(key = "variable", value = "value", likes, dislikes, comment_count) %>% 
+  group_by(category_id, variable) %>% 
+  summarise(value = sum(value)) %>% 
+  ggplot(aes(x = category_id, y = value)) +
+  geom_col(aes(fill = variable), position = "dodge") +
+  coord_flip() + theme_algoritma + labs(x = NULL, y = NULL, title = "Likes v Dislikes v Comments in videos", x = NULL) + theme(legend.title = element_blank())
+
+vids.plot3.ly <- ggplotly(vids.plot3)
+```
+
+## Publication
+
+### Basic publication w/ ggpubr
+
+```{r}
+vids.plot12 <- ggarrange(vids.plot2, vids.plot3, nrow = 2, heights = c(0.4,0.6))
+ggexport(vids.plot12, filename = "vids_plot12.pdf")
+```
+
+
+
+### Publication for Interactive Plotting w/ subplot
+```{r}
+subplot(vids.plot2.ly, vids.plot3.ly, nrows = 2)
+```
+

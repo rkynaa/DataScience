@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564054551615.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "22397B85",
+    "lastKnownWriteTime" : 7311118053270516595,
+    "last_content_update" : 1564054551615,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "41971b59e3b44ad0a1aa8071523fb653",
+        "name" : "ui",
+        "title" : "ui"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}

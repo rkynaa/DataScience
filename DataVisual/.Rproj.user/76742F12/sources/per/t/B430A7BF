@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563780429988.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B430A7BF",
+    "lastKnownWriteTime" : 7160569971446915616,
+    "last_content_update" : 1563780429988,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "8E88D0B8",
+        "caption" : "yt_trend.agt",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=yt_trend.agt&cache_key=8E88D0B8",
+        "displayedObservations" : 105,
+        "environment" : "",
+        "expression" : "yt_trend.agt",
+        "object" : "yt_trend.agt",
+        "preview" : 0,
+        "totalObservations" : 105,
+        "variables" : 17
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

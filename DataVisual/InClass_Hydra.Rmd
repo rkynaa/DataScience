@@ -1,0 +1,322 @@
+---
+title: 'DV: HydraNight B'
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: 
+        collapsed: false
+    number_sections: true
+    theme: readable
+    highlight: zenburn
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      out.width = '100%')
+options(scipen = 99)
+library(lubridate)
+```
+
+# Day 1: The State of Trending Videos
+
+In order to improve our company's brand awareness, we're working on a video content that later on will be published on YouTube. To improve efficiency of our video content, we're scraping a dataset from YouTube's US Trending Videos.
+
+## Read data:
+
+```{r}
+yt_trend <- read.csv("USvideos.csv")
+yt_trend_master <- yt_trend
+```
+
+
+## Take a glimpse of your data:
+
+```{r}
+names(yt_trend)
+```
+
+Recall what you've learned in P4DS. Do the column `title` have stored in the correct class?
+
+```{r}
+yt_trend_undo <- yt_trend
+yt_trend$title <- as.character(yt_trend$title)
+str(yt_trend)
+```
+
+## Working with date/time
+
+Now in order to get the best engagement, we want to publish our video in the "perfectly right" time. Looking back to the structure of our dataset, there are two variables in our dataset which related to datetime data; `trending_date` and `publish_date`.
+
+Previously we've learned base R method to convert our column to date with `as.Date()` function, followed with your data time formatting (if your date data wasn't stored in ISO format;YYYY-MM-DD):
+
+YEAR  
+%Y = YYYY  
+%y = YY   
+  
+MONTH  
+%B = month name e.g. March  
+%b = month name(abbreviation) e.g. Mar  
+%m = 2 digits mo e.g. 03  
+%M = 1 digit mo e.g. 3  
+  
+DAY  
+%A = weekday e.g. Friday  
+%d = weekday digit.
+
+Let's start with `trending_date`. Following our previous knowledge, we'd convert our date variable with: `as.Date(vids$trending_date, "%y.%d.%m")`
+  
+But here, I’ll show you another way of working with dates, and that is through the use of `lubridate`
+
+```{r}
+# install.packages("lubridate")
+library(lubridate)
+```
+
+`lubridate` provides tools that make it easier to parse and manipulate dates.
+
+```{r}
+a <- "08/03/19"
+b <- "8-March-2019"
+c <- "Thursday, 09-05-2019"
+d <- "2019/05/09, 1:42PM"
+
+# as.Date(a, "%d/%m/%y")
+dmy(a)
+dmy(b)
+dmy(c)
+ymd_hm(d)
+```
+
+**Dive Deeper**: 
+
+Apply what you've learned about lubridate to revert the `trending_date` & `publish_time` column in `vids`!
+
+```{r}
+#yt_trend <- yt_trend_undo
+yt_trend$publish_time <- ymd_hms(yt_trend$publish_time, tz = "America/New_York")
+yt_trend$trending_date <- ydm(yt_trend$trending_date)
+```
+
+* Hint: 
+```{r}
+head(yt_trend$publish_time)
+Sys.time()
+```
+
+https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+
+
+Now that we've converted our date column in the right classes, we can extract more information from our datetime data. Let's create another two variables, name `trending_dow` and `trending_month`, which stores the day and month of the video's trending date.
+
+```{r}
+#tr(yt_trend$trending_date)
+#head(wday(yt_trend$trending_date, label = T, abbr = F, week_start = 1))
+#yt_trend_undo<-yt_trend
+#yt_trend$trending_dow <- wday(yt_trend$trending_date, label = T, abbr = F, week_start = 1)
+#head(yt_trend$trending_dow)
+#yt_trend$trending_month <- month(yt_trend$trending_date, label = T)
+head(yt_trend$trending_month)
+```
+
+### if condition
+
+**Dive Deeper**:  
+1. Create a new variable named `publish_wday` which stores the day of the video's publish time!  
+2. Create another named `publish_hour` which stores the hour of the video's publish time!  
+3. Lastly, create a variable named `publish_when` which stores **period of the day** of the video's publish time! The period must follow these conditions:  
+  - If the video published **before 8**, it's on **"12AM to 7AM"** publish period  
+  - If the video published **between 8 and 16**, it's on **"8AM to 3PM"** publish period  
+  - If the video published **after 16**, it's on **"4PM to 11PM"** publish period.  
+  
+  
+Hint for number 3:  
+1. Pass an If Statement, write it as a function, and then use `sapply` to apply the function to your new variable.  
+If Statement example:  
+```{r}
+x <- 5
+
+if (x < 0){
+ print("Negative number")
+}else if (x > 0){
+print("Positive number")
+}else  
+print("Zero")
+
+```
+
+```{r}
+pubWhen <- function(x) {
+  #length(x)
+#  str(x)
+#  i <- 0
+#  while (i <= length(x)) {
+    if (x < 8){
+      x <- "12AM to 7AM"
+    } else if (x >= 8 && x < 16) {
+      x <- "8AM to 3PM"
+    } else if (x >= 16 && x <= 23) {
+      x <- "4PM to 11PM"
+    }
+#    i <-  i+1
+#  }
+}
+```
+
+
+```{r}
+# Your Answer Here
+
+
+
+#yt_trend$publish_wday <- wday(yt_trend$publish_time, label = T, abbr = F, week_start = 1)
+#head(yt_trend$publish_wday, 5)
+#yt_trend$publish_hour <- hour(yt_trend$publish_time)
+#yt_trend$publish_hour
+#length(yt_trend$publish_hour)
+#str(yt_trend$publish_hour)
+
+yt_trend$publish_when <- as.factor(sapply(yt_trend$publish_hour, pubWhen))
+```
+
+## Working with categorical data: reordering factor levels
+
+```{r}
+yt_trend$publish_when <- ordered(yt_trend$publish_when, levels = c("12AM to 7AM", "8AM to 3 PM", "4PM to 11 PM"))
+levels(yt_trend$publish_when)
+```
+
+## Using lapply & sapply
+
+### lapply
+
+`lapply` can be a very useful tool to apply a function to multiple variables:
+
+```{r}
+yt_trend[, c("views", "likes", "dislikes", "comment_count")] <- lapply(yt_trend[, c("views", "likes", "dislikes", "comment_count")],as.numeric)
+
+str(yt_trend[, c("views", "likes", "dislikes", "comment_count")])
+```
+
+
+### sapply
+
+The raw dataset does not have the proper names for each category, but identify them by an “id” instead. The following code chunk use `sapply` to “switch” them by “id” and also convert that to a factor. 
+
+Extra explanation on `switch()`:
+
+```{r}
+switch(1,
+       "1" = "Low",
+       "2" = "Medium",
+       "3" = "High")
+
+data <- 1:3 
+sapply(data, switch,
+       "1" = "Low",
+       "2" = "Medium",
+       "3" = "High")
+
+```
+
+```{r}
+yt_trend$category_id <- sapply(as.character(yt_trend$category_id), switch, 
+                           "1" = "Film and Animation",
+                           "2" = "Autos and Vehicles", 
+                           "10" = "Music", 
+                           "15" = "Pets and Animals", 
+                           "17" = "Sports",
+                           "19" = "Travel and Events", 
+                           "20" = "Gaming", 
+                           "22" = "People and Blogs", 
+                           "23" = "Comedy",
+                           "24" = "Entertainment", 
+                           "25" = "News and Politics",
+                           "26" = "Howto and Style", 
+                           "27" = "Education",
+                           "28" = "Science and Technology", 
+                           "29" = "Nonprofit and Activism",
+                           "43" = "Shows")
+
+yt_trend$category_id <- as.factor(yt_trend$category_id)
+```
+
+`vids` has 13400 records of trending videos, but there are many videos that were trending for a few days and we really only have a collection of 2,986 unique videos. On a very broad average, each video was trending for ~4.5 days.
+
+Let’s create a dataframe, call it `vids.u` that takes only the first observation of each `vids$title` within the data. `match` returns a vector of the positions of matches of its first argument in its second:
+
+```{r}
+
+yt_trend.u <- yt_trend[match(unique(yt_trend$title), yt_trend$title),]
+```
+
+
+
+# Base Plotting/Statistical Plots
+
+Statistical plots helps us visually inspect our dataset and there are numerous ways to achieve that in R. The simplest of which is through the `plot()`function. In the following code we create two vectors, x and y, and created a plot:
+
+```{r}
+plot(as.factor(yt_trend.u$category_id), yt_trend.u$likes/yt_trend.u$views)
+```
+
+Say, one of the content we want to publish have people who interested in "Autos and Vehicles", "Gaming", and "Travel and Events" as our target audience. So let's subset our data based on these particular categories:
+
+```{r}
+yt_trend.agt <- yt_trend.u[yt_trend.u$category_id == "Autos and Vehicles" | yt_trend.u$category_id == "Gaming" | yt_trend.u$category_id == "Travel and Events", ]
+```
+
+Then create two new variables, `likesp` & `dislikesp` which stores the likes ratio and dislikes ratio of our videos.
+
+```{r}
+yt_trend.agt$likesp <- yt_trend.agt$likes/yt_trend.agt$views
+yt_trend.agt$dislikesp <- yt_trend.agt$dislikes/yt_trend.agt$views
+```
+
+`plot()` knows how to pick sensible defaults based on the input vector it was given. By passing exactly the same function, it gives you different visualization, adjusting to the type of datas you add. 
+
+```{r}
+
+```
+
+We can also add extra features to our plot, such as adding line which shows the correlation between the `likes-to-view` and `dislikes-to-view` ratio and  a legend to show how the colors of our scatterplot points map to each level of our `category_id` variable.
+
+```{r}
+yt_trend.agt$category_id <- factor(yt_trend.agt$category_id)
+
+plot(yt_trend.agt$likesp, yt_trend.agt$dislikesp, col=yt_trend.agt$category_id, pch=19)
+abline(lm(yt_trend.agt$dislikesp ~ yt_trend.agt$likesp), col=8, lwd=2, lty=2)
+legend("topright", legend=levels(yt_trend.agt$category_id), fill=1:3)
+```
+
+Apart from using `plot()`, we can also create statistical plots using functions such as `hist()`. `hist()` takes a numeric vector and creates a histogram:
+
+```{r}
+plot(yt_trend.agt$likesp, yt_trend.agt$dislikesp, main = "Likes v Dislikes Ratio", xlab = "Likes Ratio", ylab = "Dislikes Ratio")
+```
+
+We can additionally use the `breaks` argument to control the number of bins if we were not satisfied with the default values:
+
+```{r}
+
+```
+
+Just like how we can add `abline` onto our plot, we can add graphical elements like `lines` onto this histogram too. In fact, let’s do that and also use the main argument to give our plot a new main title:
+
+```{r}
+
+
+```
+
+Let’s talk about another kind of plot, one that most statisticians find cringeworthy for it’s undeserved popularity and prevalence in the workplace. Yes, it is the pie chart. In R’s official documentation, the pie chart is criticized as being “a very bad way of displaying information [because] the eye is good at judging linear measures and bad at judging relative areas”. 
+
+Almost any data that can be represented in a pie chart can be illustrated with a bar chart.
+If you insist on creating one, here’s the code (I’ve added some colors to make it easier to get a grasp of the measures):
+
+```{r}
+pie(table(vids.agt$publish_hour),
+    labels=names(table(vids.agt$publish_hour)),
+    col=topo.colors(24))
+```
+
+(End of Day 1)

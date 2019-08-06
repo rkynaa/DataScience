@@ -1,0 +1,2 @@
+"0","library(rpart.plot)"
+"0","prp(model, type=2, extra = 104, nn=T, fallen.leaves = T, shadow.col = ""lightgreen"", shadow.offset = .2, branch.lty = 3)"

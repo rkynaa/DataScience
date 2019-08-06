@@ -1,0 +1,8 @@
+"0","# overfitted model"
+"0","tbs.of <- rpart(ses ~ degree_level + family_size + gender + age_cat + marital_status + residence_type + work_type, data=tbs.train, method=""class"", control=rpart.control(minsplit=2, cp=0))"
+"0","tbsc.prdof <- predict(tbs.of, tbs.train[,c(""degree_level"", ""family_size"", ""gender"", ""age_cat"", ""marital_status"", ""residence_type"", ""work_type"")],type = ""class"")"
+"0","sum(tbsc.prdof == tbs.train$ses)/nrow(tbs.train)"
+"1","[1]"
+"1"," 0.91375"
+"1","
+"

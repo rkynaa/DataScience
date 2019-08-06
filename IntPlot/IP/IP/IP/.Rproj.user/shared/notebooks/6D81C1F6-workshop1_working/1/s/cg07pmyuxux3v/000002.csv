@@ -1,0 +1,8 @@
+"0","predict <- predict(race.lm)"
+"0","actual <- hills$time"
+"0","r2 <- 1 - ( sum((actual-predict)^2)/sum((actual-mean(actual))^2) )"
+"0","r2"
+"1","[1]"
+"1"," 0.9190511"
+"1","
+"

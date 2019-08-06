@@ -1,0 +1,1 @@
+"0","ggplot(yt_trend.hi, aes(x = Group.1, y = average)) + geom_col(aes(fill = var), position = ""dodge"") + coord_flip() + labs(title = ""Comparison of Videos With Most Dislikes Ratio"", x = NULL, y = NULL, fill = ""Ratio"") + scale_y_continuous(labels = scales::percent_format(scale = 100))"

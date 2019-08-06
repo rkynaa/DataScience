@@ -1,0 +1,2 @@
+"0","tbs.model <- rpart(ses ~ degree_level + family_size + gender + age_cat + marital_status + residence_type + work_type, data=tbs.train, method=""class"")"
+"0","prp(tbs.model, type=1, extra = 104, nn=T, fallen.leaves = T, shadow.col = ""goldenrod4"", shadow.offset = .2, branch.lty = 3)"

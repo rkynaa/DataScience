@@ -1,0 +1,6 @@
+"0","econp <- ggplot(el, aes(date, value, group=variable)) + "
+"0","  geom_line()+"
+"0","  facet_grid(variable ~ ., scale = ""free_y"")+"
+"0","  labs(title=""US Economic time series"")+"
+"0","  theme_agon"
+"0","econp"

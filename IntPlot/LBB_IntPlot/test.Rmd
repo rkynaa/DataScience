@@ -1,0 +1,29 @@
+---
+title: "test"
+author: "Rakyan Satrya Adhikara"
+date: "26/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+data <- read.csv("LBB/MarvelUniverse.csv")
+data.gen.mon <- data[,c("Movie","YearOfRelease","Budget", "DomesticScreens", "DomesticGross","WeekendGross","OverseasGross","WorldwideGross")]
+```
+
+```{r}
+kable(data.gen.mon.char)
+
+data.gen.mon.char <- data.gen.mon
+data.gen.mon.char$DomesticGross <- paste("$", comma(data.gen.mon.char$DomesticGross))
+data.gen.mon.char$WeekendGross <- paste("$", comma(data.gen.mon.char$WeekendGross))
+data.gen.mon.char$OverseasGross <- paste("$", comma(data.gen.mon.char$OverseasGross))
+data.gen.mon.char$WorldwideGross <- paste("$", comma(data.gen.mon.char$WorldwideGross))
+
+data.gen.mon.char$Budget <- paste("$", data.gen.mon.char$Budget, "million")
+data.gen.mon.char <- apply_labels(data.gen.mon.char,
+                                  WorldwideGross = "Worldwide Gross", OverseasGross = "Overseas Gross", WeekendGross = "Weekend Gross", DomesticGross = "Domestic Gross")
+
+```
+

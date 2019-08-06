@@ -1,0 +1,4 @@
+"0","knitr::opts_chunk$set(echo = TRUE,"
+"0","                      out.width = '100%')"
+"0","options(scipen = 99)"
+"0","library(lubridate)"

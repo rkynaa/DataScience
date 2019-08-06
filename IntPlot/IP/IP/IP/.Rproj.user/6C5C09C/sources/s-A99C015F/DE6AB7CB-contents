@@ -1,0 +1,31 @@
+# Note: cooltraffic is designed to work with the website traffic dataset provided
+# by the end client in this example and may / will not work correctly with other
+# formats - they require extra pre-processing treatment
+
+library(ggthemes)
+
+## Pre-processing
+dat <- read.csv("workshop.csv")
+dat$year <- as.numeric(substring(as.character(dat$Day.Index), 1,4))
+dat$Day.Index <- as.Date(dat$Day.Index, format = "%Y-%m-%d")
+dat.1st <- dat[1:359,]; dat.2nd <- dat[360:724,]; dat.3rd <- dat[dat$Day.Index >= as.Date("2016-01-01"),]
+
+## Cooltraffic function
+cooltraffic <- function(data=dat.1st, xcol="Day.Index", ycol="Sessions", bou="bounce", smoother=T, theme){
+    year <- data$year[1]
+    g <- ggplot(data=data, aes_string(x=xcol, y=ycol)) + 
+        geom_line(data=data, aes_string(color=bou)) +
+        geom_col(data=data, aes_string(color=bou)) +
+        labs(
+            title=paste("Web Traffic for Miam.sg, ", year),
+            subtitle="*No observable pattern in bounce rate",
+            x="Date", y="Web Sessions"
+        ) +
+        scale_color_continuous(name="Bounce rate: ")
+    
+    if(smoother){
+        g <- g + stat_smooth(method="loess") + theme
+    } else g <- g + theme
+    
+    g
+}

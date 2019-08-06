@@ -1,0 +1,145 @@
+---
+title: "PractStatsDay2"
+author: "Rakyan Satrya Adhikara"
+date: "12/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Normal Distribution
+#### Normal Standard
+Normal Standard: Mean = 0. Standard Deviation = 1.
+Normal standard as a 'standard'
+
+Total data between (mean - standard deviation) and (mean + standard deviation) is exactly 68%
+Total data between (mean - 2 x stndard deviation) and (mean + 2 x standard deviation) is exactly 95%
+Total data between (mean - 3 x standard deviation) and (mean + 3 x standard deviation) is exactly 99.7%
+
+### Table of Normal Distribution
+
+```{r}
+lessThan20Rat <- pnorm((20-15)/2)
+1 - lessThan20Rat
+greatThan20Rat <- pnorm((20-15)/2,lower.tail = FALSE)
+greatThan20Rat
+```
+
+```{r}
+lessThan159 <- pnorm((159-160)/7)
+lessThan159v2 <- pnorm(159,160,7)
+lessThan175 <- pnorm((175-160)/7)
+result <- lessThan175 - lessThan159
+result
+lessThan159
+lessThan159v2
+```
+
+```{r}
+(qnorm(0.93) * 7) + 160
+```
+
+```{r}
+(qnorm(0.74)*7) + 160
+```
+
+z-score: the result of 'normalized'
+
+
+# Statistical Inference
+Have a data that describes a "population"
+
+Notations:
+$\mu$ : Mean of a "Population"
+$\sigma$ : Standard Deviation of a "Population"
+$\bar{x}$ : Mean of a sample
+$s_d$ : Standard Deviation of a sample
+
+### Central Limit Theorem
+The more (n-sized) distribution sample we added from average sample, the more closer we get towards to a normal distribution with the mean is $\mu$ and the standard deviation is $\sigma/\sqrt(n)$ 
+
+### Confidence Interval
+Idea: $\bar{x}\pm k.Sd_{\bar{x}}$. (Remember the 68%, 95% and 97% probabilities!)
+
+```{r}
+sd2_500 <- 2*(7/sqrt(500))
+168 + sd2_500
+168 - sd2_500
+
+sd_500 <- (7/sqrt(500))
+168 + sd_500
+168 - sd_500
+
+168 + qnorm(.05)*sd_500
+168 - qnorm(.05)*sd_500
+```
+
+#### EXTRA INFO: T-Value (T-Test)
+Alernative method if $\sigma$ is unknown and/or n has a small value.
+Definition: $\bar{x}-\mu/(s_d/\sqrt(n))$
+
+Degree of freedom: n - 1
+
+```{r}
+sd_qt500 <- qt(0.05,df = 499)*9/sqrt(500)
+168 + sd_qt500
+168 - sd_qt500
+```
+
+### Hypothesis Test / Significance Test
+
+
+##### Zero Hypothesis
+First Argument: Assume that the $\bar{x}$ (mean of the sample) is bigger than or equal to $\mu$ (mean of the "population").
+Second Argument: Assume that the $\bar{x}$ (mean of the sample) is smaller than $\mu$ (mean of the "population").
+
+NOTE; the mean of the sample can be assumed "significant" if it's value is part of 5% of the mean of the "population".
+
+```{r}
+# First Argument
+# Calculating z-score
+firstArg <- (175 - 215)/(10/sqrt(35))
+
+# THis means that 175 is "not signficant".
+
+pnorm(firstArg)
+
+#However, when we find the probability, it is smaller than 5%, which means that 175 is "significant'. Thus, the first argument is rejected.
+
+
+# Second Argument
+
+```
+
+```{r}
+meanJakSel <- 50
+sdJakSel <- 12
+meanElect <- 78
+nElectComp <- 40
+meanElectComp <- 70
+
+# Company gets an award IF it's significant which is more than mean of pop (alpha is 5%)
+# First Argument 70 less than or equal to mean of pop
+zScore_electComp <- (meanElectComp- meanJakSel) / (sdJakSel / sqrt(nElectComp))
+zScore_electComp
+pnorm(zScore_electComp,lower.tail = F)
+
+# Second Argument 70 more than mean of pop
+```
+
+#### P-Value
+Probability to get even more extreme score.
+if p-value is less then 5%, first argument is denied.
+if p-value is more than 5%, second argument is denied.
+
+if $\sigma$ is known and n has a big value, we use z-test result to get p-value.
+However, if $\sigma$ is unknown and/or n has a small value, we use t-test result to get p-value.\
+
+Example 1:
+```{r}
+duration <- c(184, 181, 230, 169, 158, 204, 220, 197, 219, 223)
+t.test(duration, mu=215, alternative = "less")
+```
+

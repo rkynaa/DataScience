@@ -1,0 +1,860 @@
+---
+title: "Data Science Fundamentals: Data Visualization"
+author: "Samuel Chan"
+date: "November 1, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: 
+        collapsed: false
+    number_sections: true
+    theme: cerulean
+    highlight: zenburn
+    css: style.css
+---
+# Algoritma's Coursebook
+The following coursebook is produced by the team at [Algoritma](https://goo.gl/GCqodq) for its Data Science Fundamentals workshop series. No part of this coursebook may be reproduced in any form without permission in writing from the authors.
+
+Algoritma is a data science education center based in Jakarta. We organize workshops and training programs to help working professionals and students gain mastery in various data science sub-fields: data visualization, machine learning, data modeling, statistical inference etc. Consider signing up for an [Algoritma membership](https://goo.gl/R1KEma) for full access to all our current and future workshop materials and coursebooks (with an active membership).
+
+## How You Should Use This Coursebook
+The 3-day workshop introduces student to the science of statistical programming, data visualization and statistical models in a content-packed 9 hours session. Because I believe that learning is more fun and meaningful if you can relate the learning experience to your personal work, I encourage you to actively think about how the project examples we'll be going through can be applicable to your line of work, your personal obsessions, your professional work and extrapolate heavily from the next 3 day of work into these areas. 
+
+Second, I acknolwegded and understand the difficulty in learning programming syntaxes, statistics and all the different nuances and technical jargons in managing a data science project on your computer. To this, my advice to you is to use the next 9 hours to _practice_, as in, _actually_ write code, and ask questions frequently. My team of teaching assistants and myself will do our best to address any questions you bring up. 
+
+Lastly, the coursebook is produced to be used by Algoritma Pte. Ltd. for its education purposes. If any part of the coursebook, its accompanying materials, or other form of intellectual property is being used or distributed unfairly or without the author's written consent, I urge you to alert us to such use. Together, we can create a sustainable educational platform that respect ownership and encourage ongoing creation of educational materials. 
+
+Congratulations to enrolling into the Data Science Fundamentals workshop and I hope you benefit greatly from it! 
+
+## Background {.tabset}
+Before you go ahead and run the codes in this coursebook, it's often a good idea to go through some initial setup. Under the *Libraries and Setup* tab you'll see some code to initialize our workspace, and the libraries we'll be using for the projects. Under the *Third-party tools* tab we'll briefly explain any other third party software or software platforms that we've made reference to throughout this coursebook. 
+
+### Libraries and Setup
+For illustrative purposes, we will use some common datasets readily availabile in R's base packages. On the final day (third workshop day), we would dive in with some actual data donated by Miam.sg, a small restaurant-cafe from Singapore. Participants working with Google Analytics can follow along using their own website data instead. 
+```{r}
+# Initial configurations to clear the workspace and set to print numeric values 
+options(scipen = 9999)
+rm(list=ls())
+```
+
+
+```{r}
+plot(1:10, 21:30)
+```
+
+
+
+
+
+### Third-party tools 
+[Google Analytics](https://www.google.com/analytics/) is a free and enterprise tool for measuring website, app and digital data to gain customer insights. For the workshop, a Google Analytics account is _not required_ as donated dataset (in .csv) will be provided. Alternatively, feel free to use your own dataset or programatically connect to Google Analytic's API service. 
+
+# R Programming
+## Why learn R at all?
+1. **Built by statisticians, for statisticians.**  
+R is a language created by Ross Ihaka and Robert Gentleman at the Department of Statistics, at the University of Auckland (New Zealand). R is created for the purpose of data analysis and as such, is different in nature from traditional programming languages. R is not just a statistical programming language, it is a complete environment for data scientist and the most widely used data analysis software today[^1]. 
+
+2. **Libraries.**  
+R's libraries extend R's graphical abilities, and adds out-of-the-box functionalities for linear and non-linear modeling, statistical tests (confidence tests, P-value, t-test etc), time-series analysis, and various machine learning tasks such as regression algorithms, classification algorithms, and clustering algorithms. The R community is noted for its active contributions in terms of packages and new libraries.   
+
+3. **Open Source.** 
+Part of the reason for its active and rapidly growing community is the open-source nature of R. Users can contribute packages -- many of which packaged some of the most advanced statistical tools that are not found in other commercial, proprietary statistical computing softwares. 
+
+4. **Used by the biggest software companies in the world.**  
+R is used by Google to calculate ROI on advertising campaigns and estimate causal effect (say, estimate the impact of an app feature on app downloads or number of additional sales from an AdWords campaign); In fact, it even released its own R packages to allow other R users to do similar analysis using the same tool[^2]. Data Science employees at Google participate in User Groups to discuss how R is used in Google (answer: it's used very widely in a production environment at Google and Google integrates R with many of their own technologies), publishing [its own R client for the Google Prediction API](https://code.google.com/archive/p/google-prediction-api-r-client/), [Google's R style guide](http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html), and its developers have released a number of R packages over the years. 
+
+Microsoft first uses R for Azure capacity planning, Xbox's TrueSkill Matchmaking System, player churn analysis, in-game purchase optimization, fraud detection, and other internal services across Microsoft's line of products[^3], and then went on to acquire Revolution Analytics, whom products were then rebranded and renewed by Microsoft and now known as Microsoft R Server, Microsoft R Open, Microsoft Data Science Virtual Machine etc. 
+
+5. **Ready for big data**  
+RHadoop, ParallelR, Revolution R Enterprise and a handful of other toolkits adds powerful big data support, allowing data engineers to create custom parallel and distributed algorithms to handle parallel / map-reduce programming in R. This makes R a popular choice for big data analsis and high performance, enterprise-level analytics platform.
+
+6. **Employability!**  
+R is a required skill for data science roles across all top Indonesian's startups: GoJek, Traveloka, Uber, Tiket.com, SaleStock, Twitter, HappyFresh etc. Do a quick search on job portals (Tech In Asia's Jobs, JobStreet etc) and you'll see R is a highly sought-after language skill.
+
+[^1]: [Microsoft R Open: The Enhanced R Distribution](http://mran.revolutionanalytics.com/rro/)
+[^2]: [CausalImpact: A new open-source package for estimating causal effects in time series](https://opensource.googleblog.com/2014/09/causalimpact-new-open-source-package.html)
+[^3]: [R at Microsoft](http://blog.revolutionanalytics.com/2015/06/r-at-microsoft.html)
+
+## R Programming Basics
+It pays to get yourself familiar with R and RStudio, the IDE. In our workshop, we'll discuss in more details the various functionalities of RStudio's interface, but there are many online resources to help you get started if this is the first time you work with RStudio. 
+
+Making sure of your current working directory is almost always a good idea!
+```{r}
+# This is a comment
+getwd()
+# setwd(...)
+```
+Notice the "#" character, indicating to R that it's a comment and should be ignored. `setwd()` was ignored because it's on the same line and to the right of the "#" character.
+
+R is **case-sensitive** so "Algoritma" and "algoritma" are different symbols and will point to different variables.
+```{r}
+brand <- "algoritma"
+brand == "Algoritma"
+print(paste(brand, "is an R object of the class: ", class(brand)))
+
+# Object 'Brand' don't exist!
+# print(Brand) will not work
+```
+
+
+### Vectors
+Speaking of objects, R objects can take on one of the five "classes":  
+- character    
+- numeric   
+- integer  
+- complex  
+- logical  
+
+The most basic form of an R object is a vector. As a rule, a vector can contain objects of the same class:
+
+Explicit coercion
+```{r}
+#single <- as.character(single)
+#single
+```
+
+
+```{r}
+vector2 <- c(1, FALSE, FALSE, 0)
+class(vector2)
+length(vector2)
+```
+
+```{r}
+vector1 <- c(1, "learning")
+class(vector1)
+
+vector2 <- c(1, FALSE, FALSE, 0)
+class(vector2)
+```
+Also observe how we use the `c()` function to concatenate objects together to form a vector.
+
+R objects may have attributes like `names`, `class`, `length`, `colnames`, `dim` etc:
+```{r}
+length(vector2)
+```
+
+Notice how implicit coercion (R's default) takes place earlier when we create our `vector1` and `vector2`. We could explicitly coerce one class to another:
+```{r}
+vector2 <- c(1,FALSE,FALSE,0)
+vector2.b <- as.logical(vector2)
+vector2.b
+class(vector2.b)
+```
+
+A quick revision on the classes of objects:
+```{r}
+# character
+tempo <- c("Johnny", "Depp", "Calvin", "Klein")
+# character
+tempo <- c("1", "a", "2")
+# numeric
+tempo <- c(-1, 1, 2, 3/4, 0.5)
+# integer
+tempo <- c(1L, 2L)
+# integer
+tempo <- 5:8
+# complex
+tempo <- c(1+3i, (1+3i)*2)
+# logical
+tempo <- c(T, TRUE, F)
+```
+
+
+
+```{r}
+tempo <- c(T, T, F)
+tempo
+```
+
+```{r}
+iphone <- matrix(c(3,4,5,6,11,-1), nrow=3, ncol=2)
+iphone
+```
+
+```{r}
+age <- c(11:16)
+age
+```
+
+
+
+### Matrix
+When we create a vector and give it a dimension attribute, we end up with a matrix:
+```{r}
+object1 <- matrix(11:16, nrow=3, ncol=2)
+object1
+```
+Notice how the values fill up by column from the [1,1] position, which is the most upper-left position. 
+
+Once created, we can refer to any row or column using R's subsetting operator:
+```{r}
+object1[3,2]
+```
+
+We could also have constructed a matrix by giving an existing vector the `dim` attribute:
+```{r}
+numbers <- 11:16
+dim(numbers) <- c(2,3)
+numbers
+```
+Notice (2,3) means "2 rows, 3 columns" in layman. Contrast this to our `matri` object above and observe how R fill our numbers column-wise.
+
+Another interesting way to construct a matrix:
+```{r}
+win <- c(4,0)
+lose <- c(2,6)
+draw <- c(1,1)
+# cbind = bind as columns
+# rbind = bind as row
+rbind(win, lose)
+```
+
+```{r}
+vec1 <- c("Gado-gado", 5.5)
+vec2 <- c("Nasi padang", 6.1)
+vec3 <- c("Soto", 4)
+
+rbind(vec1, vec2, vec3)
+```
+
+
+Recall earlier we said that as a rule, a vector can contain objects of the same class? Consider the following code:
+```{r}
+quiz1 <- cbind(c(TRUE, "True"), c(4,1+5i), c(1, TRUE))
+```
+
+- 1. What is the class of the resulting vector `quiz1`? 
+- 2. What is the dimensions attribute of `quiz1`?  
+- 3. How many times did implicit coercion happened? 
+
+
+### List
+There is a type of vector that is exempted from the rule we repeatedly mention above, and it's the **List**:
+```{r}
+our.list <- list(TRUE, "TRUE", c(1,6,12), 1+5i)
+```
+
+Subsetting elements from our list:
+```{r}
+our.list[3]
+our.list[[3]]
+class(our.list[3])
+class(our.list[[3]])
+```
+
+### Factors
+Another important concept in R is factors - many statistical modeling techniques and prediction algorithms treat factors specially either as a target outcome (in machine learning language) or dependent variable (in statistics) while many other modeling techniques like the `glm` handle factors specially when they're used as independent variables. Factors is useful in representing categorical variables whether or not they are unordered (Jakarta, Bali, Lombok) or ordered (low, medium, hot, extreme):
+
+```{r}
+places <- factor(c("Jakarta", "Bali", "Jakarta", "Lombok", "Lombok"))
+places # levels are sorted alphabetically unless through the levels argument
+```
+
+### Data Frames
+Data frames can be thought of as a special case of lists where every element of the list has to have the same length. Each element of the list can be thought of as a column in the data frame. 
+
+```{r}
+# length of 1 1 3 1: do not share the same length
+sapply(our.list, length)
+```
+
+```{r}
+epl <- data.frame(team=c("Arsenal", "Liverpool", "Chelsea"), ranking=c(5, 2, 1))
+epl
+```
+
+```{r}
+our.df <- data.frame(alpha=11:13, beta=c(-4,-3,-2))
+our.df
+```
+
+And we can perform mathematical operations on our dataframes, the same way we can do it with matrices. Let's take a look at an example:
+```{r}
+scores <- our.df * 2 
+scores
+```
+
+
+Hopefully by now you also observe how R conveniently applies implicit coercion so our data frame and matrix can be multiplied. This is another nice property of R!
+```{r}
+class(1-TRUE)
+TRUE * 34
+```
+
+## Plotting in R
+### Datasets
+To get started with plotting in R, let's import some data to work with. I went ahead and download a CSV from Google Analytics and save it as `ga_session.csv`. The workshop will cover the specific steps of doing this if you'll like to follow along the rest of the exercise using your own dataset instead of the one provided.
+
+```{r}
+traffic <- read.csv("Datasets/ga_session.csv", stringsAsFactors = FALSE)
+traffic$Sessions <- as.numeric(traffic$Sessions)
+traffic$Day.Index <- as.Date(traffic$Day.Index,format = "%m/%d/%y")
+str(traffic)
+```
+
+```{r}
+traffic <- traffic[1:1096, ]
+str(traffic)
+```
+
+Credits to [Miam Miam Restaurant and Cafe](http://miam.sg) for donation of this dataset. 
+
+```{r}
+traffic <- read.csv("Datasets/ga_session.csv", header=TRUE, stringsAsFactors = FALSE)
+```
+
+```{r}
+traffic$Day.Index <- as.Date(traffic$Day.Index)
+head(traffic)
+```
+
+
+```{r}
+traffic$Sessions <- as.numeric(traffic$Sessions)
+max(traffic$Sessions[1:100])
+```
+
+
+To read a CSV into our R environment, we use `read.csv`:
+```{r}
+traffic <- read.csv("Datasets/ga_session.csv", header=TRUE, stringsAsFactors = FALSE)
+rbind(head(traffic, 4), tail(traffic,4))
+```
+```{r}
+traffic[310:323, ]
+```
+
+```{r}
+traffic$Sessions <- as.numeric(traffic$Sessions)
+traffic[traffic$Sessions == 0,]
+```
+
+
+
+We observe that we have 1097 rows (~3 years of website traffic data), although there are a few problems we spotted right away:  
+
+- The first couple of days have 0 sessions; This could be due to the fact that Google Analytics was not set up properly until a later date.
+
+- The last row was a sum of the total sessions for the whole of 2 years. A session is defined as a group of interactions one user takes within a time frame on our website. This row was clearly not useful. 
+
+Let's inspect the first issue more carefully:
+```{r}
+head(traffic[traffic$Sessions != 0,])
+```
+We observe that Google Analytics started picking up web traffic from 7th Jan 2014; We expect to have 6 rows of data where Sessions == 0; Note that in R, "==" is used to evaluate for equality while "=" is used as an assignment operator. "!=" is "not equal" in plain English.
+
+### Missing values
+```{r}
+traffic[316,]
+```
+
+
+```{r}
+length(traffic[traffic$Sessions == 0,1])
+```
+
+Also observe that on top of the first 6 days, there are 3 days in November where web visits are effectively 0. This could point to an intermetting tracking error, a web server error, DNS, or other technical faults. Dealing with missing values or NAs (they are different ideas) are part of the actual work in data science and below are some of my favorite ways of dealing with them:  
+- Complete-case analysis (the weakness of this approach is we're throwing away data)  
+- Random imputation (draw values from the associated distribution to replace the missing ones)  
+
+As a rule of thumb, I recommend using the complete-case analysis if the non-complete cases represent less than .5% of the entire dataset.
+
+Alternatively, for low-votality variables such as the population's heart rate or nitrate content in a drinking water brand I've also seen analysts assume the mean / median / mode to replace the missing cases. This should be used in caution, however, as you'll lose a lot of signals when you perform such a treatment with variables with high variability (i.e. volcanic ashes in a village from season to season, sentiment analysis over a presidential campaign).
+
+As a side note, in regression and many other modeling techniques, R automatically excludes rows where one or more of the variables have missing values (reminder: 0 is a valid number and not NA). This approach is called a complete-case analysis.
+
+Again - Because this is so important allow me to re-emphasize: there are many ways to dealing with NA and one need to exercise special caution and apply domain expertise in deciding the right course to action.  
+
+A more elaborated study on dealing with missing values is out of the scope of this workshop guide but interested students can study a very good statistical paper[^4] and relating textbook material[^5] on this topic. 
+
+```{r}
+traffic <- traffic[7:1096, ]
+head(traffic)
+```
+
+
+```{r}
+# Remove the first 6 rows, drop the last row
+traffic <- traffic[7:1096,]
+
+# 11/12/14 is likely mistracked / misattributed too, let's confirm that
+traffic[traffic$Day.Index == "11/12/14", ]
+```
+
+```{r}
+traffic <- read.csv("Datasets/ga_session.csv", stringsAsFactors = F)
+traffic <- traffic[1:1096, ]
+str(traffic)
+```
+
+
+Now it's time to perform our single imputation. 
+```{r}
+set.seed(417)
+# let's replace the 11/12/14 data with 0, so it can be replaced through imputation later, in fact if we inspect the data more closely we see the need to do this for 7th-10th and 15th-16th Nov too 
+traffic[traffic$Day.Index == "11/7/14" | traffic$Day.Index == "11/8/14" | traffic$Day.Index == "11/9/14" | traffic$Day.Index == "11/10/14" | traffic$Day.Index == "11/12/14" | traffic$Day.Index == "11/15/14" | traffic$Day.Index == "11/16/14", 2] <- 0
+
+# single imputation
+len.0 <- length(traffic[traffic$Sessions == 0,2])
+com.sess <- traffic[traffic$Sessions !=0, 2]
+
+traffic[traffic$Sessions == 0,2] <- sample(com.sess, len.0, replace=TRUE)
+```
+
+Now let's see the values of `Sessions` for the problematic period:
+```{r}
+traffic[300:320,]
+```
+
+```{r}
+str(traffic)
+```
+
+
+
+```{r}
+head(traffic)
+```
+
+
+```{r}
+traffic <- read.csv("Datasets/ga_session.csv", header=TRUE, stringsAsFactors = FALSE)
+traffic[traffic$Day.Index == "11/7/14" | traffic$Day.Index == "11/8/14" | traffic$Day.Index == "11/9/14" | traffic$Day.Index == "11/10/14" | traffic$Day.Index == "11/12/14" | traffic$Day.Index == "11/15/14" | traffic$Day.Index == "11/16/14", ] 
+```
+
+
+```{r}
+data(mtcars)
+mtcars$am <- as.factor(mtcars$am)
+mtcars$cyl <- as.factor(mtcars$cyl)
+mtcars$vs <- as.factor(mtcars$vs)
+summary(mtcars)
+```
+
+```{r}
+traffic <- read.csv("Datasets/ga_session.csv", stringsAsFactors = FALSE)
+traffic$Sessions <- as.numeric(traffic$Sessions)
+traffic$Day.Index <- as.Date(traffic$Day.Index,format = "%m/%d/%y")
+str(traffic)
+```
+
+```{r}
+traffic$dayofweek <- weekdays(traffic$Day.Index)
+traffic$dayofweek <- as.factor(traffic$dayofweek)
+traffic$month <- as.factor(months(traffic$Day.Index))
+str(traffic)
+```
+
+```{r}
+vectors1 <- c(5,6,7,8,9)
+vectors2 <- c(-20,-16,-12,-8, -4)
+plot(vectors1, vectors2, type="s")
+```
+
+```{r}
+hist(traffic$Sessions)
+```
+
+
+```{r, fig.height=4}
+plot(traffic$Day.Index, traffic$Sessions, type="l")
+```
+
+
+
+## Simple Exploratory Data Analysis
+Exploratory data analysis is a process that is integral to the work you do as a data scientist or statistician. It does not consist of a set of stringent rules or process; Rather, it represents a "phrase" where we try to learn, inspect or investigate our data through iterative processes. Fortunately for us, R packs in a generous amount of "tools" that allow us to reshape, clean and understand our data through its built-in statistical capabilities. 
+
+Before we move further, let's proceed to read the data in and do the necessary cleaning up as per what we've learned in one go:
+```{r}
+traffic <- read.csv("Datasets/ga_session.csv", header=TRUE, stringsAsFactors = FALSE)
+# Remove the first 6 rows, drop the last row
+traffic <- traffic[7:1096,]
+
+traffic[traffic$Day.Index == "11/7/14" | traffic$Day.Index == "11/8/14" | traffic$Day.Index == "11/9/14" | traffic$Day.Index == "11/10/14" | traffic$Day.Index == "11/12/14" | traffic$Day.Index == "11/15/14" | traffic$Day.Index == "11/16/14", 2] <- 0
+
+# single imputation
+len.0 <- length(traffic[traffic$Sessions == 0,2])
+com.sess <- traffic[traffic$Sessions != 0, 2]
+
+traffic[traffic$Sessions == 0,2] <- sample(com.sess, len.0, replace=TRUE)
+
+# inspect the suspicious rows
+traffic[300:320,]
+```
+
+```{r}
+traffic$Sessions <- as.numeric(traffic$Sessions)
+traffic$Day.Index <- as.Date(traffic$Day.Index,format = "%m/%d/%y")
+str(traffic)
+```
+
+```{r}
+traffic$month <- months(traffic$Day.Index)
+str(traffic)
+```
+
+```{r}
+traffic$dayofweek <- weekdays(traffic$Day.Index)
+str(traffic)
+```
+
+```{r}
+traffic$julian <- julian(traffic$Day.Index, origin = as.Date("2014-01-07"))
+str(traffic)
+```
+
+```{r}
+summary(traffic)
+```
+
+
+
+```{r}
+plot(traffic$dayofweek, traffic$Sessions)
+```
+
+
+
+My favorite first-step in the data exploratory phase is the handy `str()` function. This is R's built-in function and returns a compact display of the object's structure. In this case, our object's name is `traffic`, so running `str(traffic)` would give us the **internal structure** of our `traffic` object:
+
+```{r}
+str(traffic)
+```
+
+```{r}
+traffic$Sessions <- as.numeric(traffic$Sessions)
+str(traffic)
+```
+
+
+We observe a few things from the output - there are 1090 rows (observations) and 2 columns (variables); And that both of these two variables are of the "character" class (`chr`). Because `Day.Index` should belong to the "Date" class and `Sessions` is a numeric class, the first thing we'll do is to convert them to the right classes.
+
+### Data Transformation
+```{r}
+# Convert Day.Index from character to date
+traffic$Day.Index <- as.Date(traffic$Day.Index,format = "%m/%d/%y")
+
+# Convert Sessions from character to numeric
+traffic$Sessions <- as.numeric(traffic$Sessions)
+```
+
+```{r}
+str(traffic)
+```
+
+```{r}
+summary(traffic)
+```
+
+```{r}
+traffic$month <- months(traffic$Day.Index)
+traffic$dayofweek <- weekdays(traffic$Day.Index)
+str(traffic)
+```
+
+```{r}
+traffic$month <- as.factor(traffic$month)
+traffic$dayofweek <- as.factor(traffic$dayofweek)
+str(traffic)
+```
+
+
+
+Almost always the second thing I'd like to do before diving into other techniques of exploration is to check for any missing values (NA) in our dataset:
+```{r}
+# Structure of the data
+str(traffic)
+
+# Check for any missing values
+anyNA(traffic)
+```
+
+Since we have no NA values (NA=FALSE) and our variables have also been converted to the right classes, we can now get a summary of our dataset:
+```{r}
+summary(traffic)
+```
+
+
+
+
+If our dataset contains two or more numeric variables, it is also often helpful to discover any potential correlations between these variables using the `cor()` function. Because our Day.Index is stored as a Date class variable, calling `cor(traffic$Day.Index, traffic$Sessions)` will give us an error. We could convert date to numeric values a number of ways, but my favorite is to create a variable that simply count the number of days gone since a particular "origin". This sounds more complicated that it should, so let's dive in to see that in action:
+
+
+```{r}
+traffic$julian <- julian(traffic$Day.Index, origin = as.Date("1990-04-17"))
+cor(traffic$julian, traffic$Sessions)
+```
+
+```{r}
+table(traffic$dayofweek)
+```
+
+```{r}
+cor(mtcars[,1:6])
+pairs(mtcars[,1:6])
+```
+
+
+```{r}
+traffic$julian <- julian(traffic$Day.Index, origin = as.Date("2014-01-07"))
+cor(traffic[1:100,c(2,5)])
+```
+
+For the first 100 days, we see there's a correlation of **+0.57**, so there's a fairly strong positive relationship. We do have to be careful not to draw causality relationships whenever correlation exist; Positive relationship really only tells us that higher values in our first variable do tend to be paired with higher values in the other variable. 
+
+
+## Statistical Plots
+Statistical plots helps us visually inspect our dataset and there are numerous ways to achieve that in R. The simplest of which is through the `plot()` function. In the following code we create two vectors, `x` and `y`, and created a plot:
+
+
+```{r, fig.height=4}
+plot(traffic$Day.Index, traffic$Sessions, type="l")
+abline(h=mean(traffic$Sessions), lwd=3)
+```
+
+
+```{r, fig.height=4}
+plot(x=traffic$Day.Index,y=traffic$Sessions, main="Our website traffic", cex=0.4, pch=6)
+abline(h=mean(traffic$Sessions), lwd=3, col="red")
+```
+
+```{r}
+mean(traffic$Sessions)
+```
+
+```{r, fig.height=4}
+hist(traffic$Sessions)
+abline(v=median(traffic$Sessions), col="red", lwd=3)
+```
+
+
+
+```{r}
+plot(traffic$Day.Index, traffic$Sessions, cex=0.2, type="p")
+abline(h=mean(traffic$Sessions), lwd=3, col="red")
+```
+
+```{r, fig.width=8, fig.height=6}
+plot(as.factor(traffic$month), traffic$Sessions)
+abline(h=mean(traffic$Sessions), lwd=3, col="blue")
+```
+
+
+By default, R chose sensible plotting paramaters to render the plot, but we can specify what type of plot we like by passing in an additional parameter and overriding the `type`. Try and change the plot type using one of: `type="p"` (points), `type="b"` (both), `type="o"` (overplotted), `"type=h"` (histogram), `"type=s"` (stairs)  to see how easy it is to get the right type of plot you want. 
+
+We can also add other graphical elements to our plots. To add a horizontal line through the plot, we could call `abline(h=100)` and this will plot a horizontal line at the y-value of 100. To add a vertical line at x-value of 50, we would instead write `abline(v=50)`.  
+
+Let's combine what we've learned to get a visual representation of the data:
+```{r}
+plot(traffic$Day.Index, traffic$Sessions, type="l")
+abline(h=mean(traffic$Sessions), lwd=3)
+```
+
+If we omit type="l", R tries to use its default:
+```{r}
+plot(traffic$Day.Index, traffic$Sessions, cex=0.3)
+abline(h=mean(traffic$Sessions))
+```
+
+Notice how we use `lwd=3` to make the line wider (thicker) in the first plot and how we use `cex` to control the size / magnification of our plotting symbols? Turns out there are many other ways to customize our plot's graphical parameters, including its main title (`main`), subtitle (`sub`), axis labels (`xlab`, `ylab`). 
+
+Let's apply them to our plot:
+```{r, fig.height=5}
+plot(traffic$Day.Index, traffic$Sessions, type="l", 
+     main="Web Traffic, 2014 - 2016", 
+     sub="Source: Google Analytics, Marketing Dept.", 
+     xlab="Date", ylab="Sessions")
+abline(h=mean(traffic$Sessions), lwd=3, col="red")
+```
+
+We can also remove the axes (i.e lines of x- and y-) using `axes=FALSE` and remove the lab names using `ann=FALSE`. We do this so we can use `title()` later to add our own label names:
+```{r}
+plot(traffic$Day.Index, traffic$Sessions, type="o", cex=0.5, axes=FALSE, ann=FALSE, col="Dark Blue")
+
+title(main="Web Sessions, 2014 - 2016", xlab="Date", ylab="Sessions", col.lab="Dark Blue", cex.lab=1)
+
+Axis(side=2,at=c(seq(100, 800, by=100)), labels=TRUE, lty=2, col="Dark Blue")
+```
+
+Notice that since we've removed our axes (`axes=FALSE`) we have to manually add our axis back to our plot using the `axis` function. Just to make things less dull, we've drawn a right axis (1=below, 2=left, 3=above, 4=right) on a scale of 100 to 700 by increments of 100. 
+
+Rounding off this chapter, let's learn one more statistical plot: the ever-so-popular histogram. A histogram allows us to visually summarize and represent the distribution of our data points.
+```{r}
+hist(traffic$Sessions)
+abline(v = mean(traffic$Sessions), lwd=3, col="red")
+```
+
+We could specify the number of cells for the histogram using the `breaks` parameter; Let's try that:
+```{r}
+hist(traffic$Sessions, breaks=50)
+abline(v = mean(traffic$Sessions), lwd=3, col="red")
+```
+
+### The famous 5-number summary
+The 5-number summary is an important concept in descriptive statistics because it gives us a really good, yet concise, idea about the frequency distribution in a given set of numbers. Let's take a look at the 5-number summary of our traffic dataset again:
+
+```{r}
+summary(traffic)
+```
+
+
+```{r}
+prop.table(table(traffic$dayofweek))
+```
+
+
+
+
+Notice that R gives us the Min, Max, Mean, Median and the 1st + 3rd Quantiles.We can also confirm the Min and Max manually:
+```{r}
+rbind(sort(traffic$Sessions)[c(1,length(traffic$Sessions))],
+      c(min(traffic$Sessions), max(traffic$Sessions))
+      )
+```
+
+Or find the quantiles using `quantile`:
+```{r}
+rbind(quantile(traffic$Sessions), fivenum(traffic$Sessions))
+```
+
+### Interpreting Boxplots
+```{r}
+plot(traffic$dayofweek, traffic$Sessions)
+```
+
+```{r}
+plot(as.factor(mtcars$cyl), mtcars$mpg)
+```
+
+
+```{r}
+fivenum(traffic$Sessions)
+```
+
+
+There are many ways to read or interpret a boxplot, but I particularly like to think of them as just a visual representation of the 5-number summary:
+
+```{r}
+summary(traffic$Sessions)
+```
+
+```{r, fig.height=6}
+boxplot(traffic$Sessions)
+abline(h=median(traffic$Sessions), lwd=3, col="red")
+abline(h=max(traffic$Sessions), lwd=3, col="green")
+abline(h=min(traffic$Sessions), lwd=3, col="green")
+abline(h=quantile(traffic$Sessions, 0.25), lwd=3, col="blue")
+abline(h=quantile(traffic$Sessions, 0.75), lwd=3, col="blue")
+```
+
+
+```{r}
+boxplot(traffic$Sessions)
+abline(h=min(traffic$Sessions), col="red", lwd=2)
+abline(h=max(traffic$Sessions), col="red", lwd=2)
+abline(h=median(traffic$Sessions), col="blue", lwd=2)
+abline(h=quantile(traffic$Sessions, c(0.25, 0.75)), col="green", lwd=2)
+```
+
+### Scatterplot Matrices
+Just as how we can use boxplot to get a visual representation of the 5-number summary, we can also use a scatterplot matrices, sometimes called the **pairs matrix**, to get a visual summary of any possible correlations between many variables. Let's draw the pairs matrix for the first 100 rows of data, using the second and third variables (`Sessions` and `julian`, respectively)
+
+```{r}
+pairs(mtcars[3:6])
+```
+
+
+
+```{r}
+pairs(traffic[1:100,c(2,5)])
+# synonymous:
+# pairs(Sessions ~ julian, subset=1:100, data=traffic)
+```
+
+```{r}
+head(traffic$Day.Index)
+```
+
+
+
+### Optional: Scatterplot Matrices
+Since we only have two variables, our pairs matrix isn't particularly interesting. If you'd allow me to simulate some data to make our dataset richer, we can then produce a pairs matrix that packs more information:  
+```{r}
+set.seed(100)
+# create the year variable
+traffic$year <- as.numeric(substring(as.character(traffic$Day.Index), 1,4))
+# simulate some data for bounce rate
+traffic$bounce <- runif(length(traffic$Day.Index), min=0.15, max=0.35)
+
+# simulate some data for cumulative bookings count
+traffic$booking.cum <- sort(sample(1344, size=1096, replace=TRUE), decreasing = FALSE)
+```
+
+```{r}
+str(traffic)
+```
+
+```{r}
+aggregate(traffic$Sessions, by=list(traffic$year), mean)
+```
+
+```{r, fig.height=5}
+plot(as.factor(traffic$year), traffic$Sessions)
+```
+
+
+```{r}
+aggregate(traffic$bounce, by=list(traffic$dayofweek), max)
+```
+
+
+
+```{r}
+aggregate(traffic$Sessions, by=list(traffic$month), mean)
+```
+
+
+```{r}
+pairs(traffic[1:100,c(2,5,7:8)])
+```
+
+```{r}
+aggregate(traffic$Sessions, by=list(traffic$month), mean)
+```
+
+
+
+We observe that there's a fairly linear relationship between date and accumulated booking numbers on our website; That's a good thing: it means over the first 100 days of business our booking numbers grow at a fairly predictable rate (bad thing if you were expecting to see an exponential growth rate and saw instead that the growth was linear). 
+
+Pairs matrix are helpful ways to "eyeball" our data (a cringeworthy term I hear a lot, and now borrow, from some sections of the data scientist / statisticians circle) for any interesting relationships between our variables, so let's look at another way to create a pairs matrix, using the awesome `GGally` package. 
+
+```{r}
+library(GGally)
+ggpairs(traffic[1:100,c(2,5,7:8)], lower=list(continuous = "smooth"),  title="Website traffic (sessions), bounce rate and bookings for first 100 days")
+```
+
+As additional exercise, as well as to confirm that the correlation produced by our scatterplot matrix is in fact correct, let's inspect it using R's built-in `cor` function:
+```{r}
+cor(traffic[1:100,c(2,5,7:8)])
+```
+
+# Summary
+The coursebook covers many aspects of R Programming basics and serve as an introductory coursebook to Algoritma's more advanced-level materials. We walked through the basic blocks of R's objects, its classes, and learn to perform simple exploratory analysis using R's built-in functions. 
+
+To follow along the second part of this coursebook, save the `session` dataframe we created as a new csv file that we'll use:
+
+```{r}
+write.csv(traffic, file="workshop.csv", row.names = F)
+```
+
+
+
+To learn more about Algoritma's upcoming workshops, visit our website: [Algoritma](https://goo.gl/GCqodq). This is Part I of the full course materials, and the second part will cover more advanced data visualization techniques, plotting, and various ways to use data science in your day-to-day work as a professional. For accelerated learning, consider signing up a membership: [Algoritma membership](https://goo.gl/R1KEma) and receive full access to all our current and future workshop materials and coursebooks (with an active membership).
+
+[^4]: [Amputation versus imputation of missing values through ratio method in sample surveys](https://link.springer.com/article/10.1007/s00362-006-0009-4)
+[^5]: [Chapter 25: Missing-data imputation, Data Analysis using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/missing.pdf)
+
+

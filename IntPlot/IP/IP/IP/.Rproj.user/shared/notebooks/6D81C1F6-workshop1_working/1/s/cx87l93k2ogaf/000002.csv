@@ -1,0 +1,7 @@
+"0","predict(race.lm, newdata=data.frame(cbind(dist=6, climb=2300)))"
+"1","       1 "
+"1","
+"
+"1","53.72589 "
+"1","
+"

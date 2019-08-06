@@ -1,0 +1,4 @@
+"0","vids$likeability <- vids$likes / vids$dislikes"
+"0",""
+"0","vids %>% "
+"0","  mutate(likeability = likes / dislikes)"

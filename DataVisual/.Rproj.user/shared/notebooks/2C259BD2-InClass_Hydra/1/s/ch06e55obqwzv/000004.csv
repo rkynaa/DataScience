@@ -1,0 +1,2 @@
+"0","yt_trend <- read.csv(""USvideos.csv"")"
+"0","yt_trend_master <- yt_trend"

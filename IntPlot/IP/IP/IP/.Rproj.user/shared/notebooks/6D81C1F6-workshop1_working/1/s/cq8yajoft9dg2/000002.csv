@@ -1,0 +1,2 @@
+"0","copiers <- retail[retail$Sub.Category == ""Copiers"" & retail$Sales <= 5000, ]"
+"0","model.lm <- lm(Profit ~ Sales, data=copiers)"

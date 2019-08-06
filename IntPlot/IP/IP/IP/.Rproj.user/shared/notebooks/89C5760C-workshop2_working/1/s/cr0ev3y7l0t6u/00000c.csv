@@ -1,0 +1,5 @@
+"0","library(rpart)"
+"0","train <- read.csv(""ttrain.csv"")"
+"0","test <- read.csv(""ttest.csv"")"
+"0","model <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, data=train, method = ""class"")"
+"0","plot(model)"

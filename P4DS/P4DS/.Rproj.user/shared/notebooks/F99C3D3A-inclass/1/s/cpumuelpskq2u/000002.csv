@@ -1,0 +1,7 @@
+"0","gender <- c(""female"", ""male"", ""male"", ""female"")"
+"0","gender <- factor(gender)"
+"0","class(gender)"
+"1","[1]"
+"1"," ""factor"""
+"1","
+"

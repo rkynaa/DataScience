@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1515136516527.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2C673CA7",
+    "lastKnownWriteTime" : 1511774220,
+    "last_content_update" : 1511774220,
+    "path" : "~/Documents/Workshops/DataVisualization/dv_workshop1.rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "857,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

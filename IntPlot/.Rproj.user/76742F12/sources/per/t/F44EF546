@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563882351844.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F44EF546",
+    "lastKnownWriteTime" : 19422018209513541,
+    "last_content_update" : 1563882351844,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "cba56f7d80be4cde9614c497ba364c0d",
+        "name" : "theme_algoritma",
+        "title" : "theme_algoritma"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}

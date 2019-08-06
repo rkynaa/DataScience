@@ -1,0 +1,6 @@
+"0","library(knitr)"
+"0","output <- opts_knit$get(""rmarkdown.pandoc.to"")"
+"0","#knitr::opts_chunk$set(fig.width=2.5, fig.height=3, out.width = 2.5, out.height=2.5) "
+"0","#if (output==""html"") opts_chunk$set(fig.width=11, fig.height=11)"
+"0","#if (output==""docx"") opts_chunk$set(fig.width=6,  fig.height=6)"
+"0","#if (output==""latex"") opts_chunk$set(fig.width=10,  fig.height=10, echo=FALSE, message=FALSE, warning=FALSE)"

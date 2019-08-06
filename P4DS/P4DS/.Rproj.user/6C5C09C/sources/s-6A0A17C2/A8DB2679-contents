@@ -1,0 +1,312 @@
+---
+title: 'Building a Metrics-Driven Startup: Companion Coursebook'
+author: "Samuel Chan"
+date: "December 28, 2017"
+output:
+  html_document:
+    css: style.css
+    highlight: zenburn
+    number_sections: yes
+    theme: cerulean
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+    fig_caption: yes
+---
+
+```{r setup, cache=FALSE, include=FALSE}
+library(knitr)
+output <- opts_knit$get("rmarkdown.pandoc.to")
+#knitr::opts_chunk$set(fig.width=2.5, fig.height=3, out.width = 2.5, out.height=2.5) 
+#if (output=="html") opts_chunk$set(fig.width=6, fig.height=6)
+#if (output=="docx") opts_chunk$set(fig.width=6,  fig.height=6)
+#if (output=="latex") opts_chunk$set(fig.width=10,  fig.height=10, echo=FALSE, message=FALSE, warning=FALSE)
+```
+
+
+# Preface
+This coursebook is best use as supplement to the **KICKSTART: Buidling a Metrics-Driven Startup** data science workshop on 10th January 2018 organized by [Algoritma](https://algorit.ma) in collaboration with ANGIN - Angel Investment Network Indonesia and Kantorkuu.  
+
+In contemplating the scope of this workshop, I made a few decisions: to keep the workshop _relatively light_ on implementation details so as to offer a wider breadth of content that I feel you, a startup team leader or entrepreneur, can best appreciate. 
+
+The specific details behind a syntactic choice, an algorithmic choice, or language choice are mostly secondary in objective. The coursebook's primary concern is in laying a foundation on which you can think about your startup growth, and supply you with useful ideas pursuing said growth. 
+
+I hope you find the workshop interesting and wish you a great journey in 2018.
+
+\newpage
+# Part I: Rethinking Startup Growth  
+> "The highest form of pure thought is in mathematics"  
+> - **Plato**
+
+Growth frameworks for startups often have their core ideas centered around the notion of traction and market validation. This made a lot of sense in the early stage of a startup, but its core tenets beg for further inspection as startup progressed beyond the "validation" phase an into the "growth" phase. Particularly, upon the attainment of product-market fit, entrepreneurs are often faced with the non-trivial task of developing a customer acquisition plan, and understanding the mathematics of customer growth. 
+
+In working with many different startups, and in building a few myself, I observed a recurring theme in the customer acquisition journey that entrepreneurs and marketing folks face. We would string together a plan of sorts comprising of some PR work, some social media advertising budget, and some spreadsheet detailing the keyword we would use on Google AdWords. We would launch an aggressive campaign, check in on Facebook's dashboard every couple of hours, and when the budget is exhausted we call for a team meeting to review the campaign's performance and effectiveness. It is precisely at this point when the real questions behind our growth strategy begin to surface, and far too often we leave the meeting having these questions unanswered, or worse, we have the questions too vaguely defined such that any meaningful answers are impossible to attain. 
+
+## Good Questions Matter
+These are poor questions:  
+
+- How many app installs (substitute for website views / website visitors) have we acquired?  
+- Was our Cost-Per-Install / Cost-Per-Click / Cost-Per-Impressions cheaper than the going rate (substitute for: proposed agency rate / competitor's cost-per-click rate)?  
+- Should we spend more money in the day time compared to night because our cost per click was cheaper?  
+
+These are often weak questions because it directs the team's conversation, and consequently team's priority assignment, to areas that have too little impact on your actual customer base growth. Sure, some fraction of clicks and website views _do_ translate to a "first time users", and then some of that statistic _do_ translate to a "customer conversion" (meaning, we got a paying customer) and then, some of those conversions do become our loyal customer.
+
+Having good knowledge of these statistics are important. But building a company's growth culture centered around these statistics could be deceptive at best, perilous at worst. Looking back at 2017, I am sure many of us can recall a number of high profile startup failures that made headlines with these "market traction" only to crumble under the weight of growth infeasibility. 
+
+These are better questions:  
+
+- Is my Cost of Customer Acquisition lower than my projected Customer Lifetime Value?  
+- Is my Customer Lifetime Value dependent of the acquisition sources (Google AdWords vs Facebook Ads vs traditional banner ads)? Is it dependent on country? On user platform (iOS vs Android vs Web)? On geographic differences (an average user in Jakarta spend more or less than her equivalent in Bandung?)  
+- Which segment of our target audience represent the biggest opportunity in terms of pure growth (number of customer acquisition) per dollar?  
+- Which segment of our target audience represent the biggest opportunity in terms of revenue growth (revenue in dollars) per dollar?  
+- Which acquisition sources / channels represent the biggest opportunity in terms of revenue growth and pure growth, respectively?  
+
+The second set of questions deviate from the first in its focus: now we're holding ourselves accountable on key metrics that are truly representative of our business growth. 
+
+When we're building a startup, validating our business model against metrics designed to validate market interest _is_ important. Knowing the cost of mind share is what the first set of questions do. 
+
+When we're growing a startup, you want to get to the state of our startup growth with as little abstraction as possible. And that often has little to do with cost-per-clicks. In fact, measuring cost-per-clicks may even be counter-productive: a point I'll illustrate in greater details later. The second set of questions help you get to the metrics that matter. 
+
+\newpage
+# Part II: Fundamentals of your Growth Engine
+> "I use the term engine because many times, when I work with startups, the comments on what they were learning on the sales learning curve tend to be too qualitative. Yes, it's about learning. Yes, it's about experimenting. But when you build an engine, you have to be precise - as precise as when you are building a physical engine. You need to be as quantitative as possible."  
+> - **Peng T. Ong**, Managing Partner at Monk's Hill Ventures
+
+Restrained by budget and resources limitation, startups often choose analytics tools by placing too much consideration of price in relation to its feature-list. You may choose Analytics Tools A over B because feature-wise A has the appearance of offering better cost-per-dollar over the second tool. This way of thinking makes a seriously flawed assumption that all startups operate with the same growth engine, and hence placing a premium on the quantity of features offered out-of-the-box.  
+
+But in reality even businesses in a same industry differ in their customer growth strategy and product distribution approach, sometimes greatly. Keeping a keen eye on this growth engine is paramount, and a key factor to sustainable growth in the extra long run. Plastering "growth tactics" may work for a while but the results happen in isolation and their effects wear off; A growth engine generates growth over a sustained period of time, delivers continuous results, and the learning from earlier marketing efforts is carried over to future campaigns. It forces a way of thinking that is process-oriented, and process has far greater staying power than tactical maneuvers. 
+
+In summary: when you're choosing an analytics system for your startup, consider:  
+- Whether the analytics tool sufficiently measures the various aspects of your growth engine, in as much precision as possible  
+- You may be worse off with an analytics tool with 20 fixed features measuring "noisy / vanity metrics", than a tool with 5 features that highlights the important specifications of your growth engine  
+- As your startup grow, the way you work with data evolves. The importance of customizability and ease-of-integration scales in roughly the same proportion to your startup's growth engine composition  
+- Don't be afraid to consider the Build-vs-Buy scenario. Plenty of open source tools and library today to launch and deploy a built-from-scratch visualization.
+
+## No Greater Accountability
+There is no greater accountability than making numbers plainly understandable. This means communicating the key metrics clearly, so insights derived from your statistics are natural, accurate and convincing. Charts like the following are commonplace in business presentations and even popular Business Intelligence tools, but it is inefficient and even with the help of grid lines, it is not immediately apparent that the corresponding values for A, B, C and D are in fact the numeric values 1, 2, 3, 4. 
+
+```{r out.width="50%", echo=F}
+library(knitr)
+library(png)
+#img1 <- readPNG("badchart.png", native=T, info=T)
+include_graphics("badchart.png")
+```
+
+Solving the interpretability problem is thankfully easy with modern statistical tools like R. In fact, I would even go so far as to say that it's hard to make a bad plot in R, using implementation of popular plotting systems such as the `ggplot`. 
+```{r echo=F, out.width="50%"}
+library(ggplot2)
+library(ggthemes)
+qplot(as.factor(c("A", "B", "C", "D")), c(1,2,3,4), geom = "col", xlab = "", ylab="")+theme_minimal()
+```
+
+If you want to improve accountability to your growth and marketing roles, start by placing a system that reward clarity in the visual communication of data.
+
+\newpage
+# Part III: Tools for Metrics-Driven Startups
+> "99 percent of all statistics only tell 49 percent of the story."  
+> - **Ron DeLegge II**
+
+The use of a plotting system isn't just arbitrary, or personal preference. An important critic in this field is Edward Tufte, who remarked the following in his book, _The Visual Display of Quantitative Information (1983)_: 
+
+> "Graphical excellence is the well-designed presentation of interesting data—a matter of substance, of statistics, and of design … [It] consists of complex ideas communicated with clarity, precision, and efficiency. … [It] is that which gives to the viewer the greatest number of ideas in the shortest time with the least ink in the smallest space … [It] is nearly always multivariate … And graphical excellence requires telling the truth about the data." (Tufte 1983, 51).
+
+Among the various guidelines in designing for a good visualization, Tufte argues for "a properly chosen format and design", "display an accessible complexity of detail" and "avoid content-free decoration, including chartjunk" (Tufte 1983, 177).
+
+I recommend Hadley Wickham's `ggplot2` as your primary plotting system because it is based on the principles outlined in Leland Wilkinson's _The Grammar of Graphics_ book (hence the name "gg" prefix: it stands for grammar of graphics), which proposes a structure in combining graphical elements into figures in a way that is flexible and modular. 
+
+Statisticians, researches and scientists use Hadley Wickham `ggplot` to produce very fast plots in the exploratory data analysis phase. On its own, ggplot requires very minimal code to produce a complete figure but Hadley makes it even easier for users with the "quick plot" shortcut (`qplot`):
+```{r out.width="50%", echo=FALSE}
+qplot(mtcars$wt, mtcars$hp)
+```
+
+While it satisfies fast and simple plotting needs in academia, this plotting system is also used by journalists and media professionals such as [The New York Times](www.nytimes.com/interactive/sports/football/2013-fantasy-football-tier-charts-QB.html?ref=football), Wall Street Journal, Guardian, and can also be used to [reproduce or recreate the iconic Economist-style plots](https://www.quora.com/What-software-package-does-The-Economist-group-use-to-create-charts-and-graphs-for-the-magazine/answer/Samuel-Chan-3?srid=pOyd). 
+
+Over the course of teaching R programming and data science, I've also come to observe an increasingly widespread use of ggplot2 in the banking and finance industry, in marketing professions and even among startups in general. One case study I often reference in my workshops is [How R helps AirBnB make the most of its data](https://peerj.com/preprints/3182.pdf). 
+
+A great system in place does not automatically lead to a solid data-driven process, but it is a good first step. As an entrepreneur, installing the right tools in the company goes a long way to setting the tone for a change in perspective and getting buy-ins. An added bonus to using a great visualization system is that it adds a lot of polish to the work you and your team produce. 
+
+This has several benefits:  
+- When you make information beautiful, you set a precedent that has trickle-down effects to how insights are communicated internally and externally  
+- It lends credibility to your message and conveys your team's culture to the greater audience (investors, new recruits, other stakeholders)  
+- It puts equal emphasis as to _how_ data should be used, and not just _what_ data should be used   
+- It rewards a data-centric culture and generates buy-in. When you make beautiful things, people want to be involved. 
+
+When investors look at your pitch -- and this could be some bar charts you made with a spreadsheet software -- they see more than the numbers you present. It is human to look for stories, hence they read between the numbers and read your underlying culture: hopefully they see the result of a deliberate work ethic, and a commitment to produce polished work. 
+
+Because 99 percent of all statistics only tell 49 percent of the story.
+
+## Choosing Your Technology Stack
+Many of us are less acquianted with statistical environment like R, and have a lot more familiarity with tools such as Microsoft Excel, Tableau and many other SaaS-based analytics. Many of these products does an impressive job in the specific domain it's designed for. 
+
+However, as an entrepreneur and a leader in your company, it is imperative that you think about the technology stack beyond the first 12 months of your startup's data science strategy. You need to consider:  
+- Whether the tools and SaaS applications you've choosed work in isolation or if they are built to synergize well with one another  
+- The feasibility of these tools as your data storage and processing needs scale to 100x from its current level  
+- The cost implications and computational resources when your data storage and processing needs scale to 100x from its current level  
+- Its accessibility to key stakeholders  
+- Its ability to integrate, be modified, and be developed upon as your need evolves  
+- The ease of implementation, and access to talents that can develop on these tools  
+
+So while the individuals tools of choice perform reasonably well now, be wary of their long term viability and do not let their liabilities stand in the way of you building a high-performance, metrics-driven startup culture. 
+
+A second consideration in choosing the right tool is the **maturity** and **availability** of its ecosystem. For a blockchain consultancy startup, for example, choosing tools that have API interfaces with the cryptocurrency market will greatly speed up the development and deployment time of its performance measurement tools. If you imagine demand forecasting being a core part of your analytics suite (think: AirBnB, Tiket.com, PropertyGuru), then think about the ease of integration for these functionality. 
+
+While you may find it entirely possible to use a combination of SQL, Microsoft Excel and a few other industry tools for analytics and demand forecasting, the overhead cost of managing these different technologies on top of the pipeline (data extraction / transformation / load) may make it sub-optimal than a different stack. Perhaps a more customisable stack would have been:  
+- R: `odbc` for working with the SQL Server or `RSQLite` for prototype and simpler analysis  
+- R: `forecast` for displaying and analysing time series, as well as implementations of popular forecasting functions (Holt-Winters, ARIMA model)  
+- R: `ggplot`: for multi-dimensional visualization
+
+```{r out.width="60%", echo=FALSE}
+sales <- scan("fancy.dat", quiet = T)
+sales.ts <- ts(sales, frequency = 12, start=c(1987,1))
+sales.log <- log(sales.ts)
+sales.forecast <- HoltWinters(sales.log)
+plot(sales.forecast, col.predicted = "dark orange", lty.predicted = 2, 
+     main="Triple Exponential Smoothing")
+```
+
+The same statistical computing environment we used earlier to create our plot also has a rich set of functionalities for us to work with time series and forecasting:
+```{r out.width="60%", echo=FALSE}
+sales.dc <- decompose(sales.ts)
+plot(sales.dc)
+```
+
+And R also has well-documented, widely-used and maintained libraries that go beyond data visualization, data cleansing and transformation, exploratory analysis and time series functionality. R can be employed across the different divisions and allow for cross-functional teams to work on a unified platform together. This in turns promotes a culture of transparency and encourage participation from various departments. 
+
+\newpage
+# Part IV: Best-of-Breed Tools
+> "If I have seen further it is by standing on the shoulders of giants"
+> - Isaac Newton
+
+It is both more easy and more difficult today to establish an edge in a competitive niche, than it was 5 years ago. The barrier to entry has certainly been lowered, but the gap between market leaders and the rest in their respective niche has also widened. The once-indistinguishable lead one startup has over another has now grown into a formidable distance due to the consolidation of resources. 
+
+While contemplating the topic for this KICKSTART workshop, I think a lot about how I can simplify the core ideas, like a thesis statement, of building a metrics-driven company. I find it fitting to describe it as a form of competitive advantage. 
+
+Just as how corporates speak about a technological edge, being data-driven about your company's decision making strategy, product strategy, distribution strategy and customer retention strategy can pay big dividends in the long run. 
+
+Software companies like Facebook, Twitter and Google all have interesting things to say about tracking historic metrics as well as estimating future trends being an integral part of their strategy. When you choose a technology stack like R and Python, you can capitalize on the great work these companies do in the form of open source projects. 
+
+One such example comes from Facebook's Core Data Science team, a package named **Prophet** (with updates as recent as November 2017; currently available in R and Python). The team have this to say about how the tool:  
+> "Forecasting is a data science task that is central to many activities within an organization. For instance, large organizations like Facebook must engage in capacity planning to efficiently allocate scarce resources and goal setting in order to measure performance relative to a baseline."
+
+Another initiative of Facebook is the Facebook AI Research (FAIR) lab, and they released another open source tool named `fastText` with the accompanying text:  
+> "With the growing amount of online data, there is a need for more flexible tools to better understand the content of very large datasets, in order to provide more accurate classification results."
+
+A community care and customer support team who wants to automatically label each user's interaction from multiple touchpoints - be it from a tweet to the official business account, a Facebook comment, a Zendesk ticket, or an App Store review - can use **fastText** to quickly classify these textual data, hence bringing "some of the most successful concepts introduced by the natural language processing and machine learning communities in the last few decades" (Releasing fastText)[https://fasttext.cc/blog/2016/08/18/blog-post.html] into their analytics and data environment. 
+
+Similar to Facebook, Twitter also maintains a number of open source R packages that you can leverage on. One such example is the **AnomalyDetection** package. Twitter said this in its description of the R package:  
+> "[It] can be used in wide variety of contexts. For example, detecting anomalies in system metrics after a new software release, user engagement post an A/B test, or for problems in econometrics, financial engineering, political and social sciences."
+
+The use of such tools abstract away the often-complex mathematical details and give the end user a way of employing robust statistical metrics on their data: 
+```{r out.width="60%", echo=FALSE}
+library("AnomalyDetection")
+data(raw_data)
+res <- AnomalyDetectionTs(raw_data, max_anoms=0.02, direction='both', plot=TRUE)
+res$plot
+```
+
+```{r out.width="60%", echo=FALSE}
+res <- AnomalyDetectionTs(raw_data, max_anoms=0.02, direction='both', only_last="day", plot=TRUE)
+res$plot
+```
+
+Google, just like Facebook and Twitter, also maintains open source tools that are very useful for businesses, one of which is the `CausalImpact` package. This package allows businesses to estimate the causal effect of a designed intervention on a time series, thus answering questions such as:  
+- How many additional daily clicks were generated by an advertising campaign?  
+- By how much did we grow our top line revenue after entering into a high-profile partnership with Indonesia's leading ISP provider?  
+- Have there been any impact on regional sales ever since the relocation of our regional sales office?  
+
+We can see a simple example of Causal Impact in action:
+```{r out.width="60%", echo=F}
+suppressPackageStartupMessages(library(CausalImpact))
+set.seed(1)
+x1 <- 100 + arima.sim(model = list(ar = 0.999), n = 100)
+y <- 1.2 * x1 + rnorm(100)
+y[71:100] <- y[71:100] + 12
+time.points <- seq.Date(as.Date("2017-10-01"), by = 1, length.out = 100)
+data <- zoo(cbind(y, x1), time.points)
+matplot(data, type = "l")
+```
+
+From the predictor variable (red dotted line), we would expect our actual observation to actually decline ever so slightly past the 70 timepoint, even through the actual observation did actually increase. This tool constructs a Bayesian structural time-series model that can be used to estimate the counterfactual (how the response metric would have evolved post- intervention if the intervention had never occured), which in turn allow us to compute estimates of the causal effect: 
+
+```{r warning=F, message=F, echo=F, out.width="60%"}
+pre.period <- as.Date(c("2017-10-01", "2017-12-10"))
+post.period <- as.Date(c("2017-12-11", "2018-01-08"))
+impact <- CausalImpact(data, pre.period, post.period)
+plot(impact)
+```
+
+To make things more concrete, we can interpet the above figures in the context of a make-believe scenario: In the absence of an iOS app launch on the 11th December 2017, we would have expected an average daily subscriber increase of 106.91. The 95% interval of this counterfactual prediction is [105.94, 107.87]. We see not only that the launch of our iOS app has a causal effect on our daily readership or subsriber rate, but also the degree of such effect.   
+
+\newpage
+# Part V: Avoid Tool Fatigue by Solving Problems  
+> "The fundamental cause of the trouble is that in the modern world the stupid are cocksure while the intelligent are full of doubt."
+> - Bertrand Russell  
+
+I'll used the final chapter to walk you through a project I've developed for a mobile game company taking their first steps to being metrics-driven. The company has several teams working with a source of data, which is a simple collection of transaction records across 2 months. The company highlights a few priorities:  
+- We would like to have deeper insight into how transactions happen; Are they driven by existing customers or new customers? How important are existing customers to our revenue stream in comparison to those of new customers? Are there any underlying trends or pattern in our revenue composition?  
+- Relating to the questions above, are those trends consistent across the different countries we operate in? (the game company launches mobile games primarily in Southeast Asia but also operate in the US)  
+- A way to meaningfully categorize of cluster existing customers  
+- Visualization of their growth activities over time  
+- Ability to predict if a customer would make a purchase in a specified timeframe given their past behavior  
+- The marketing department wishes to automate all of these metrics as much as possible so reporting to investors, respective game producers and other key stakeholders is as streamlined as possible  
+
+While these represent some of the company's most pressing needs, the company has made limited progress to answering them in a way that is direct and accessible. Interestingly, the company has used more than 10 different analytics provider and is still actively using a combination of the following tools:  
+- Tableau
+- Mixpanel  
+- Google Analytics  
+- AppsFlyer  
+- ValuePotion  
+- Microsoft Excel  
+- Custom scripts to read from CSV (exported from one of the aforementioned tools) to produce ad-hoc charts in reporting  
+
+This is a classical case of tool fatigue and, I suspect, a big drain on resources. This is bad because it may in turn serves as an argument _against_ any productivity yield from a metrics-driven culture. 
+
+Avoid tool fatigure. When you're building your startup, you're short on resources and do not need to face additional resistance on adopting good business practices. 
+
+Using data provided by the aforementioned company, I put together an accessible dashboard: [Quadrant](https://samuelc.shinyapps.io/Quadrant/). The metrics system borrows a few concepts that I'd elaborate in the workshop, but it aims to deliver on the priorities outlined above. I use `ggplot2` as a plotting system and a scoring system known as FRM. Writing them as R scripts make all of these metrics possible for further automation and integration with other tools and services.
+
+
+```{r echo=FALSE, fig.height=6, fig.width=5, warning=F}
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(reshape2))
+# sherry <- read.csv("https://algorit.ma/wp-content/uploads/2018/01/ts.csv")
+sherry <- read.csv("ts.csv")
+sherry$Date <- as.Date(sherry$Date)
+sherry.m <- melt(sherry, id.vars = c("Date", "Country"))
+sherry.m$months <- months(sherry.m$Date)
+# Remove August and December as they are not full months
+sherry.m <- sherry.m[sherry.m$months=="September"| sherry.m$months=="October"|sherry.m$months=="November",  ]
+levels(sherry.m$months) <- c("September", "October", "November")
+
+ggplot(sherry.m, aes(x=Date, y=value))+
+  geom_col(aes(color=variable))+
+  facet_wrap(~Country, ncol = 3)+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        legend.position = "bottom",
+        strip.background = element_rect(fill="black"),
+        strip.text = element_text(color="white")
+        )+
+  scale_color_manual(values=c("dodgerblue4", "firebrick", "goldenrod1"),
+                    name="Acquisition: ")+
+  labs(y="Install Volume", title="Install Volume Breakdown by Countries", caption="Data provided on 1 December 17")
+```
+
+If you visit the link to the [in-development prototype](https://samuelc.shinyapps.io/Quadrant/) you'd see how the R ecosystem provides an easier approach to these kind of questions in a mostly intuitive, logical and accessible way. We use visualization to aid our understanding of the customer segmentation process, make business recommendations, identify growth opportunities, and understand the relationships between our paid and organic growth effort over time. The visualizations are simple, yet immediately useful to the end user as they address the company's questions in the most direct manner. 
+
+Being Metrics-Driven is a culture, not an employment strategy nor a software strategy. So do not be constrained to the tools you use but rather pick tools that complement the way you work. 
+
+\newpage
+
+## Some final notes
+**On RFM Model**:  
+The RFM Model illustrates how the revenue contribution from each customer segment has been using historical data, but they could make important signals as to what your future monetization model can be and can indicate missed opportunities in the greater business environment! On a more individual level, your customer engagement programs and remarketing team can tie these information to remarketing and outreach campaigns, so customers with high monetary value but low in recency and frequency are remarketed with a more appropriate offer, for example.  
+
+Depending on your business, variations of the FRM model could also be more fitting (Recency-Frequency-Duration for viewership or readership oriented startups)
+
+**On Prediction and Forecasting**:  
+As your company begin to work with prediction models, forecasting methods and other machine learning tasks, feeding the prediction errors back into the model is paramount in improving them.  
+
+**Feedback to me**:  
+The coursebook is developed as a supplement material to be used in the KICKSTART data science workshop, but I hope you managed to get more value out of it beyond the 3-hour session. If you have any ideas, tips, or suggestions on how I may improve the KICKSTART series, please get in touch with me on Facebook or LinkedIn. I'm also the course producer at [Algoritma](https://algorit.ma/) a data science academy in Jakarta so please drop by and have a chat the next time you're around. Looking forward to meet and greet each of you in person. Have a great 2018!
+

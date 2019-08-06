@@ -1,0 +1,6 @@
+"0","tbsc.prd <- predict(tbs.model, tbs.train[,c(""degree_level"", ""family_size"", ""gender"", ""age_cat"", ""marital_status"", ""residence_type"", ""work_type"")],type = ""class"")"
+"0","sum(tbsc.prd == tbs.train$ses)/nrow(tbs.train)"
+"1","[1]"
+"1"," 0.71125"
+"1","
+"

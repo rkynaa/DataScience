@@ -1,0 +1,25 @@
+"0","library(flexdashboard)"
+"0","library(ggplot2)"
+"2","Want to understand how all the pieces fit together? See the R for Data Science
+book: http://r4ds.had.co.nz/
+"
+"0","library(plotly)"
+"2","
+Attaching package: ‘plotly’
+
+"
+"2","The following object is masked from ‘package:ggplot2’:
+
+    last_plot
+
+"
+"2","The following object is masked from ‘package:stats’:
+
+    filter
+
+"
+"2","The following object is masked from ‘package:graphics’:
+
+    layout
+
+"

@@ -1,0 +1,5 @@
+"0","hexp3 <- ggplot(vids[vids$category_id == ""Comedy"",], aes(x=likesratio, y=dislikesratio))+"
+"0","  geom_line(col=""black"", show.legend = F)+"
+"0","  labs(title=""Likes vs Dislikes in Trending Comedy Videos"", subtitle=""Visualizing likes vs dislikes in the Agon theme, source: YouTube"")+"
+"0","  theme_agon"
+"0","hexp3"

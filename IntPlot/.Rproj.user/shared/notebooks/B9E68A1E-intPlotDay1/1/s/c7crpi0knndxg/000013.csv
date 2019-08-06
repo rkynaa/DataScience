@@ -1,0 +1,6 @@
+"0","vids %>% "
+"0","  filter(views > 1000000) %>% "
+"0","  group_by(category_id) %>% "
+"0","  summarise(total_comment = sum(comment_count)) %>% "
+"0","  ungroup() %>% "
+"0","  arrange(-total_comment)"

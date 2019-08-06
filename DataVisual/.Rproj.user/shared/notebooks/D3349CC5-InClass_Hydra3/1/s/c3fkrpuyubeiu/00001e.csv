@@ -1,0 +1,1 @@
+"0","ggplot(tasty, aes(x = trending_date, y = views)) + background_image(blasagna) + geom_col()"

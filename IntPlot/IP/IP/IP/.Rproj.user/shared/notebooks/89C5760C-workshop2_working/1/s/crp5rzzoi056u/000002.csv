@@ -1,0 +1,35 @@
+"0","# 17th variable is the target variable"
+"0","loans.model <- C5.0(loans.train[,-17], loans.train$default)"
+"0","loans.model"
+"1","
+Call:
+"
+"1","C5.0.default(x = loans.train[, -17], y = loans.train$default)"
+"1","
+
+"
+"1","Classification Tree
+"
+"1","Number of samples:"
+"1"," "
+"1","900"
+"1"," "
+"1","
+Number of predictors:"
+"1"," "
+"1","16"
+"1"," "
+"1","
+
+"
+"1","Tree size:"
+"1"," "
+"1","40"
+"1"," "
+"1","
+
+"
+"1","Non-standard options: attempt to group attributes"
+"1","
+
+"

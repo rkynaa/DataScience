@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1518413574443.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "DE6AB7CB",
+    "lastKnownWriteTime" : 1507459480,
+    "last_content_update" : 1507459480,
+    "path" : "~/Documents/Algoritma/Projects/cooltraffic/cooltraffic/support.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "12,1",
+        "scrollLine" : "9"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

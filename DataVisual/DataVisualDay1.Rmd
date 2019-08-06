@@ -1,0 +1,15 @@
+---
+title: "DataVisualDay1"
+author: "Rakyan Satrya Adhikara"
+date: "15/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+mtcars[order(mtcars$mpg),]
+```
+

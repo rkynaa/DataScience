@@ -1,0 +1,378 @@
+---
+title: "Algoritma Academy: Programming for Data Science"
+author: "Samuel Chan"
+date: "January 3, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: 
+        collapsed: false
+    number_sections: true
+    theme: flatly
+    highlight: tango
+    css: style.css
+  fig_caption: yes
+  pdf_document:
+    latex_engine: xelatex
+    fig_caption: yes
+---
+# Background {.tabset}
+## Algoritma
+The following coursebook is produced by the team at [Algoritma](https://algorit.ma) for its Data Science Academy workshops. No part of this coursebook may be reproduced in any form without permission in writing from the authors.
+
+Algoritma is a data science education center based in Jakarta. We organize workshops and training programs to help working professionals and students gain mastery in various data science sub-fields: data visualization, machine learning, data modeling, statistical inference etc. Visit our website for all upcoming workshops.
+
+## Libraries and Setup
+We'll set-up caching for this notebook given how computationally expensive some of the code we will write can get.
+```{r setup}
+knitr::opts_chunk$set(cache=TRUE)
+options(scipen = 9999)
+rm(list=ls())
+```
+
+You will need to use `install.packages()` to install any packages that are not already downloaded onto your machine. You then load the package into your workspace using the `library()` function:
+```{r}
+library(skimr)
+```
+
+
+## Training Objectives
+The primary objective of this course is to provide a comprehensive introduction to the science of statistical programming and the toolsets required to succeed with data science work. The syllabus covers:
+
+- **Programming languages and Tools**
+- R Programming  
+- Workflow and Tools Setup  
+- Data Structures in R  
+- Python Programming  
+- R Scripts and R Markdown  
+
+- **Data Manipulation**  
+- Read & Extracting Data  
+- Practical Data Cleansing  
+- Data Transformation  
+
+- **Statistical Computing**  
+- Organizing your Project  
+- Modern Tools for Data Analysis  
+- Reproducible Data Science
+
+By the end of the workshop, Academy students can choose to complete either of the Learn-By-Building modules as their graded assignment:  
+
+**R Script to clean & transform the data**  
+A programming script that perform various data cleansing tasks and output the result in an appropriate format for further data science work. 
+
+**Reproducible Data Science**  
+Create an R Markdown file that combines data transformation code with explanatory text. Add formatting styles and hierarchical structure using Markdown.
+
+# R Programming and Toolset
+Since you'll spend a great deal of your time working with data in R and RStudio, I think it's important to get yourself very familiar with this IDE (integrated development environment). RStudio is the most popular integrated development for R and is a core tool for data science teams in AirBnB[^1], Uber[^2] etc., and is a tool we'll be using throughout the Academy workshops.
+
+If you're a seasoned programmer, the **Option + Shift + K** combination will bring up a shortcut reference guide that helps you use RStudio more effectively. 
+
+Before we start reading our data into R we need to know which directory is R pointing to. We do this with the `getwd()`function:
+```{r eval=F}
+# This is a comment
+getwd()
+# setwd(...)
+```
+Notice the "#" character, indicating to R that it's a comment and should be ignored. `setwd()` was ignored because it's on the same line and to the right of the "#" character. As you may have expected, `setwd()` is used to change our working directory by setting a new one. 
+
+As an exercise, try setting your working directory to your "Desktop". You need to specify the path to your desktop folder, so that would be something similar to `getwd("~/Desktop")` on a mac OS and `getwd("C:/Desktop")` on a Windows. 
+
+With that, make sure the data you'll like to work with is also in your current directory, in this case, your desktop, and use the `read.csv()` to read our csv file into R. Having our CSV in the same directory as the one we're working in isn't required, we may have used the full path as well. However, to keep our projects organized I would recommend you keep your scripts, working files, and its dependent data in the same directory whenever it's convenient to do so: 
+```{r}
+retail <- read.csv("retail.csv")
+names(retail)
+```
+
+The two lines of code above does two things:  
+- Read our csv file into R so we can begin working on it  
+- Use `names()` to get the names of our dataset variable
+
+If you have tried calling `names(Retail)` you would have gotten an error that says `object 'Retail' not found`. This is because R is case-sensitive, so `Retail` and `retail` are different things:
+```{r eval=F}
+# Will throw an error: Retail not found
+names(Retail)
+```
+
+Notice also that R commands are separated either by a semi-colon (';'), or by a newline. So we can write our code like the above, or we could have separate the commands with ';':
+```{r}
+purchases <- 15; purchases * 2; 
+```
+
+**Quiz 1: Inspect the structure of the data using `str()`**  
+Call `str()` on our `retail` dataset the same way you use `names()`. `str()` returns the structure of an R Object and we'll be using it a lot given how helpful that is. 
+
+Now if you've previously been working with data in a speadsheet-like environment, using `names()` and `str()` to inspect data may taking a bit of getting used to - however, I can assure you the benefits will become apparent (from a programmability perspective but also, very soon, you'll be dealing with data with thousands of variables and a spreadsheet environment just isn't going to make much sense). For a relatively small dataset as this, you can still view the full CSV in its raw format through the `View(retail)` command, or clicking on the "spreadsheet" icon next to the data you'll like to inspect in the Environment pane. 
+
+I don't recommend you use the `View()` command, because in real life you don't always know beforehand the size of data, and I think taking a peek at the first few rows of data would suffice. To see the first 6 observations, we could have just done `head(retail)`. We can pass in an extra argument, _n_, so the function would return the first _n_ number of rows instead of the default 6. The following code returns the first 5 rows of our data:
+
+```{r}
+head(retail, 5)
+```
+
+I'd now like to drop the first two variables: `Row.ID` and `Order.ID` since we won't be using them. Recall that in R, we can achieve that with `retail[,-c(1:2)]` or `retail[,3:15]`. The first option explicitly eliminates the first two variables while the latter retain only the third variable to the last. 
+
+## Data Structures in R  
+
+Another thing I'd like to do is to change the type of our `Order.Date` and `Ship.Date` variables. They are currently stored as a Factor ('<fctr>'), which means R will treat them as categorical data. Since they are dates are not categorical, let's perform the conversion to Date using `as.Date()`. Because our dates are in the **mm/dd/yy** format, we would specify an additional argument to `as.Date()` indicating the format:  
+```{r}
+retail <- read.csv("retail.csv")
+retail <- retail[,-c(1:2)]
+retail$Order.Date <- as.Date(retail$Order.Date, "%m/%d/%y")
+retail$Ship.Date <- as.Date(retail$Ship.Date, "%m/%d/%y")
+head(retail)
+```
+
+We will also remove the `Product.ID` and `Discount` variables as they won't be used in this workshop. We'll take this opportunity to learn another one of R's built-in function: `subset()`. 
+
+`subset()` returns subsets of vectors, matrices or data frames based on a specified condition:
+```{r}
+retail <- subset(retail, select=-c(Product.ID, Discount))
+str(retail)
+```
+Notice now that `Customer.ID` and `Product.Name` are not categorical variables and hence should not be have the Factor type. Just like how we used `as.Date()` to convert a variable to a date type object, we can use `as.Character()` to convert these two variables to a character type. 
+
+```{r}
+retail$Customer.ID <- as.character(retail$Customer.ID)
+retail$Product.Name <- as.character(retail$Product.Name)
+names(retail)
+```
+
+Our variables in our dataframe are now stored in the right type. We have variables with the following type in our `retail` dataset:  
+- Factor (`Factor`)  
+- Date (`Date`)  
+- Numeric (`num`)  
+- Integer (`int`)
+
+**Quiz 2: Inspect the structure of the data using `str()`**  
+Integers are different from numerics in that integers cannot take decimal or fractional values (but instead have to be whole numbers) while numerics can. 
+
+Can you write three lines of code so the resulting dataframe has `prices` as a numeric variable, `discount` and `shipping` as a logical variable:
+```{r}
+set.seed(100)
+prices <- sample(400:600, 8)
+discount <- c("FALSE", "FALSE", "TRUE", "FALSE", "FALSE", "TRUE", "FALSE", "TRUE")
+shipping <- rbinom(8, 1, 0.4)
+
+dat <- data.frame(prices, discount, shipping)
+# ==== Your Solution ====
+
+
+
+# ==== Your Solution ====
+
+str(dat)
+```
+
+R has a built-in function, `summary()` that returns quick summary statistics on each of the variable in our dataset. The following commands are valid:  
+- `summary(retail)`  
+- `summary(retail[,1:4])`  
+- `summary(retail$Sales)`  
+
+When `summary()` is called on factor (categorical) variables, it gives us a count on each of the categorical level (more formally called **factor level**), and on numeric variables it will print the 5 number summary of that variable instead. The five number summary is a set of descriptive statistics that provide information about our data and consists of the minimum, maximum, median, first and third quantile:
+
+```{r}
+summary(retail)
+```
+
+Take a minute to go through the result. Realize how useful this function could be - it packs in a ton of information on the distribution of our data, giving u compact yet useful summary of your data. 
+
+## Subsetting and Sampling
+We already use subsetting when we call `retail[,-c(1:2)]` earlier, but R has more indexing features for accessing object elements and taking subsets of observations from a dataset.
+
+We could, for example, select observations of transactions that has a `Profit` greater or equal to $5,000:
+```{r}
+retail[retail$Profit >= 5000, ]
+```
+
+We can specify more than one conditions using the respective "or" ("|"), "and" ("&") logical operators:
+```{r}
+retail[retail$Profit >= 4500 | retail$Profit <= -4500, ]
+```
+
+Notice that in R, a test of equality is performed with `==` and not `=`. `!=` on the other hand is used to indicate the opposite:
+```{r}
+4 != 3
+```
+
+We can combine what we've learned above with conditional subsetting, but as extra exercise let's see how we can use that in conjunction with `table()` to get a desired contingency table output:
+```{r}
+retail.cons <- retail[retail$Segment == "Consumer",]
+table(retail.cons$Ship.Mode, retail.cons$Category)
+```
+
+**Graded Assignment: Which product segment makes up our high-value transactions?**  
+This part of the assignment is graded for Academy students. Please fill up your answers in the provided answer sheet. Every correct answer is worth **(1) Point**. 
+
+Can you adapt the above code to produce a two-dimensional matrix (`Segment` against `Category`)? Use the matrix to answer the following questions:  
+
+Question 1: Which following segment makes up the most of our ">1000 Sales" transaction? Subset the data for `retail$Sales >= 1000` and then use `table()` with the "Segment" and "Category" variables as its parameters
+
+(A) - Consumer Technology
+(B) - Consumer Furniture
+(C) - Home Office Furniture
+(D) - Corporate Furniture
+
+Question 2: Among the transactions that ship on "First Class", how many of them were office supplies (to two decimal points)?  
+
+(A) - 21.26%
+(B) - 5.92%
+(C) - 59.16%
+(D) - 2.13%
+
+
+We saw earlier that we could use `head()` to peek at the first 6 rows of data. An equivalent for the last 6 rows of data is - you guessed it! - `tail()`. How about sampling some observations from our dataset? R has a built-in function, `sample()` that does just that, so let's take a look at a simple example:
+```{r}
+sample(c("Sudirman", "Senayan", "Kuningan", "BSD"), 3)
+```
+If you re-execute the above code, you may get a different result, and that's because of the sampling at work. If we have wanted to create simulations that can be reproduced at a later time, we can use the `set.seed` function, which returns the same psedu-randomly-generated numbers on every execution. 
+
+Let's try and sample 5 observations from the first 100 rows of our retail data. We'll use `sample()` and pass in "1:100" as the first argument, telling R to pick from the range of integer values 1 to 100. The second argument, 5, indicates the number of samples we like: 
+```{r}
+set.seed(1)
+retail[sample(1:100, 5), ]
+```
+
+And if we have wanted to sample from the entire dataset, we can modify the above code to `sample(1:9994, 5)` but this is not a very good approach. In practice, we want to write code that can "generalize" to future cases as well as possible. What this mean is that the programming script you wrote have to work not just with the current set of retail data (imported from an unspecified e-commerce POS system) but on all future retail data whether or not they have exactly 9994 rows. 
+
+So instead of modifying the earlier code with `sample(1:9994, 5)`, we'll do `sample(nrow(retail), 5)`. This code samples 5 numbers from 1 to the number of rows in our retail dataset, and will generalize much better to future versions of this dataset:
+
+```{r}
+retail[sample(nrow(retail), 5), ]
+```
+
+## Cross-Tabulations and Aggregates
+I'd like to show you how you can create a cross-tabulation table that allows us to obtain a basic picture of the interrelation between two variables. To get a contingency table displaying the frequency of each data point, we will pass in the corresponding formula to the `xtabs` functions
+```{r}
+xtabs(~ Sub.Category + Category, retail)
+```
+
+Notice we passed in `Sub.Category` and `Category` to the right hand side of the fomula, which is how we'd let the function know which variables to be used in the cross tabulations. 
+
+On the left hand side of the formula, we may optionally specify a vector. This allows us to examine the relationship between the explanatory variables (`Sub.Category` and `Category`) and a response variable, say in this case, `Sales`. 
+
+```{r}
+xtabs(Sales ~ Sub.Category + Category, retail)
+```
+
+We can wrap the above code in a `plot()` function, and R will plot the cross-tabulation for us. Just to change things up a little, I'm plotting the cross tabulation of sales as explained by `Sub.Category` and `Ship.Mode` instead. I've also added a main title for our plot using the `main` parameter:
+```{r fig.width=6.5}
+plot(xtabs(Sales ~ Sub.Category + Ship.Mode, retail), main="Cross Tabulation: Sales vs Sub-Category & Shipping Method")
+```
+
+Another way to visualize the cross-tabulation above is through the use of heatmap. In R a heatmap is created using the `heatmap` function, so all we need to do is to swap the `plot()` function above with `heatmap()`. I'd also set the heatmap to scale in the column direction - this makes the heatmap output more sensible:
+
+```{r fig.height=5}
+heatmap(xtabs(Sales ~ Sub.Category + Ship.Mode, retail), Colv = NA, Rowv = NA, cexCol = 0.6,scale = "column")
+```
+
+
+Just like how there's more than one way to create a visual representation of our cross-tabulation data, there are also more than one way to summarize data across multiple variables. We've learned about cross-tabulation using `xtabs` earlier but another equally common statistical tool is the aggregate function, using `aggregate`. The function call is almost the same as `xtabs` except is requires an additional parameter, which is the function we want to use for the aggregation:
+```{r}
+aggregate(Sales ~ Category + Sub.Category, retail, sum)
+```
+
+Compare that to the first few rows of results we obtained from `xtabs()`:
+```{r}
+head(xtabs(Sales ~ Sub.Category + Category, retail))
+```
+
+**Quiz 3: Analyzing profitability by Category and Shipment Mode**  
+Supposed you were assigned by the company to identify the type of transactions that result in the highest profit on average as well as the ones that result in the biggest losses (or lowest profit) per transaction, how would you go about it? 
+
+Use the `aggregate()` function with `Sub.Category` and `Ship.Mode`, but replace the `sum` with `mean` so the function finds the "average" profit instead of total profit from each group instead. If you did this correctly, you should observe that Copiers are great profit makers, and that customers that ship Copiers on First Class bags an average profit in excess of $1,200 per transaction. Sweet! 
+
+- What are the top 6 groups measured by average profit? Use the `mean` for this.  
+- What the bottom (worst) 6 groups measured by average profit? Use the `mean` for this.  
+- Use the answer provided at the end of this course book as reference.  
+
+Supposed we have no concern about the average transaction nor the shipment mode, we could change the formula in our `aggregate` function to take a much simpler form. The following code sums profit across each sub-category:
+```{r}
+aggregate(Profit ~ Sub.Category, retail, sum)
+```
+
+And we can confirm the above by summing across the row values in our `xtabs` as well, using a handy function called `rowSums`:
+
+```{r}
+as.data.frame(rowSums(xtabs(Profit ~ Sub.Category + Ship.Mode, retail)))
+```
+
+
+# R Scripts and Reproducible Research 
+If you are new to writing code but you've succeed in at least 2 of the 3 quizzes in this coursebook - congratulations! We'll now finish strongly by attempting one of the two learn-by-building modules. As this is a graded task for our Academy students, completion of the task is not optional and count towards your final score. You can choose to complete either of the following task:
+
+**R Script to clean & transform the data**  
+Write a R script containing a function (name the function however way you want) that reads `retail.csv` as input, perform the necessary transformation and export a cross-tabulation numeric result OR plot as output. This is the base requirement but more advanced students are free to customize their script to add any extra functionalities. 
+
+```{r}
+# Sourcing the scipt and running the function should print a cross-tabulation result or plot
+source("lbb1.R")
+crstab()
+```
+
+For graders: Student scores a maximum 2 out of (2) possible points. Check that the R script executes and return a cross tabulation plot (`plot(xtabs())`) with no errors, warnings or missing variables / values.  
+
+**Reproducible Data Science**  
+Create an R Markdown file that combines your step-by-step data transformation code with some explanatory text. Add formatting styles and hierarchical structure using Markdown.
+
+For graders: Student scores a maximum 2 out of (2) possible points. Check that the RMD file compiles to HTML with at least **two** headings, **two** explanatory paragraph, and the final output is a business recommendation written in English or Bahasa Indonesia on profitable categories. 
+
+Writing your code as R scripts make all of these metrics possible for further automation and integration with other tools and services, while writing a R Markdown presents your findings and recommendations in a way that is friendly to non-technical / managerial team members. 
+
+## Tips on writing R Scripts and functions
+As an example, here's how you can write a function, named "weeklyreport":
+```{r}
+library(skimr)
+library(dplyr)
+weeklyreport <- function(){
+  retail <- read.csv("retail.csv")
+  retail %>% 
+  group_by(Segment) %>% 
+  skim(Category, Profit)
+}
+```
+
+And now you can call the function you created:
+```{r}
+weeklyreport()
+```
+
+# Answer for Graded Assignments and Quizes
+Answer Q1: 
+```{r echo=FALSE, eval=FALSE}
+prop.table(table(retail[retail$Sales >= 1000, c("Segment", "Category")]))
+```
+
+Answer Q2: 
+```{r}
+prop.table(table(retail[retail$Ship.Mode == "First Class", c("Category")]))
+```
+
+Answer for Quiz 3: 
+```{r}
+temp <- aggregate(Profit ~ Sub.Category + Ship.Mode, retail, mean)
+cbind(head(temp[order(temp$Profit, decreasing = T),]),
+head(temp[order(temp$Profit),]))
+```
+
+Sample Answer L-B-B #1
+```{r}
+library(dplyr)
+retail <- read.csv("retail.csv")
+retail %>% 
+  group_by(Segment) %>% 
+  skim(Category, Profit)
+```
+
+
+
+```{python}
+print 1+1
+```
+
+
+[^1]: [How R Helps AirBnB make the most of its data](https://peerj.com/preprints/3182.pdf)
+[^2]: [Uber Engineering's Tech Stack: The Foundation](https://eng.uber.com/tech-stack-part-one/)
+

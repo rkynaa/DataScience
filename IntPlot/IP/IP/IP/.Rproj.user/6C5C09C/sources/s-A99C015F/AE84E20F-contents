@@ -1,0 +1,51 @@
+library(shiny)
+library(ggplot2)
+library(shinythemes)
+
+source("support.R")
+source("alg.R")
+ui <- fluidPage(
+    theme = shinytheme("flatly"),
+    titlePanel("Website traffic visualization"),
+    sidebarLayout(
+        position="right",
+        sidebarPanel(
+            helpText("Visualize our restaurant's website (miam.sg) traffic using one of the presentation style in the selection"),
+            selectInput("themepick", "Pick a theme:", choices = c("Wide (Recommended)", "Minimal", "Highchart Style", "Wall Street Journal", "Contrast","Google Docs", "Skeleton"), selected="Hi-Contrast"),
+            selectInput("yearpick", "Visualize data for year:", choices=c("2014", "2015", "2016"), selected="2016"),
+            checkboxInput("smoothpick", "Add LOESS smoother", FALSE),
+            helpText("Local smooths aids the eye in seeing patterns in our website traffic dataset.")
+        ),
+        mainPanel(
+            h4("Website traffic in multiple themes"),
+            helpText("Visualize website traffic in different themes across different years using the configuration panel on the right."),
+            plotOutput("plot1")
+        )
+    )
+)
+
+server <- function(input, output){
+    
+    output$plot1 <- renderPlot({
+        data <- switch(input$yearpick, 
+                       "2014" = dat.1st, "2015" = dat.2nd, "2016" = dat.3rd)
+        
+        theme <- switch(input$themepick,
+                        "Wide (Recommended)" = theme_alg,
+                        "Minimal" = theme_tufte(), 
+                        "Highchart Style"= theme_hc(bgcolor = "darkunica"),
+                        "Wall Street Journal"=theme_wsj(base_size=8, color="blue"),
+                        "Google Docs" = theme_gdocs(),
+                        "Contrast" = theme_solarized_2(light = F),
+                        "Skeleton"=theme_few())
+        
+        smoother <- input$smoothpick
+        
+        args <- list(data=data, theme=theme, smoother=smoother)
+        do.call(cooltraffic, args)
+    })    
+}
+
+shinyApp(ui, server)
+
+

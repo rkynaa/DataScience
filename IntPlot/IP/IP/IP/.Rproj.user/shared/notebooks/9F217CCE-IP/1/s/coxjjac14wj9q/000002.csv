@@ -1,0 +1,6 @@
+"0","colp <- ggplot(v.favor, aes(x=category_id, y=favor))+"
+"0","  geom_col(fill=""dodgerblue4"")+"
+"0","  coord_flip()+"
+"0","  labs(title=""Favorability Index by Video Category, 2018"")+"
+"0","  theme_agon"
+"0","colp"

@@ -1,0 +1,1 @@
+"0","vids$publish_wday <- ordered(vids$publish_wday, levels=c(""Monday"", ""Tuesday"", ""Wednesday"", ""Thursday"", ""Friday"", ""Saturday"", ""Sunday""))"

@@ -1,0 +1,4 @@
+"0",""
+"0","vids.clean <- vids %>% "
+"0","  filter(views > 10000000) %>% "
+"0","  select (title, category_id, likes, views)"

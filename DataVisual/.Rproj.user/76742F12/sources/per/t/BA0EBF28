@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563370773138.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1203790714",
+    "id" : "BA0EBF28",
+    "lastKnownWriteTime" : 1563415486,
+    "last_content_update" : 1563415486,
+    "path" : "~/DataScience/RStudio/DataVisual/.Rhistory",
+    "project_path" : ".Rhistory",
+    "properties" : {
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_history"
+}

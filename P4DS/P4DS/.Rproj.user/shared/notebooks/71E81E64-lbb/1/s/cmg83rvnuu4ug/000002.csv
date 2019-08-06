@@ -1,0 +1,6 @@
+"0","retail$Order.Date <- as.Date(retail$Order.Date, ""%m/%d/%y"")"
+"0","class(retail$Order.Date)"
+"1","[1]"
+"1"," ""Date"""
+"1","
+"

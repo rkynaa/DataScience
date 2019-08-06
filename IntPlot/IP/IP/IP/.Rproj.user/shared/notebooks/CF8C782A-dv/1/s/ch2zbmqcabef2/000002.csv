@@ -1,0 +1,2 @@
+"0","vids.u$timetotrend <- vids.u$trending_date - as.Date(vids.u$publish_time)"
+"0","vids.u$timetotrend <- as.factor(ifelse(vids.u$timetotrend <= 7, vids.u$timetotrend, ""8+""))"

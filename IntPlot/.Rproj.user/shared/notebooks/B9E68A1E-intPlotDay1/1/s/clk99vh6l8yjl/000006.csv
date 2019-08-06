@@ -1,0 +1,9 @@
+"0",""
+"0","# Extra Notes: ungroup() function's main use is to remove any 'group_by' function-related variables"
+"0",""
+"0","vids %>% "
+"0","  group_by(category_id) %>% "
+"0","  mutate(total = n()) %>%  "
+"0","  select(total)"
+"2","Adding missing grouping variables: `category_id`
+"

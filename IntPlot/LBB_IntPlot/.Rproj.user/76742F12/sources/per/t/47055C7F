@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564053882003.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "47055C7F",
+    "lastKnownWriteTime" : 8243669124865549420,
+    "last_content_update" : 1564053882003,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "195086F",
+        "caption" : "data.gen.mon",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=data.gen.mon&cache_key=195086F",
+        "displayedObservations" : "22",
+        "environment" : "",
+        "expression" : "data.gen.mon",
+        "object" : "data.gen.mon",
+        "preview" : "0",
+        "totalObservations" : "22",
+        "variables" : "8"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

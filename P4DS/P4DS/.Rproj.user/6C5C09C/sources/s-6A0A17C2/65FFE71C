@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1515062931484.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "65FFE71C",
+    "lastKnownWriteTime" : 1515574353,
+    "last_content_update" : 1515574353505,
+    "path" : "~/Documents/Algoritma/Academy/P4DS/p4ds.Rmd",
+    "project_path" : "p4ds.Rmd",
+    "properties" : {
+        "cursorPosition" : "340,0",
+        "last_setup_crc32" : "6A0A17C24a209c80",
+        "scrollLine" : "338"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

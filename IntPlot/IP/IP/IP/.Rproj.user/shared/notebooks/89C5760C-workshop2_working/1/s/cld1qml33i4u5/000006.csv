@@ -1,0 +1,3 @@
+"0","data(churn)"
+"0","churnTree <- C5.0(x = churnTrain[, -20], y = churnTrain$churn)"
+"0","plot(churnTree)"

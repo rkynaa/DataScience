@@ -1,0 +1,151 @@
+---
+title: "PractStatDay1"
+author: "Rakyan Satrya Adhikara"
+date: "11/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Descriptive Staristics
+Have a well-described data without generalization
+
+```{r}
+gas <- c(8,6,7,8,8,5,9,8,6,8,9,1,5,105,9,6,8,10,7,8)
+length(gas)
+oil <- c(4,2,4,6,7,3,7,8,9,9,6,4,2,18,16,13,2,12,10,7)
+retail <- read.csv("data_input/workshop.csv")
+```
+
+## The Center of Data
+### Mean
+Most well-used function: Mean.
+
+Desciptive Statistics: Mean is commonly used for the center of data.
+Statistical Inference: Mean is commonly used for moving average data-time series.
+
+Pro and Con:
+(+)
+(-) Not very accurate for making is as an expectation (Not very representative)
+
+```{r}
+mean(gas)
+mean(oil)
+```
+
+### 'Trimmed Mean'
+add a 'trim' parameter at the 'mean' function. the number as the parameter input has to be in percentage.
+
+NOTE: You can't cut more than 5% of total data.
+
+```{r}
+mean(gas,trim = 0.05)
+```
+
+### Median
+Most common alternative function: Median
+
+Data division concept:
+divided by 2: Min |-------------| Median |-------------| Max
+divided by 4: Min |--| 1st Q |--| Median |--| 3rd Q |--| Max
+
+Pros and Cons;
+(+) Rarely get some outlier (Robust)
+(-) Too robust
+
+Common functions to get median:
+- median()
+- fivenum()
+- quantile()
+  NOTE: You can display a specified part of quantile() by adding the name as the next parameter
+- summary()
+
+```{r}
+median(gas)
+
+fivenum(gas)
+
+quantile(gas)
+
+summary(gas)
+```
+
+```{r}
+profit_var <- retail[,c("Profit")]
+summary(profit_var)
+```
+
+### Mode
+Unfortunately, there is no official function to get mode.
+However, there is a custom function to get mode.
+
+### 'Common' Range
+
+```{r}
+max(gas)-min(gas)
+diff(range(gas))
+```
+
+### Interquartile Range (IQR)
+Difference of 1st quartile and 3rd quatrile
+
+```{r}  
+IQR(gas)
+```
+
+Upper Whisker / outer Fence: Q3 + k (1.5) * IQR
+Lower Whisker / Inner Fence: Q1 - k (1.5) * IQR
+
+```{r}
+# Upper Whisker / Outer Fence
+UpperW <- quantile(gas,0.75) + (1.5*IQR(gas))
+LowerW <- quantile(gas,0.25) - (1.5*IQR(gas))
+gas[gas>UpperW]
+```
+
+### Variance and standard deviation
+
+Variance:
+
+Way #1: use var() function
+
+Way #2: 
+
+Standard Deviation: Squareroot of Variance
+
+```{r}
+var_gas <- var(gas)
+var_oil <- var(oil)
+sum((gas-mean(gas))^2)/(length(gas)-1)
+
+sd(gas)
+sqrt(var_gas)
+mean(profit_var)
+sd(profit_var)/sqrt(length(gas)-1)
+```
+
+## Distribution
+### Covariance and Correlation
+
+Covariance usually used only to compare if both values have the same behaviour
+Correlation is similar to probablility. If the value is getting into 1, the behaviour of both values become more equal and so the opposite.
+
+```{r}
+cov(oil,gas)
+cor(oil,gas)
+```
+
+```{r}
+hist(gas, breaks = 1000)
+plot(density(gas))
+plot(density(oil))
+```
+
+### Normal Distribution
+Characteristics:
+1. Bell curve
+2. Symetrical
+3. Mean = Median = Mode
+4. Uni-Mode

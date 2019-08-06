@@ -1,0 +1,3 @@
+"0","vids <- read.csv(""/Users/Samuel/Documents/Algoritma/Academy/DV/youtubetrends.csv"")"
+"0","vids$likesratio <- vids$likes/vids$views"
+"0","vids$dislikesratio <- vids$dislikes/vids$views"

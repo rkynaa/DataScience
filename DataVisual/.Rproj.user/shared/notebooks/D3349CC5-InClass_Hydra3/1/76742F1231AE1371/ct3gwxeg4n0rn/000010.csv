@@ -1,0 +1,7 @@
+"0","# create a leaflet map widget"
+"0","map1 <- leaflet()"
+"0",""
+"0","# add tiles from open street map"
+"0","map1 <- addProviderTiles(providers$Stamen.Toner)"
+"2","Error: $ operator is invalid for atomic vectors
+"

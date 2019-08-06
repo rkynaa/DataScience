@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563968132090.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3920397373",
+    "id" : "2BA10EAC",
+    "lastKnownWriteTime" : 1563969948,
+    "last_content_update" : 1563969948340,
+    "path" : "~/DataScience/RStudio/IntPlot/dashboard_flex_test.Rmd",
+    "project_path" : "dashboard_flex_test.Rmd",
+    "properties" : {
+        "cursorPosition" : "86,15",
+        "last_setup_crc32" : "",
+        "scrollLine" : "78",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

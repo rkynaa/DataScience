@@ -1,0 +1,251 @@
+---
+title: "inclass IP"
+author: "Ajeng Prastiwi"
+date: "July 22, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+read data
+```{r}
+vids <- read.csv("youtubetrends.csv")
+```
+
+ambil kolom category_id, title, dan likes
+```{r}
+vids[,c("category_id","title","likes")]
+```
+1. `select()`: fungsi untuk mengambil variabel / kolom
+
+```{r}
+library(dplyr)
+select(.data = vids, category_id, title, likes)
+```
+
+2. pipes ( %>% ) : penghubung perintah satu dengan perintah lainny
+```{r}
+vids %>% 
+  select(category_id, likes) %>% 
+  select(title, category_id, likes) 
+  
+```
+
+3. `filter()`: untuk seleksi baris berdasarkan kondisi
+
+```{r}
+vids[vids$views > 1000000,]
+
+vids_clean <- vids %>% 
+  filter(views >1000000) %>% 
+  select(title, category_id, likes, views)
+```
+
+4.`mutate()`: untuk memanipulasi kolom, baik kolom yang sudah ada atau membuat kolom baru
+
+membuat kolom baru dengan nama likeability : likes/dislikes
+
+```{r}
+vids$likeability <- vids$likes/vids$dislikes
+
+vids %>% 
+  mutate(likeability = likes/dislikes,
+         newcolumn = likes/dislikes,
+         category_id = as.character(category_id))
+```
+
+5. `summarise()` : untuk mengelompokkan data
+
+```{r}
+vids %>% 
+  summarise(total_likes = sum(likes))
+```
+```{r}
+summary(vids$category_id)
+```
+
+```{r}
+vids %>% 
+  group_by(category_id, publish_when) %>% 
+  summarise(total_likes = sum(likes),
+            mean_likes = mean(likes)) %>% 
+  ungroup()
+```
+```{r}
+vids %>%
+  group_by(category_id) %>% 
+  mutate( total = n()) %>% 
+  select(total)
+
+vids %>%
+  group_by(category_id) %>% 
+  mutate( total = n()) %>% 
+  ungroup() %>% 
+  select(total) 
+
+```
+
+6. `arrange()`: untuk mengurutkan data
+
+urutkan jumlah views
+```{r}
+vids %>% 
+  arrange(-views,- likes)
+
+vids %>% 
+  arrange(category_id, channel_title)
+
+vids %>% 
+  arrange(desc(views))
+```
+
+Tunjukan 6 kategori yang memiliki total likes terbanyak
+```{r}
+vids %>% 
+  group_by(category_id) %>% 
+  summarise(total_likes = sum(likes)) %>% 
+  arrange(-total_likes) %>% 
+  ungroup() %>% 
+  head()
+```
+Apa beda nya summarise dengan mutate?
+
+Contoh; saya ingin membuat **satu kolom baru**, dari data saya, dengan nama `daily_total` yang berisi jumlah video yang trending per harinya. Apakah saya menggunakan `summarise()`/`mutate()`?
+
+```{r}
+vids%>% 
+  group_by(trending_date) %>% 
+  summarise( daily_total = n())
+
+vids %>% 
+  group_by(trending_date) %>% 
+  mutate( daily_total = n())
+```
+
+
+1. Kategori video apa yang mendapatkan views lebih dari 1 juta, dan buat kolom baru yang berisikan total comment yang didapatkan berdasarkan setiap category video tersebut, kemudian urutkan dari yang memiliki total comment terbanyak:
+```{r}
+vids %>% 
+  filter( views > 1000000) %>% 
+  group_by(category_id) %>% 
+  summarise(total_comment = sum(comment_count)) %>% 
+  ungroup() %>% 
+  arrange(-total_comment)
+```
+
+```{r}
+vids %>% 
+  group_by(category_id) %>% 
+  mutate( tes = n()) %>% 
+  select(tes)
+
+vids %>% 
+  group_by(category_id) %>% 
+  mutate( ratio = likes/sum(views))
+```
+
+
+
+
+2.Bagaimana jika views kurang dari satu juta, tampilkan kolom dari rata rata likes yang didapatkan dari setiap kategori tersebut:
+```{r}
+vids %>%
+  filter(views < 1000000) %>% 
+  group_by(category_id) %>% 
+  summarise(mean_likes = mean(likes)) %>% 
+  ungroup() %>% 
+  arrange(-mean_likes)
+
+```
+
+```{r}
+comedy <- vids[vids$category_id == "Comedy",]
+comedy <- aggregate(trending_date ~ channel_title, comedy, length)
+comedy <-  comedy[order(comedy$trending_date, decreasing = T),]
+names(comedy) <- c("channel_title","count")
+head(comedy)
+```
+
+versi dplyr:
+```{r}
+vids %>% 
+  filter(category_id == "Comedy") %>% 
+  group_by(channel_title) %>% 
+  summarise( count = n()) %>% 
+  arrange(-count) %>% 
+  head(6)
+```
+
+
+Bentuk plot berdasarkan banyaknya views dari setiap kategori kemudian urutkan dari yang paling besar ke terkecil
+
+```{r}
+library(ggplot2)
+library(scales)
+library(plotly)
+
+options(scipen = 99)
+
+plot1 <- vids %>% 
+  group_by(category_id) %>% 
+  summarise( total = sum(views)) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = reorder(category_id, total), y = total,
+             text = paste("Total Views:", total,
+                          "<br>",
+                          "Category: ", category_id
+                          ))) +
+  geom_col( aes(fill = category_id)) +
+  coord_flip() + 
+  scale_y_continuous(labels = comma) +
+  labs( x = "Category", y = "Total Views") 
+
+plot1
+```
+
+```{r}
+ggplotly(plot1, tooltip = "text")
+```
+
+
+
+kapan fill di dalem aes dan diluar aes?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+vids %>% 
+  group_by(category_id) %>% 
+  mutate(tes = likes/sum(dislikes)) %>% 
+  arrange(-tes)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,248 @@
+---
+title: "Algoritma Academy: Interactive Plotting"
+author: "Samuel Chan"
+date: "January 3, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: 
+        collapsed: false
+    number_sections: true
+    theme: flatly
+    highlight: tango
+    css: style.css
+  fig_caption: yes
+  pdf_document:
+    latex_engine: xelatex
+    fig_caption: yes
+---
+
+
+# Background {.tabset}
+## Algoritma
+The following coursebook is produced by the team at [Algoritma](https://algorit.ma) for its Data Science Academy workshops. No part of this coursebook may be reproduced in any form without permission in writing from the authors.
+
+Algoritma is a data science education center based in Jakarta. We organize workshops and training programs to help working professionals and students gain mastery in various data science sub-fields: data visualization, machine learning, data modeling, statistical inference etc. Visit our website for all upcoming workshops.
+
+## Libraries and Setup
+We'll set-up caching for this notebook given how computationally expensive some of the code we will write can get.
+```{r setup}
+knitr::opts_chunk$set(cache=TRUE)
+options(scipen = 9999)
+rm(list=ls())
+```
+
+You will need to use `install.packages()` to install any packages that are not already downloaded onto your machine. You then load the package into your workspace using the `library()` function:
+```{r}
+library(ggplot2)
+library(ggpubr)
+library(plotly)
+```
+
+# Plotly
+```{r}
+tbs <- read.csv("tbs.csv")
+tbs <- tbs[,-c(1, 14)]
+tbs$Date <- mdy(tbs$Date)
+tbs <- kNN(tbs, trace=T)
+```
+
+
+```{r}
+vids <- read.csv("/Users/Samuel/Documents/Algoritma/Academy/DV/youtubetrends.csv")
+vids$likesratio <- vids$likes/vids$views
+vids$dislikesratio <- vids$dislikes/vids$views
+```
+
+```{r}
+table(vids$category_id)
+```
+
+```{r}
+library(dplyr)
+v.favor <- vids %>% 
+  group_by(category_id) %>%
+  summarise(likeratio = mean(likes/views), 
+            dlikeratio = mean(dislikes/views)
+            ) %>%
+  mutate(favor = likeratio/dlikeratio)
+
+v.favor
+```
+
+```{r}
+comedy <- vids[vids$category_id == "Comedy", ]
+comedy <- aggregate(trending_date ~ channel_title, comedy, length)
+comedy <- comedy[order(comedy$trending_date, decreasing=T), ]
+head(comedy)
+```
+
+```{r}
+theme_agon <- theme(legend.key = element_rect(fill="black"),
+           legend.background = element_rect(color="white", fill="#263238"),
+           plot.subtitle = element_text(size=6, color="white"),
+           panel.background = element_rect(fill="#dddddd"),
+           panel.border = element_rect(fill=NA),
+           panel.grid.minor.x = element_blank(),
+           panel.grid.major.x = element_blank(),
+           panel.grid.major.y = element_line(color="darkgrey", linetype=2),
+           panel.grid.minor.y = element_blank(),
+           plot.background = element_rect(fill="#263238"),
+           text = element_text(color="white"),
+           axis.text = element_text(color="white")
+           
+           )
+```
+
+
+```{r}
+hexp <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_point(aes(size=views), alpha=0.5, show.legend = F)+
+  labs(title="Likes vs Dislikes in Trending Comedy Videos", subtitle="Visualizing likes vs dislikes in the Agon theme, source: YouTube")+
+  theme_agon
+hexp
+```
+
+
+```{r}
+ggplotly(hexp)
+```
+
+```{r}
+v.favor
+```
+
+```{r}
+colp <- ggplot(v.favor, aes(x=category_id, y=favor))+
+  geom_col(fill="dodgerblue4")+
+  coord_flip()+
+  labs(title="Favorability Index by Video Category, 2018")+
+  theme_agon
+ggplotly(colp)
+```
+
+
+```{r fig.height=7}
+library(reshape2) # for melt
+em <- melt(economics, id = "date")
+
+econp <- qplot(date, value, data = em, geom = "line", group = variable) +
+    facet_grid(variable ~ ., scale = "free_y") +
+    labs(title="US Economic time series")+
+    theme_agon
+
+ggplotly(econp)
+```
+
+```{r}
+rangeslider(ggplotly(econp))
+```
+
+
+Create a melted data frame:
+```{r}
+vids.m <- vids[vids$comments_disabled == F,c(4,7,8,9)]
+# 4,8,7,9 pointing to category_id, likes, dislikes, comment_count
+vids.m <- melt(vids.m)
+```
+
+
+Switch from "Show closest data on hover" to "Compare data on hover"
+Toggle Spike Lines
+Click on Legend items to toggle visibility
+```{r}
+cplot <- ggplot(vids.m, aes(x=category_id, y=value))+
+  # position can also be stack
+  geom_col(position="dodge", aes(fill=vids.m$variable))+
+  coord_flip()
+ggplotly(cplot)
+```
+
+Applying our theme to `cplot`
+```{r}
+cplot <- cplot + theme_agon
+cplot
+```
+
+# Publication and Layout Options
+
+```{r}
+publicat <- ggarrange(hexp, econp, cplot, colp, nrow=2)
+```
+
+```{r}
+publicat[[1]]
+```
+
+```{r}
+publicat[[2]]
+```
+
+Export as a multi-page PDF:
+```{r}
+ggexport(publicat, filename="publication.pdf")
+```
+
+To visualize interactively, just print `publicat` from your console or document.
+
+## 
+
+```{r}
+subplot(
+  cplot,
+  hexp, 
+  colp,
+  econp,
+  nrows=4)
+```
+
+```{r}
+hexp <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_point(aes(size=views), alpha=0.5, show.legend = F)+
+  labs(title="Likes vs Dislikes in Trending Comedy Videos", subtitle="Visualizing likes vs dislikes in the Agon theme, source: YouTube")+
+  theme_agon
+hexp
+```
+
+```{r}
+hexp2 <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_hex(alpha=0.6, show.legend = F)+
+  labs(title="Likes vs Dislikes in Trending Comedy Videos", subtitle="Visualizing likes vs dislikes in the Agon theme, source: YouTube")+
+  theme_agon
+hexp2
+```
+
+```{r}
+hexp3 <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_line(col="black", show.legend = F)+
+  labs(title="Likes vs Dislikes in Trending Comedy Videos", subtitle="Visualizing likes vs dislikes in the Agon theme, source: YouTube")+
+  theme_agon
+hexp3
+```
+
+```{r}
+hexp4 <- ggplot(vids[vids$category_id == "Comedy",], aes(x=likesratio, y=dislikesratio))+
+  geom_bin2d(show.legend=F)+
+  labs(title="Likes vs Dislikes in Trending Comedy Videos", subtitle="Visualizing likes vs dislikes in the Agon theme, source: YouTube")+
+  theme_agon
+hexp4
+```
+
+```{r}
+subplot(
+hexp, hexp2, hexp3, hexp4,
+  nrows=2, shareX=T, shareY=T, widths=c(0.65, 0.35))
+```
+
+Note that as we use the interactive selection tools or zoom in on any part of the plot (either plot) the other plots will be refreshed accordingly - a pretty neat feature considering how simple it is to set it up! 
+
+Note that the common title automatically takes the last plot's title, so in this case the common (shared) title inherits from `hexp4`. As of its current development cycle, plotly does not support titles or any similar functionalities yet so adding a subplot title or even a mutual title is a bit hackerish (using `annotate()`[^1]) and beyond the scope of this coursebook. As and when this change in a future release / update, I will update this coursebook accordingly to include examples.
+
+
+
+
+[^1]: [Giving subtitles for subplot using R](https://stackoverflow.com/questions/37285729/how-to-give-subtitles-for-subplot-in-plot-ly-using-r)
+
+
+

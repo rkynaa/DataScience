@@ -1,0 +1,8 @@
+"0","married <- tbs[ tbs$marital_status == ""married"" & "
+"0","                  tbs$ses == ""A"", ]"
+"0","nrow(married)"
+"1","[1]"
+"1"," 409"
+"1","
+"
+"0","write.csv(married, ""married.csv"")"

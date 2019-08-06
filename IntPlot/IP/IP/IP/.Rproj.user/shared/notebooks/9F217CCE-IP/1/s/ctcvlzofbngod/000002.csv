@@ -1,0 +1,5 @@
+"0","cplot <- ggplot(vids.m, aes(x=category_id, y=value))+"
+"0","  # position can also be stack"
+"0","  geom_col(position=""dodge"", aes(fill=vids.m$variable))+"
+"0","  coord_flip()"
+"0","ggplotly(cplot)"

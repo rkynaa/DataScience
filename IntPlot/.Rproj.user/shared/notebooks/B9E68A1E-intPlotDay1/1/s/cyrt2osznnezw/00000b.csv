@@ -1,0 +1,5 @@
+"0","ggexport(vids.plot12, filename = ""vids_plot12.jpeg"")
+"
+"2","Error in ggexport(vids.plot12, filename = ""vids_plot12.jpeg"") : 
+  object 'vids.plot12' not found
+"

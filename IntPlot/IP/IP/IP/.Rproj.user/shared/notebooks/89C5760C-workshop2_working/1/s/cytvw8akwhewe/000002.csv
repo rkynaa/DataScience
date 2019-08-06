@@ -1,0 +1,6 @@
+"0","wbcd_train <- wbcd_n[1:469, ]"
+"0","wbcd_test <- wbcd_n[470:569, ]"
+"0","# remember we excluded our target variable (diagnosis) in wbcd_n"
+"0","# here we create our labels vector for use in training the knn model later"
+"0","wbcd_train_labels <- wbcd[1:469,1]"
+"0","wbcd_test_labels <- wbcd[470:569,1]"

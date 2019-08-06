@@ -1,0 +1,2 @@
+"0","# we also drop the diagnosis outcome variable in the new dataframe, hence [2:31]"
+"0","wbcd_n <- as.data.frame(lapply(wbcd[,2:31], normalize))"

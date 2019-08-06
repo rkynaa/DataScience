@@ -1,0 +1,7 @@
+"0","tops6 <- vids %>% "
+"0","  filter(category_id == ""Comedy"") %>% "
+"0","  select(title, likes, views, dislikes) %>% "
+"0","  arrange(-views) %>% "
+"0","  head()"
+"0",""
+"0","kable(tops6)"

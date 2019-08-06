@@ -1,0 +1,101 @@
+---
+title: "dashboard_flex_test"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyr)
+library(magrittr)
+library(ggpubr)
+library(lubridate)
+library(ggplot2)
+library(scales)
+library(plotly)
+library(dplyr)
+library(utils)
+library(knitr)
+vids <- read.csv("IP/IP/IP/youtubetrends.csv")
+theme_algoritma <- theme(legend.key = element_rect(fill="black"),
+           legend.background = element_rect(color="white", fill="#263238"),
+           plot.subtitle = element_text(size=6, color="white"),
+           panel.background = element_rect(fill="#dddddd"),
+           panel.border = element_rect(fill=NA),
+           panel.grid.minor.x = element_blank(),
+           panel.grid.major.x = element_blank(),
+           panel.grid.major.y = element_line(color="darkgrey", linetype=2),
+           panel.grid.minor.y = element_blank(),
+           plot.background = element_rect(fill="#263238"),
+           text = element_text(color="white"),
+           axis.text = element_text(color="white")
+           
+           )
+```
+
+```{r, echo = FALSE}
+vids.plot2 <- vids %>% 
+  mutate(publish_wday = factor(publish_wday, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))) %>% 
+  group_by(publish_wday, publish_when) %>% 
+  summarise(total_views = sum(views)) %>%
+  ggplot(aes(publish_wday, y = total_views, text = paste(comma(total_views), "views","\n","Published on",publish_when))) + 
+  geom_col(aes(fill = publish_when), position = "dodge") + 
+  labs(x = NULL, y = NULL, title = "Total Views Based on Publish Time") +
+  theme(legend.title = element_blank()) +
+  theme_algoritma +
+  scale_y_continuous(labels = comma)
+
+vids.plot2.ly <- ggplotly(vids.plot2, tooltip = "text")
+
+
+vids.plot3 <- vids %>% 
+  filter(comments_disabled == F) %>% 
+  gather(key = "variable", value = "value", likes, dislikes, comment_count) %>% 
+  group_by(category_id, variable) %>% 
+  summarise(value = sum(value)) %>% 
+  ggplot(aes(x = category_id, y = value)) +
+  geom_col(aes(fill = variable), position = "dodge") +
+  coord_flip() + theme_algoritma + labs(x = NULL, y = NULL, title = "Likes v Dislikes v Comments in videos", x = NULL) + theme(legend.title = element_blank())
+
+vids.plot3.ly <- ggplotly(vids.plot3)
+```
+
+
+Column
+-----------------------------------------------------------------------
+
+### Total Views Based on Publish Time (Interective Mode)
+
+```{r}
+vids.plot2.ly
+```
+
+### Top 6 Comedy
+
+```{r}
+tops6 <- vids %>% 
+  filter(category_id == "Comedy") %>% 
+  select(title, likes, views, dislikes) %>% 
+  arrange(-views) %>% 
+  head()
+
+kable(tops6)
+```
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### Total Views Based on Publish Time
+
+```{r}
+vids.plot2
+```
+
+### Likes v Dislikes v Comments in videos
+
+```{r}
+vids.plot3
+```
+

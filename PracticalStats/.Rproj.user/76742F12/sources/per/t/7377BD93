@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562845254871.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4244925782",
+    "id" : "7377BD93",
+    "lastKnownWriteTime" : 1562933282,
+    "last_content_update" : 1562933282202,
+    "path" : "~/DataScience/RStudio/PracticalStats/PractStatsDay1.Rmd",
+    "project_path" : "PractStatsDay1.Rmd",
+    "properties" : {
+        "cursorPosition" : "54,36",
+        "last_setup_crc32" : "",
+        "scrollLine" : "45",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

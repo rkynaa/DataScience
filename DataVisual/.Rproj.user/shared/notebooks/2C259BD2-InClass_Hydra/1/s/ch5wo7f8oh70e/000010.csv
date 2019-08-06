@@ -1,0 +1,1 @@
+"0","plot(yt_trend.agt$likesp, yt_trend.agt$dislikesp, main = ""Likes v Dislikes Ratio"", xlab = ""Likes Ratio"", ylab = ""Dislikes Ratio"")"

@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563884957115.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "5361F071",
+    "lastKnownWriteTime" : 6002244173312256099,
+    "last_content_update" : 1563884957115,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "d9b3b1ec02114ec8bbbae1e9db3f4173",
+        "name" : "vids.plot2",
+        "title" : "vids.plot2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}

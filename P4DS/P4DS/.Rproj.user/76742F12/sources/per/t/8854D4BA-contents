@@ -1,0 +1,455 @@
+---
+title: 'LBB: P4DS Project 2'
+author: "Rakyan Satrya Adhikara"
+date: "10/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Basic Setup
+Look at the workplace if it's at the right destination.
+
+```{r}
+getwd()
+```
+
+***
+
+## Topics
+* #### Basic
+  + ##### Comment
+  + ##### Case Sensitive
+  + ##### Math Operation
+  + ##### Object
+  + ##### Install Packages
+  + ##### Function
+* #### Data Explanation
+  + ##### Types of Data in R
+    + ##### Character
+    + ##### Numeric
+    + ##### Integer
+    + ##### Logical
+    + ##### Extra Notes
+  + ##### Structures of Data in R
+    + ##### Vector
+    + ##### Matrix
+    + ##### Factor
+    + ##### List
+    + ##### Data Frame
+* #### Exploratory Data Analysis
+  + ##### *read.csv()*
+  + ##### *head()*
+  + ##### *tail()*
+  + ##### *dim()*
+  + ##### *names()*
+  + ##### *str()*
+  + ##### *summary()*
+* #### Manipulation
+  + ##### *as.character()*
+  + ##### *as.Date*
+  + ##### *Extra Notes*
+* #### Subset and Sampling Data
+  + ##### *[,]*
+  + ##### *table()*
+  + ##### *set.seed()*
+  + ##### *xtabs()*
+  + ##### *plot()*
+  + ##### *aggreggate()*
+
+***  
+
+# Basic
+### Comment
+#### To make a commentary in chunk or in R Script, you can use the *'#'* sign or by press *CTRL + SHIFT + C* buttons.
+
+```{r}
+# This is an example of a comment!
+```
+
+***
+
+### Case Sensitivity
+#### R is a programming language that have *case sensitivity*, which means that **there is a difference between capital letter(s) and non-capital letter(s)**.
+
+##### To check if a value is equal to another, you can use the *'=='* operator. If the result is **'TRUE'**, then both values are *equal* to each other. However, if the result is **'FALSE'**, then both values are *different* to each other
+
+> On this first case, it will compare "Hello" with "hello", which the result will be **'FALSE'**
+
+```{r}
+"Hello" == "hello"
+```
+
+> On this second case, it will compare "Aloha" with "Aloha", which the result wiil be **'TRUE'**
+
+```{r}
+"Aloha" == "Aloha"
+```
+
+***
+### Math Operation
+#### Basic math operations in R are:
+
+* #### '+' : Addition
+* #### '-' : Substraction
+* #### '/' : Division
+* #### '$\star$' : Multiplication
+* #### '^' : 'Power of'
+
+> On this first case, it will calculate (8/4)+(4*3), which the result will be 14
+
+```{r}
+(8/4)+(4*3)
+```
+
+> On this second case, it will calculate (2^2)-(9/(7-4)), which the result will be 1
+
+```{r}
+(2^2)-(9/(7-4))
+```
+
+***
+
+# Data Explanation
+### Types of Data in R
+#### Character
+##### A very global type of data in R
+
+> On this case, it will make a vector full of names, which those data types are *character*. It also will check what type of data that was kept inside the vector, which the result will be *"character"*.
+
+```{r}
+name <- c("Denny", "Robin", "Adam")
+class(name)
+```
+
+***
+
+#### Numeric
+##### A type of data that **only consists of numbers**. The value can be *discrete* (1, 2, 3) or *continouous* (1.2, 2.3, 3.4)
+
+> On this case, it will make a vector full of numbers, which those data types are *numeric*, both **continuous and discrete**. It also will check what type of data that was kept inside the vector, which the result will be *"numeric"*.
+
+```{r}
+numer <- c(1, 2.3, 4, 5.6)
+class(numer)
+```
+
+***
+
+#### Integer
+##### A type of data that **only consists of discrete numbers** and usually ended with letter **L**
+
+> On this case, it will make a vector full of numbers, which those data types are *integer*. It also will check what type of data that was kept inside the vector, which the result will be *"integer"*.
+
+```{r}
+integ <- c(1L, 2L, 3L)
+class(integ)
+```
+
+***
+
+#### Logical
+##### A type of data that only consist of **TRUE** or **FALSE** value.
+
+> On this case, it will make a vector full of , which those data types are *logical*. It also will check what type of data that was kept inside the vector, which the result will be *"logical"*. 
+
+```{r}
+logicalVal <- c(TRUE, FALSE, TRUE)
+class(logicalVal)
+```
+
+***
+
+#### Extra Notes:
+
+* ##### Both the **TRUE** and **FALSE** values can be shorten as **T** and **F**.
+* ##### The data type *from the most general to the least*, in order is *character*, *numeric*, *integer*, *logical*.
+* ##### If there is a vector that have several kinds of values inside, the data type will be 'locked' at **the most general data type that is being included inside the vector**.
+
+***
+
+### Structures of Data in R
+#### Vector
+##### An object that consist of a number of values. Vector is a **one-dimensional** data.
+
+> On this case, it will make a vector of random values.
+
+```{r}
+vector1 <- c("Windows", 10, TRUE)
+vector2 <- c(12L, F, "English")
+```
+
+***
+
+#### Matrix
+##### An object consist of a number of **same type of** values inside. Matrix is a **two-dimensional** data.
+* ##### `()` -> used for function
+* ##### `[]` -> used for subset of the data
+
+> On this case, it will make a matrix that consists of a sequence of numbers starting from 11 to 16. The matrix will have *2 rows* and *3 columns*. it will also display the first row of the matrix by using the subset of it.
+
+```{r}
+matrixVal <- matrix(data = 11:16, nrow = 2, ncol = 3)
+matrixVal[1,]
+```
+
+***
+
+#### Factor
+##### Factor is characters who have levels (list of included data, won't display multiple times of data).
+
+> On this case, it will make a vector of characters. Then, it will use *'factor()'* function to change the data structure into a factor. It will also display the type of data, which the result will be "factor".
+
+```{r}
+gameResult <- c("win", "lose", "win")
+gameResult <- factor(gameResult)
+class(gameResult)
+```
+
+***
+
+#### List
+##### A **one-dimensional** data type, but you can include vectors inside.
+* ##### you can use **'[]'** or **'[[]]'** to subset a list.
+  + **'[]'** -> to subset a list **with index**
+  + **'[[]]'** -> to subset a list **without any index**
+  
+> On this case, it will make a list of random values and on the third index, the value will be a vector full of random numbers. it will also display the subset of third index, both with or without its index.
+
+```{r}
+our.list <- list(T, FALSE, c(1,6,12), 11L)
+our.list[3]
+our.list[[3]]
+```
+
+***
+
+#### Data Frame
+##### A custom matrix that consist of a number of objects with the same total data.
+
+> On this case, it will make a data frame that consist of 'logicalval' vector, 'name' vector and 'gameResult' factor. It will also display the data frame.
+
+```{r}
+df <- data.frame(name, logicalVal, gameResult)
+df
+```
+
+
+***
+
+# Exploratory Data Analysis
+### *read.csv()*
+#### This function will insert a **.csv** file into the enviroment so that we can customize the database in the future and put that database into a variable. Use the *.csv*'s directory as its parameter.
+
+> On this case, it will insert *retail.csv* into the enviroment, set its directory, which is at *P4DS/data_input/retail.csv*, as the parameter and set that database into a variable that we call *retail*.
+
+> **Note: Don't forget to use quotation mark to insert the directory.**
+
+```{r}
+retail <- read.csv("data_input/retail.csv")
+```
+
+##### **Extra Notes**
+* To set the separator, you can add parameter *sep* and set what's the separator
+
+* You can make a backup of your database in case you make an accident on manipulating it so that you don't have to type everything again back from scratch.
+  + On this case, it will set a backup database and name it *retail_master*
+
+```{r}
+retail_master <- retail
+```
+
+***
+
+### *head()*
+#### This function will display first n-rows of the selected database.
+
+##### To control how many rows you want to display, you can add parameter with a number.
+
+> On this case, it will display the first 5 rows of the *retail* database.
+
+```{r}
+head(retail, 5)
+```
+
+***
+
+### *tail()*
+#### This function will display last n-rows of the selected database.
+
+##### To control how many rows you want to display, you can add parameter with a number.
+
+> On this case, it will display the last 5 rows of the *retail* database.
+
+```{r}
+tail(retail, 5)
+```
+
+***
+
+### *dim()*
+#### This function will display the dimension (row and column) of the selected database.
+
+> On this case, it will display the *retail* database's dimension.
+
+```{r}
+dim(retail)
+```
+
+> Note: On this case, the first number represents the total row and the second number represents the total column
+
+***
+
+### *names()*
+#### This function will display every column's names of the selected database.
+
+> On this case, it will display every column's names that available from the *retail* database.
+
+```{r}
+names(retail)
+```
+
+***
+
+### *str()*
+#### This function will display the structure of the selected database.
+##### It will display:
+* ##### Dimension of the database
+* ##### Every column's names
+* ##### Every column's data types
+* ##### Some example data of every column
+
+> On this case, it will display the structure of the *retail* database
+
+```{r}
+str(retail)
+```
+
+##### **Extra Notes**
+* only the *str()* and the *dim()* functions that display the dimension of the selected database
+
+***
+
+### *summary()*
+#### This function will display the summary of every column of the selected database.
+
+> On this case, it will display the summary of every column from the *retail* database
+
+```{r}
+summary(retail)
+```
+
+
+***
+
+# Manipulation
+### *as.character()*
+#### This function will manipulate a column’s data type into Character.
+
+> On this case, it will change *retail's* 'Order.ID' column into 'character' type of data. It will also check that column's data type, which the result will be *"character"* 
+
+```{r}
+retail$Order.ID <- as.character(retail$Order.ID)
+class(retail$Order.ID)
+```
+
+***
+
+### *as.Date()*
+#### This function will manipulate a column’s data type into date. 
+
+#### There is a difference between this manipulation and others. This manipulation must have *format date* parameter.
+* ##### To make the result is month/date/year -> **“%m/%d/%y”**
+* ##### To make the result is date/month/year -> **“%d/%d/%y”**
+
+> On this case, it will change *retail's* 'Order.ID' column into 'date' type of data and the format will be **month/date/year**. It will also check that column's data type, which the result will be *"date"* 
+
+```{r}
+retail$Order.Date <- as.Date(retail$Order.Date, "%m/%d/%y")
+class(retail$Order.Date)
+```
+
+***
+
+### Extra Notes
+* #### Basically, you can manipulate a data into any type of data that exists in R.
+* #### Among other manipulation function, *'as.Date()'* is the unique among others because the beginning of the word 'date', which is the data type manipulation result, has to be **in capital letter**.
+
+***
+
+# Subset and Sampling Data
+### *[,]*
+#### This function will display selected row and column
+* ##### To display selected rows in specific, use vector function *c()* at the ROW section.
+* ##### To not display a specific column, use subset function ‘subset()’
+
+> On this case, it will display a subset data of *'retail'* with profit of more than 4500 and only display **"Sales"**, **discount** and **"Profit"** column
+
+```{r}
+retail[retail$Profit>4500,c("Sales", "Discount", "Profit")]
+```
+
+***
+
+### *table()*
+#### This function will display the total amount of a current data’s column
+* ##### To display in percentage, use *prop.table()* on the outside of the *table()*
+* ##### **Always** execute *prop.table()* with **table-type** data as an input
+
+> On this case, it will display *retail's* 'category' column as the table's row and *retail's* 'segment' column as the table's column so the table's data will be both column's comparison.
+
+```{r}
+table(retail$Category, retail$Segment)
+```
+
+***
+
+### *set.seed()*
+#### This function will lock the result of any calculation.
+* ##### You can put any number as the parameter
+* ##### Maximum number for the parameter: **10 digits**
+
+> On this case, it will make a vector of city names and it will use *set.seed()* to lock the *sample()* result. it will set the number inside *set.seed()* on **2001**
+
+```{r}
+cityNames <- c("jakarta", "Bandung", "Depok", "Bogor")
+set.seed(2001)
+sample(cityNames, 1)
+```
+
+***
+
+### *xtabs()*
+#### This function will calculate part of numeric-type that is being divided with any part of current data
+* ##### On the 'formula' parameter, formula = *'numeric-type'* ~ *'factor-type'*
+* ##### To add more ‘categories’ for dividing the result, just use ‘+’ symbol and add that part
+* ##### 'data' paramater is for current data that is going to be used
+
+> On this case, it will calculate *retail's* profit and divide it into two, *retail's* 'category' and 'segment'
+
+```{r}
+xtabs(formula = Profit ~ Category + Segment, data = retail)
+```
+
+***
+
+### *aggregate()*
+#### This funcyion is similar to *xtabs()*. The difference is that you can set the result with **any kind of function**. For instance, mean, median, max, min, etc. The reason why is that aggregate is the ‘updated’ version of the *xtabs()*
+* ##### You can the function **without** writing the *formula = *, *data = * and the *FUN = * parameters. However, it has to be **at the specified section**.
+* ##### Common functions:
+  + *max*: **Maximum**
+  + *min*: **Minimum**
+  + *mean*: **Mean**
+  + *median*: **Median**
+  + *sum*: **Total**
+  + *length*: **Frequency**
+  
+> On this case, it will calculate the mean of the *retail's* 'profit' and divide it with *retail's* 'category' and 'segment'
+
+```{r}
+aggregate(formula = Profit ~ Category + Segment, data = retail, FUN = mean)
+```
+  
+***

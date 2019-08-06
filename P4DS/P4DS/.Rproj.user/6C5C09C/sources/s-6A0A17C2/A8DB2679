@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1515570168753.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A8DB2679",
+    "lastKnownWriteTime" : 1515570462,
+    "last_content_update" : 1515570462829,
+    "path" : "~/Documents/Algoritma/Projects/Metrics_KS/metrics.rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "265,350",
+        "last_setup_crc32" : "6A0A17C2c2f9f51b",
+        "scrollLine" : "261"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

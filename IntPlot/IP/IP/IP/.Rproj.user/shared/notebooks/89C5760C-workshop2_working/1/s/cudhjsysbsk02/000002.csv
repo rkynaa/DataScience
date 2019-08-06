@@ -1,0 +1,3 @@
+"0","library(ggplot2)"
+"0","plot.fruit <- ggplot(food, aes(x=food$Sweetness, y=food$Crunchiness))+geom_point(alpha = 0.05)+geom_label(aes(label=food$Ingredient),nudge_x=0.5, nudge_y=0, label.size=0.6)+labs(x=""how sweet the food tastes"", y=""how crunchy the food is"")"
+"0","plot.fruit"

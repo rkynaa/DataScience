@@ -1,0 +1,5 @@
+"0","vids.m <- vids[vids$comments_disabled == F,c(4,7,8,9)]"
+"0","# 4,8,7,9 pointing to category_id, likes, dislikes, comment_count"
+"0","vids.m <- melt(vids.m)"
+"2","Using category_id as id variables
+"

@@ -1,0 +1,136 @@
+"0","summary(loans.model)"
+"1","
+Call:
+"
+"1","C5.0.default(x = loans.train[, -17], y = loans.train$default)"
+"1","
+
+"
+"1","
+C5.0 [Release 2.07 GPL Edition]  	Fri Feb  9 16:32:34 2018
+-------------------------------
+
+Class specified by attribute `outcome'
+
+Read 900 cases (17 attributes) from undefined.data
+
+Decision tree:
+
+checking_balance in {> 200 DM,unknown}:
+:...other_credit in {none,store}: no (370/41)
+:   other_credit = bank:
+:   :...purpose in {car0,education,furniture/appliances,
+:       :           renovations}: no (25/3)
+:       purpose = business:
+:       :...years_at_residence <= 3: yes (5/1)
+:       :   years_at_residence > 3: no (2)
+:       purpose = car:
+:       :...months_loan_duration <= 16: no (4)
+:           months_loan_duration > 16:
+:           :...percent_of_income <= 1:
+:               :...credit_history in {critical,good,poor,very good}: no (3)
+:               :   credit_history = perfect: yes (1)
+:               percent_of_income > 1:
+:               :...phone = no: yes (6)
+:                   phone = yes:
+:                   :...amount <= 7629: yes (2)
+:                       amount > 7629: no (2)
+checking_balance in {< 0 DM,1 - 200 DM}:
+:...savings_balance in {> 1000 DM,500 - 1000 DM,unknown}: no (108/28)
+    savings_balance in {< 100 DM,100 - 500 DM}:
+    :...months_loan_duration > 47: yes (32/3)
+        months_loan_duration <= 47:
+        :...credit_history in {perfect,very good}:
+            :...dependents > 1: yes (4)
+            :   dependents <= 1:
+            :   :...other_credit = store: yes (3/1)
+            :       other_credit = none:
+            :       :...housing in {other,rent}: yes (13)
+            :       :   housing = own:
+            :       :   :...years_at_residence <= 2: no (4/1)
+            :       :       years_at_residence > 2: yes (4)
+            :       other_credit = bank:
+            :       :...savings_balance = 100 - 500 DM: no (2)
+            :           savings_balance = < 100 DM:
+            :           :...percent_of_income <= 1: no (3)
+            :               percent_of_income > 1:
+            :               :...phone = no: yes (7/1)
+            :                   phone = yes: no (3/1)
+            credit_history in {critical,good,poor}:
+            :...months_loan_duration <= 15:
+                :...purpose in {business,car0,renovations}: no (11/1)
+                :   purpose = education: yes (4/1)
+                :   purpose = furniture/appliances:
+                :   :...savings_balance = < 100 DM: no (62/11)
+                :   :   savings_balance = 100 - 500 DM: yes (4)
+                :   purpose = car:
+                :   :...credit_history in {critical,poor}: no (23/4)
+                :       credit_history = good:
+                :       :...years_at_residence <= 2: yes (11/2)
+                :           years_at_residence > 2:
+                :           :...savings_balance = < 100 DM: no (15/5)
+                :               savings_balance = 100 - 500 DM: yes (1)
+                months_loan_duration > 15:
+                :...savings_balance = 100 - 500 DM:
+                    :...purpose in {car0,renovations}: no (0)
+                    :   purpose in {education,
+                    :   :           furniture/appliances}: yes (13/4)
+                    :   purpose in {business,car}:
+                    :   :...age <= 41: no (13)
+                    :       age > 41: yes (2)
+                    savings_balance = < 100 DM:
+                    :...percent_of_income > 3: yes (63/21)
+                        percent_of_income <= 3:
+                        :...age <= 26: yes (21/4)
+                            age > 26:
+                            :...other_credit = none: no (43/14)
+                                other_credit = store: yes (1)
+                                other_credit = bank:
+                                :...job in {management,unemployed,
+                                    :       unskilled}: no (5/1)
+                                    job = skilled: [S1]
+
+SubTree [S1]
+
+employment_duration in {< 1 year,> 7 years,4 - 7 years,unemployed}: yes (4)
+employment_duration = 1 - 4 years: no (1)
+
+
+Evaluation on training data (900 cases):
+
+	    Decision Tree   
+	  ----------------  
+	  Size      Errors  
+
+	    39  148(16.4%)   <<
+
+
+	   (a)   (b)    <-classified as
+	  ----  ----
+	   589    38    (a): class no
+	   110   163    (b): class yes
+
+
+	Attribute usage:
+
+	100.00%	checking_balance
+	 57.00%	other_credit
+	 53.33%	savings_balance
+	 43.33%	months_loan_duration
+	 38.22%	credit_history
+	 23.22%	purpose
+	 18.33%	percent_of_income
+	 10.00%	age
+	  4.78%	dependents
+	  4.67%	years_at_residence
+	  2.33%	housing
+	  2.22%	phone
+	  1.11%	job
+	  0.56%	employment_duration
+	  0.44%	amount
+
+
+Time: 0.0 secs
+"
+"1","
+"

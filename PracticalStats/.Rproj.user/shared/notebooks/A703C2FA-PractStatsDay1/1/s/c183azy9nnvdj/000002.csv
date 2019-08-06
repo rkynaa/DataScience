@@ -1,0 +1,8 @@
+"0","# Upper Whisker / Outer Fence"
+"0","UpperW <- quantile(gas,0.75) + (1.5*IQR(gas))"
+"0","LowerW <- quantile(gas,0.25) - (1.5*IQR(gas))"
+"0","gas[gas>UpperW]"
+"1","[1]"
+"1"," 105"
+"1","
+"

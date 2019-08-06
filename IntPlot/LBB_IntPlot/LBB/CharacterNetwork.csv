@@ -1,0 +1,237 @@
+Hero1,Hero2
+Iron Man,Captain America
+Iron Man,Black Widow
+Iron Man,Hawkeye
+Iron Man,Hulk
+Iron Man,Thor
+Iron Man,War Machine
+Iron Man,Pepper Potts
+Iron Man,Phil Coulson
+Iron Man,Nick Fury
+Iron Man,General Ross
+Iron Man,Loki
+Iron Man,Black Panther
+Iron Man,Spider-Man
+Iron Man,Ant-Man
+Iron Man,Star-Lord
+Iron Man,Nebula
+Iron Man,Drax
+Iron Man,Mantis
+Iron Man,Doctor Strange
+Iron Man,Wong
+Iron Man,Scarlet Witch
+Iron Man,Vision
+Iron Man,Thanos
+Captain America,Black Widow
+Captain America,Hawkeye
+Captain America,Hulk
+Captain America,Thor
+Captain America,War Machine
+Captain America,Phil Coulson
+Captain America,Nick Fury
+Captain America,General Ross
+Captain America,Winter Soldier
+Captain America,Falcon
+Captain America,Loki
+Captain America,Black Panther
+Captain America,Spider-Man
+Captain America,Ant-Man
+Captain America,Vision
+Captain America,Scarlet Witch
+Captain America,Maria Hill
+Captain America,Thanos
+Black Widow,Hawkeye
+Black Widow,Hulk
+Black Widow,Thor
+Black Widow,War Machine
+Black Widow,Pepper Potts
+Black Widow,Phil Coulson
+Black Widow,Nick Fury
+Black Widow,General Ross
+Black Widow,Winter Soldier
+Black Widow,Falcon
+Black Widow,Loki
+Black Widow,Black Panther
+Black Widow,Spider-Man
+Black Widow,Vision
+Black Widow,Scarlet Witch
+Black Widow,Maria Hill
+Black Widow,Thanos
+Hawkeye,Hulk
+Hawkeye,Thor
+Hawkeye,War Machine
+Hawkeye,Phil Coulson
+Hawkeye,Nick Fury
+Hawkeye,Winter Soldier
+Hawkeye,Falcon
+Hawkeye,Loki
+Hawkeye,Black Panther
+Hawkeye,Spider-Man
+Hawkeye,Ant-Man
+Hawkeye,Vision
+Hawkeye,Scarlet Witch
+Hawkeye,Maria Hill
+Hawkeye,Thanos
+Hulk,Thor
+Hulk,War Machine
+Hulk,Phil Coulson
+Hulk,Nick Fury
+Hulk,General Ross
+Hulk,Loki
+Hulk,Black Panther
+Hulk,Valkyrie
+Hulk,Ant-Man
+Hulk,Captain Marvel
+Hulk,Doctor Strange
+Hulk,Wong
+Hulk,The Ancient One
+Hulk,Vision
+Hulk,Scarlet Witch
+Hulk,Shuri
+Hulk,Thanos
+Thor,War Machine
+Thor,Phil Coulson
+Thor,Nick Fury
+Thor,Loki
+Thor,Valkyrie
+Thor,Captain Marvel
+Thor,Rocket Raccoon
+Thor,Groot
+Thor,Doctor Strange
+Thor,Vision
+Thor,Scarlet Witch
+Thor,Maria Hill
+Thor,Thanos
+Thor,The Black Order
+War Machine,Pepper Potts
+War Machine,Phil Coulson
+War Machine,Nick Fury
+War Machine,General Ross
+War Machine,Winter Soldier
+War Machine,Falcon
+War Machine,Black Panther
+War Machine,Spider-Man
+War Machine,Ant-Man
+War Machine,Captain Marvel
+War Machine,Rocket Raccoon
+War Machine,Groot
+War Machine,Vision
+War Machine,Scarlet Witch
+War Machine,Maria Hill
+War Machine,Thanos
+Pepper Potts,Phil Coulson
+Pepper Potts,Spider-Man
+Pepper Potts,Nick Fury
+Pepper Potts,Maria Hill
+Phil Coulson,Nick Fury
+Phil Coulson,Loki
+Phil Coulson,Captain Marvel
+Phil Coulson,Maria Hill
+Nick Fury,Winter Soldier
+Nick Fury,Falcon
+Nick Fury,Loki
+Nick Fury,Captain Marvel
+Nick Fury,Maria Hill
+General Ross,Falcon
+General Ross,Black Panther
+General Ross,Spider-Man
+General Ross,Ant-Man
+General Ross,Vision
+General Ross,Scarlet Witch
+Winter Soldier,Falcon
+Winter Soldier,Black Panther
+Winter Soldier,Spider-Man
+Winter Soldier,Ant-Man
+Winter Soldier,Rocket Raccoon
+Winter Soldier,Groot
+Winter Soldier,Vision
+Winter Soldier,Scarlet Witch
+Winter Soldier,Maria Hill
+Falcon,Spider-Man
+Falcon,Ant-Man
+Falcon,Rocket Raccoon
+Falcon,Groot
+Falcon,Vision
+Falcon,Scarlet Witch
+Falcon,Maria Hill
+Loki,Valkyrie
+Loki,Doctor Strange
+Loki,Maria Hill
+Loki,Thanos
+Loki,The Other
+Loki,The Black Order
+Black Panther,Spider-Man
+Black Panther,Ant-Man
+Black Panther,Rocket Raccoon
+Black Panther,Groot
+Black Panther,Vision
+Black Panther,Scarlet Witch
+Black Panther,Shuri
+Black Panther,Okoye
+Spider-Man,Ant-Man
+Spider-Man,Star-Lord
+Spider-Man,Nebula
+Spider-Man,Drax
+Spider-Man,Mantis
+Spider-Man,Doctor Strange
+Spider-Man,Wong
+Spider-Man,Vision
+Spider-Man,Scarlet Witch
+Ant-Man,The Wasp
+Ant-Man,Vision
+Ant-Man,Scarlet Witch
+Star-Lord,Gamora
+Star-Lord,Nebula
+Star-Lord,Rocket Raccoon
+Star-Lord,Drax
+Star-Lord,Groot
+Star-Lord,Mantis
+Star-Lord,Doctor Strange
+Star-Lord,Thanos
+Star-Lord,Ronan The Accusser
+Gamora,Nebula
+Gamora,Rocket Raccoon
+Gamora,Drax
+Gamora,Groot
+Gamora,Mantis
+Gamora,Thanos
+Gamora,Ronan The Accusser
+Gamora,The Other
+Gamora,The Black Order
+Nebula,Rocket Raccoon
+Nebula,Drax
+Nebula,Groot
+Nebula,Mantis
+Nebula,Doctor Strange
+Nebula,Thanos
+Nebula,Ronan The Accusser
+Nebula,The Other
+Nebula,The Black Order
+Rocket Raccoon,Drax
+Rocket Raccoon,Groot
+Rocket Raccoon,Mantis
+Rocket Raccoon,Vision
+Rocket Raccoon,Scarlet Witch
+Rocket Raccoon,Ronan The Accusser
+Drax,Groot
+Drax,Mantis
+Drax,Doctor Strange
+Drax,Thanos
+Drax,Ronan The Accusser
+Mantis,Doctor Strange
+Doctor Strange,Wong
+Doctor Strange,The Ancient One
+Doctor Strange,Thanos
+Wong,The Ancient One
+Vision,Scarlet Witch
+Vision,Shuri
+Vision,Thanos
+Vision,The Black Order
+Scarlet Witch,Shuri
+Scarlet Witch,Okoye
+Scarlet Witch,Thanos
+Shuri,Okoye
+Thanos,Ronan The Accusser
+Thanos,The Other
+Thanos,The Black Order
+Ronan The Accusser,The Other

@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562990322214.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1411538288",
+    "id" : "8854D4BA",
+    "lastKnownWriteTime" : 1563000213,
+    "last_content_update" : 1563000213355,
+    "path" : "~/DataScience/RStudio/P4DS/P4DS/lbb.Rmd",
+    "project_path" : "lbb.Rmd",
+    "properties" : {
+        "cursorPosition" : "19,0",
+        "last_setup_crc32" : "",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
