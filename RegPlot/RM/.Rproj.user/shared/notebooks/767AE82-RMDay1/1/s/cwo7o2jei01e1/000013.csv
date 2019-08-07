@@ -1,0 +1,1 @@
+"0","plot(copiers_clean$Sales, copiers_clean$Profit)"

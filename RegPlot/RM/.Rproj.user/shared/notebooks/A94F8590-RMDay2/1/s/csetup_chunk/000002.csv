@@ -1,0 +1,13 @@
+"0","library(GGally)
+"
+"2","Loading required package: ggplot2
+"
+"2","
+Attaching package: ‘GGally’
+
+"
+"2","The following object is masked from ‘package:dplyr’:
+
+    nasa
+
+"

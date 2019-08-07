@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565091559000.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1270160715",
+    "id" : "537E6480",
+    "lastKnownWriteTime" : 1565135256,
+    "last_content_update" : 1565135256079,
+    "path" : "~/DataScience/RStudio/RegPlot/RM/RMDay2.Rmd",
+    "project_path" : "RMDay2.Rmd",
+    "properties" : {
+        "cursorPosition" : "126,72",
+        "last_setup_crc32" : "59400B1B9663e0bf",
+        "scrollLine" : "104",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,8 @@
+"0","round(predict(object = model, newdata = data.frame(gdp = 600)),2)
+"
+"1","     1 "
+"1","
+"
+"1","166.73 "
+"1","
+"

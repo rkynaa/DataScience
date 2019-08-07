@@ -1,0 +1,135 @@
+---
+title: "RMDay2"
+author: "Rakyan Satrya Adhikara"
+date: "6/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(MLmetrics, warn.conflicts = F)
+library(GGally, warn.conflicts = F)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Leverage v Influence
+```{r}
+copiers <- read.csv("copiers.csv")
+copiers_clean <- copiers[copiers$Sales<4000,]
+```
+
+model1_rm: linear regression model menggunakan data copiers
+model2_rm: linear regression model menggunakan data copiers_clean
+
+```{r, echo=FALSE}
+model1_rm <- lm(formula = Profit~Sales, data=copiers)
+model2_rm <- lm(formula = Profit~Sales, data=copiers_clean)
+
+summary(model1_rm)
+summary(model2_rm)
+
+plot(copiers$Sales, copiers$Profit)
+abline(model1_rm, col = "red")
+abline(model2_rm, col = "blue")
+```
+
+* ### Influence
+  * #### Low Influence: Outliers that have **low influence** on the model
+    * ##### Treatment(s) that we can use:
+      1. Keep the outliers
+  * #### High Influence Outliers that have **high influence** on the model
+    * ##### Treatment(s) that we can use:
+      1. Delete the outliers
+
+* ### Leverage
+  * #### Low Leverage: Outilers that are **close** to the common data
+  * #### High Leverage: Outilers that are **far** to the common data
+  
+```{r, echo=F}
+library(dplyr)
+crime <- read.csv("data_input/crime.csv") %>% select(-X)
+names(crime) <- c("percent_m", "is_south", "mean_education", "police_exp60", "police_exp59", "labour_participation", "m_per1000f", "state_pop", "nonwhites_per1000", "unemploy_m24", "unemploy_m39", "gdp", "inequality", "prob_prison", "time_prison", "crime_rate")
+model <- lm(inequality~gdp,crime)
+summary(model)
+```
+
+```{r}
+round(predict(object = model, newdata = data.frame(gdp = 600)),2)
+ggcorr(crime, label = T, label_size = 3, hjust = 1)
+```
+
+```{r, echo= F}
+crime_model1 <- lm(formula = inequality~gdp, crime)
+```
+
+```{r, echo=F}
+crime_model2 <- lm(formula = inequality~gdp+nonwhites_per1000, crime)
+```
+
+Crime_model3: inequality~gdp+nonwhites_per1000+mean_education
+
+```{r, echo = F}
+crime_model3 <- lm(formula = inequality~gdp+nonwhites_per1000+mean_education, crime)
+summary(crime_model1)$r.square
+summary(crime_model2)$r.square
+summary(crime_model3)$r.square
+```
+
+```{r, echo=F}
+crime_model4 <- lm(inequality~.,crime)
+summary(crime_model4)
+```
+
+### Error
+
+```{r}
+pred <- predict(crime_model3, crime)
+plot(pred)
+
+```
+
+* #### MSE (Mean Square Error)
+
+```{r}
+# Manually
+mean((pred - crime$inequality)^2)
+
+# MSE()
+MSE(pred, crime$inequality)
+```
+
+* #### RMSE (Root Mean Square Error)
+
+```{r}
+# Manually
+sqrt(mean((pred - crime$inequality)^2))
+
+# RMSE()
+RMSE(pred, crime$inequality)
+```
+
+* #### MAE (Mean Absolute Error)
+
+```{r}
+# MAE()
+MAE(pred, crime$inequality)
+```
+
+* #### MAPE (Mean Absolute Percentage Error)
+
+```{r}
+# MAPE()
+MAPE(pred, crime$inequality)
+```
+
+### Confidence Interval
+
+```{r}
+predict(model, data.frame(gdp = 600), interval = "confidence", level = 1)
+```
+
+
+## Terms that are being used in 'Machine-Learning':
+* X1, X2, X3, ... -> Predictors, Independent Variables
+* Y -> Target, Dependent Variable
+* Residual = Error -> 'Expectation - Reality'
+* R-Squared -> on what percentage the predictor can describe the target

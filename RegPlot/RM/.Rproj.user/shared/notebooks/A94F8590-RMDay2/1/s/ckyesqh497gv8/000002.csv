@@ -1,0 +1,13 @@
+"0","predict(model, data.frame(gdp = 600), interval = ""confidence"", level = 1)
+"
+"1"," "
+"1","     fit"
+"1","  lwr"
+"1"," upr"
+"1","
+1"
+"1"," 166.727"
+"1"," -Inf"
+"1"," Inf"
+"1","
+"
