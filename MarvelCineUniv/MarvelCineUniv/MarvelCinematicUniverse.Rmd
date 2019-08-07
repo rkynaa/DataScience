@@ -1,0 +1,411 @@
+---
+title: ""
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+library(magrittr)
+library(ggplot2)
+library(graphics)
+library(knitr)
+library(rmdformats)
+library(ggpubr)
+library(ggthemes)
+library(splines)
+library(tidyr, warn.conflicts = FALSE)
+library(plotly,warn.conflicts = FALSE)
+
+## Global options
+options(max.print="90")
+opts_chunk$set(echo=FALSE,
+	             cache=FALSE,
+               prompt=FALSE,
+               tidy=FALSE,
+               comment=FALSE,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=90)
+
+MCU <- read.csv("MCU-master/MarvelUniverse.csv")
+MCU$DomesticGross <- MCU$DomesticGross/1000000
+MCU$WeekendGross <- MCU$WeekendGross/1000000
+MCU$OverseasGross <- MCU$OverseasGross/1000000
+MCU$WorldwideGross <- MCU$WorldwideGross/1000000
+
+# General Comparison-related
+mcu.budget <- subset(MCU,MCU$Budget>100,select = c("Movie", "Budget","DomesticGross","OverseasGross","WorldwideGross"))
+mcu.budget.notAgg <- subset(MCU,MCU$Budget>100,select = c("Movie", "Budget","DomesticGross","OverseasGross","WorldwideGross"))
+mcu.tomatometer <- subset(MCU,MCU$RottenTomatoesTomato>0,select = c("Movie", "Budget","WorldwideGross","RottenTomatoesTomato"))
+mcu.audienceScore <- subset(MCU,MCU$RottenTomatoesUser>0,select = c("Movie", "Budget","WorldwideGross","RottenTomatoesUser"))
+
+mcu.budget <- aggregate.data.frame(list(Budget = mcu.budget$Budget,
+                          DomesticGross = mcu.budget$DomesticGross,
+                          OverseasGross = mcu.budget$OverseasGross,
+                          WorldwideGross= mcu.budget$WorldwideGross),
+                     by = list(mcu.budget$Movie),
+                     mean)
+mcu.budget <- gather(mcu.budget, key = "var", value = "Val_in_mil", -Group.1)
+
+mcu.budget.notAgg.top10 <- head(mcu.budget.notAgg[order(-mcu.budget.notAgg$Budget), ],10)
+mcu.budget.notAgg.top10.not <- mcu.budget.notAgg.top10
+mcu.budget.notAgg.top10 <- aggregate.data.frame(list(Budget = mcu.budget.notAgg.top10$Budget,
+                          DomesticGross = mcu.budget.notAgg.top10$DomesticGross,
+                          OverseasGross = mcu.budget.notAgg.top10$OverseasGross,
+                          WorldwideGross= mcu.budget.notAgg.top10$WorldwideGross),
+                     by = list(mcu.budget.notAgg.top10$Movie),
+                     mean)
+mcu.budget.notAgg.top10 <- gather(mcu.budget.notAgg.top10, key = "var", value = "Val_in_mil", -Group.1)
+
+mcu.tomatometer.aggr.top10 <- head(mcu.tomatometer[order(-mcu.tomatometer$RottenTomatoesTomato), ],10)
+mcu.tomatometer.aggr.top10.not <- mcu.tomatometer.aggr.top10
+mcu.tomatometer.aggr.top10 <- aggregate.data.frame(list(
+                          RottenTomatoesTomato = mcu.tomatometer.aggr.top10$RottenTomatoesTomato),
+                     by = list(mcu.tomatometer.aggr.top10$Movie),
+                     mean)
+mcu.tomatometer.aggr.top10 <- gather(mcu.tomatometer.aggr.top10, key = "var", value = "Val_in_mil", -Group.1)
+
+
+mcu.audienceScore.aggr.top10 <- head(mcu.audienceScore[order(-mcu.audienceScore$RottenTomatoesUser), ],10)
+mcu.audienceScore.aggr.top10.not <- mcu.audienceScore.aggr.top10
+mcu.audienceScore.aggr.top10 <- aggregate.data.frame(list(
+                          RottenTomatoesUser = mcu.audienceScore.aggr.top10$RottenTomatoesUser),
+                     by = list(mcu.audienceScore.aggr.top10$Movie),
+                     mean)
+mcu.audienceScore.aggr.top10 <- gather(mcu.audienceScore.aggr.top10, key = "var", value = "Val_in_mil", -Group.1)
+
+# Avengers Comparison-related
+avengers_data <- MCU[MCU$Avengers == "yes",]
+avengers_no_data <- MCU[MCU$Avengers == "no",]
+head3avengers_no_data_run <-head(avengers_no_data[order(-avengers_no_data$RunningTime), ], 3)
+head3avengers_no_data_domSc <-head(avengers_no_data[order(-avengers_no_data$DomesticScreens), ], 3)
+head3avengers_no_data_domGr <-head(avengers_no_data[order(-avengers_no_data$DomesticGross), ], 3)
+head3avengers_no_data_world <-head(avengers_no_data[order(-avengers_no_data$WorldwideGross), ], 3)
+avengers_data_selective <- avengers_data[,c("Movie","Budget","DomesticScreens","DomesticGross","WorldwideGross")]
+avengers_no_data_selective <- avengers_no_data[,c("Movie","Budget","DomesticScreens","DomesticGross","WorldwideGross")]
+
+# Iron Man Comparison-related
+ironman_data <- MCU[MCU$IronMan=="yes",]
+ironman_no_data <- MCU[MCU$IronMan=="no",]
+head3ironman_no_data_run <-head(ironman_no_data[order(-ironman_no_data$RunningTime), ], 3)
+head3ironman_no_data_domSc <-head(ironman_no_data[order(-ironman_no_data$DomesticScreens), ], 3)
+head3ironman_no_data_domGr <-head(ironman_no_data[order(-ironman_no_data$DomesticGross), ], 3)
+head3ironman_no_data_world <-head(ironman_no_data[order(-ironman_no_data$WorldwideGross), ], 3)
+ironman_data_selective <- ironman_data[,c("Movie","Budget","DomesticScreens","DomesticGross","WorldwideGross")]
+ironman_no_data_selective <- ironman_no_data[,c("Movie","Budget","DomesticScreens","DomesticGross","WorldwideGross")]
+
+# Captain America Comparison-reladed
+capAm_data <- MCU[MCU$CaptainAmerica=="yes",]
+capAm_no_data <- MCU[MCU$CaptainAmerica=="no",]
+head3capAm_no_data_run <-head(capAm_no_data[order(-capAm_no_data$RunningTime), ], 3)
+head3capAm_no_data_domSc <-head(capAm_no_data[order(-capAm_no_data$DomesticScreens), ], 3)
+head3capAm_no_data_domGr <-head(capAm_no_data[order(-capAm_no_data$DomesticGross), ], 3)
+head3capAm_no_data_world <-head(capAm_no_data[order(-capAm_no_data$WorldwideGross), ], 3)
+capAm_data_selective <- capAm_data[,c("Movie","Budget","DomesticScreens","DomesticGross","WorldwideGross")]
+capAm_no_data_selective <- capAm_no_data[,c("Movie","Budget","DomesticScreens","DomesticGross","WorldwideGross")]
+
+```
+
+# *Excelsior!* Fact-checking Marvel Cinematic Universe, *nuff said!* (Post 'Avengers: Endgame')
+
+## *Face Front, True Believers!*
+
+General data comparisons, including **list of Marvel Cinematic Universe Movies movies**, **'Top 10 MCU Movies' in budget, *Rotten Tomatoes'* 'Tomatometer' and 'Audience Score'**.
+
+### List of Marvel Cinematic Universe Movies movies
+> Here's for **list of Marvel Cinematic Universe movies** (including its details)
+
+```{r, echo = FALSE}
+plot_mcu <- ggplot(mcu.budget, aes(x = Group.1, y = Val_in_mil, text = paste("$",Val_in_mil,"million"))) +
+  geom_col(aes(fill = var), position = "dodge") + 
+  coord_flip() +
+  labs(title = "List of Marvel Cinematic Universe Movies", x = NULL, y = NULL, fill = "Ratio") +
+  theme_economist() +
+  theme(legend.position = "right", plot.title = element_text(hjust = .5)) +
+  scale_fill_discrete(labels = c("Budget", "Domestic Gross", "Overseas Gross", "Worldwide Gross"))
+
+ggplotly(plot_mcu, tooltip = "text")
+```
+
+### 'Top 10 Marvel Cinematic Universe Movies' in budget {.tabset .tabset-fade}
+
+> Here are the **top 10 Marvel CInematic Universe Movies** based on their budgets
+
+#### Analytics 
+
+```{r}
+kable(mcu.budget.notAgg.top10.not)
+```
+
+(Budget, domestic gross, worldwide gross are in million dollars)
+
+#### Graph
+
+```{r}
+plot_top10_budget <- ggplot(mcu.budget.notAgg.top10, aes(x = Group.1, y = Val_in_mil, text = paste("$",Val_in_mil,"million"))) + geom_col(aes(fill = var), position = "dodge") + coord_flip() + 
+  theme_economist() + labs(title = "Top 10 Marvel CInematic Universe Movies", x = NULL, y = NULL, fill = "Ratio") + theme(legend.position = "right", plot.title = element_text(hjust = .5)) +
+  scale_fill_discrete(labels = c("Budget", "Domestic Gross", "Overseas Gross", "Worldwide Gross"))
+
+ggplotly(plot_top10_budget, tooltip = "text")
+```
+
+
+### 'Top 10 Marvel Cinematic Universe Movies' in *Rotten Tomatoes'* 'Tomatometer' {.tabset .tabset-fade}
+> Here are the **top 10 Marvel CInematic Universe Movies** based on their *Rotten Tomatoes'* 'Tomatometer'
+
+#### Analytics
+
+```{r}
+kable(mcu.tomatometer.aggr.top10.not)
+```
+
+(Budget and worldwide gross are in million dollars)
+
+#### Graph
+
+```{r}
+plot_top10_tomatometer <- ggplot(mcu.tomatometer.aggr.top10, aes(x = reorder(Group.1,Val_in_mil), y = Val_in_mil, text = paste(Val_in_mil,"%"))) + geom_col(aes(fill = var), position = "dodge") + coord_flip() + 
+  theme_economist() + labs(title = "Top 10 Marvel CInematic Universe Movies", x = NULL, y = NULL) + theme(legend.position = "none", plot.title = element_text(hjust = .5))
+
+ggplotly(plot_top10_tomatometer, tooltip = "text")
+
+```
+
+### 'Top 10 Marvel Cinematic Universe Movies' in *Rotten Tomatoes'* 'Audience Score'  {.tabset .tabset-fade}
+> Here are the **top 10 Marvel CInematic Universe Movies** based on their *Rotten Tomatoes'* 'Audience Score'
+
+#### Analytics
+
+```{r}
+kable(mcu.audienceScore.aggr.top10.not)
+```
+
+(Budget and worldwide gross are in million dollars)
+
+#### Graph
+
+```{r}
+plot_top10_AudienceSc <- ggplot(mcu.audienceScore.aggr.top10, aes(x = reorder(Group.1,Val_in_mil), y = Val_in_mil, text = paste(Val_in_mil,"%"))) + geom_col(aes(fill = var), position = "dodge") + coord_flip() + 
+  theme_economist() + labs(title = "Top 10 Marvel CInematic Universe Movies", x = NULL, y = NULL) + theme(legend.position = "none", plot.title = element_text(hjust = .5))
+
+ggplotly(plot_top10_AudienceSc, tooltip = "text")
+
+```
+
+***
+
+## No Avengers? **What?!**
+
+Data comparison on movies with The Avengers in it and those that aren't, including **'Domestic Screenings'**, **'Domestic Gross'** and **'Worldwide Gross'**.
+
+### Analytics {.tabset .tabset-fade}
+
+#### On Avengers-included Movies
+
+```{r}
+kable(avengers_data_selective)
+```
+
+#### On **not** Avengers-included Movies
+
+```{r}
+kable(avengers_no_data_selective)
+```
+
+### Graph {.tabset .tabset-fade}
+
+#### Domestic Screenings Comparison
+> Here's for the **'Domestic Screenings'** comparison
+
+```{r, echo = FALSE}
+plot_comp_domSc_avengers <- ggplot(MCU, aes(x = reorder(Movie, DomesticScreens), y = DomesticScreens, text = paste("Domestic Screenings: ", DomesticScreens, "<br>", "The Avengers?", Avengers))) +
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = avengers_data, fill = "blue") + 
+  geom_col(data = head3avengers_no_data_domSc, fill = "red") +
+  labs(title = "Avengers Assembled? The Domestic Screenings Comparison", x = NULL, y = NULL, caption = "Red -> With The Avengers, Blue -> without The Avengers") + 
+  theme(plot.title = element_text(hjust = 2))
+
+ggplotly(plot_comp_domSc_avengers, tooltip = "text")
+```
+
+#### Domestic Gross Comparison
+> Here's for the **'Domestic Gross'** comparison
+
+```{r, echo=FALSE}
+plot_comp_domGr_avengers <- ggplot(MCU, aes(x = reorder(Movie, DomesticGross), y = DomesticGross, text = paste("Domestic Gross: $", DomesticGross, "million", "<br>", "The Avengers?", Avengers))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = avengers_data, fill = "blue") + 
+  geom_col(data = head3avengers_no_data_domGr, fill = "red") +
+  labs(title = "Avengers Assembled? The Domestic Gross Comparison", x = NULL, y = NULL, caption = "Red -> With The Avengers, Blue -> without The Avengers, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 1.5))
+
+ggplotly(plot_comp_domGr_avengers, tooltip = "text")
+```
+
+#### Worldwide Gross Comparison
+> Here's for the **'Worldwide Gross'** comparison
+
+```{r, echo=FALSE}
+
+plot_comp_world_avengers <- ggplot(MCU, aes(x = reorder(Movie, WorldwideGross), y = WorldwideGross, text = paste("Worldwide Gross: $", WorldwideGross, "million", "<br>", "The Avengers?", Avengers))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = avengers_data, fill = "blue") + 
+  geom_col(data = head3avengers_no_data_world, fill = "red") +
+  labs(title = "Avengers Assembled? The Worldwide gross Comparison", x = NULL, y = NULL, caption = "Red -> With The Avengers, Blue -> without The Avengers, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 2))
+
+ggplotly(plot_comp_world_avengers, tooltip = "text")
+```
+
+***
+
+## What about **no Iron Man?**
+
+Data comparison on movies with The Iron man in it and those that aren't, including **'Domestic Screenings'**, **'Domestic Gross'** and **'Worldwide Gross'**.
+
+### Analytics {.tabset .tabset-fade}
+
+#### On 'Iron Man'-included Movies
+
+```{r}
+kable(ironman_data_selective)
+```
+
+#### On **not** 'Iron Man'-included Movies
+
+```{r}
+kable(ironman_no_data)
+```
+
+### Graph {.tabset .tabset-fade}
+
+#### Domestic Screenings Comparison
+> Here's for the **'Domestic Screenings'** comparison
+
+```{r, echo = FALSE}
+plot_comp_domSc_ironman <- ggplot(MCU, aes(x = reorder(Movie, DomesticScreens), y = DomesticScreens, text = paste("Domestic Screenings: ", DomesticScreens, "<br>", "Iron Man?", IronMan))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = ironman_data, fill = "red") + 
+  geom_col(data = head3ironman_no_data_domSc, fill = "blue") +
+  labs(title = "I love you 3000? The Domestic Screenings Comparison", x = NULL, y = NULL, caption = "Red -> With The iron Man, Blue -> without The Iron man, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 2))
+
+ggplotly(plot_comp_domSc_ironman, tooltip = "text")
+```
+
+#### Domestic Gross Comparison
+> Here's for the **'Domestic Gross'** comparison
+
+```{r, echo=FALSE}
+plot_comp_domGr_ironman <- ggplot(MCU, aes(x = reorder(Movie, DomesticGross), y = DomesticGross, text = paste("Domestic Gross: $", DomesticGross, "million", "<br>", "Iron Man?", IronMan))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = ironman_data, fill = "red") + 
+  geom_col(data = head3ironman_no_data_domGr, fill = "blue") +
+  labs(title = "I love you 3000? The Domestic Gross Comparison", x = NULL, y = NULL, caption = "Red -> With The iron Man, Blue -> without The Iron man, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 1.2))
+
+ggplotly(plot_comp_domGr_ironman, tooltip = "text")
+```
+
+#### Worldwide Gross Comparison
+> Here's for the **'Worldwide Gross'** comparison
+
+```{r, echo=FALSE}
+
+plot_comp_world_ironman <- ggplot(MCU, aes(x = reorder(Movie, WorldwideGross), y = WorldwideGross, text = paste("Worldwide Gross: $", WorldwideGross, "million", "<br>", "Iron Man?", IronMan))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = ironman_data, fill = "red") + 
+  geom_col(data = head3ironman_no_data_world, fill = "blue") +
+  labs(title = "I love you 3000? The Worldwide Gross Comparison", x = NULL, y = NULL, caption = "Red -> With The iron Man, Blue -> without The Iron man, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 1.2))
+
+ggplotly(plot_comp_world_ironman, tooltip = "text")
+```
+
+***
+
+## What about **no Captain America?**
+
+Data comparison on movies with The Captain America in it and those that aren't, including **'Domestic Screenings'**, **'Domestic Gross'** and **'Worldwide Gross'**.
+
+### Analytics {.tabset .tabset-fade}
+
+#### On 'Captain America'-included Movies
+
+```{r}
+kable(capAm_data_selective)
+```
+
+#### On **not** 'Captain America'-included Movies
+
+```{r}
+kable(capAm_no_data_selective)
+```
+
+### Graph {.tabset .tabset-fade}
+
+#### Domestic Screenings Comparison
+> Here's for the **'Domestic Screenings'** comparison
+
+```{r, echo = FALSE}
+plot_comp_domSc_capAm <- ggplot(MCU, aes(x = reorder(Movie, DomesticScreens), y = DomesticScreens, text = paste("Domestic Screenings: ", DomesticScreens, "<br>", "Captain America?", CaptainAmerica))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = capAm_data, fill = "red") + 
+  geom_col(data = head3capAm_no_data_domSc, fill = "blue") +
+  labs(title = "Can you do this all day? The Domestic Screenings Comparison", x = NULL, y = NULL, caption = "Red -> With Captain America, Blue -> without Captain America, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 1.2))
+
+ggplotly(plot_comp_domSc_capAm, tooltip = "text")
+```
+
+#### Domestic Gross Comparison
+> Here's for the **'Domestic Gross'** comparison
+
+```{r, echo=FALSE}
+plot_comp_domGr_capAm <- ggplot(MCU, aes(x = reorder(Movie, DomesticGross), y = DomesticGross, text = paste("Domestic Gross: $", DomesticGross, "million", "<br>", "Captain America?", CaptainAmerica))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = capAm_data, fill = "red") + 
+  geom_col(data = head3capAm_no_data_domGr, fill = "blue") +
+  labs(title = "Can you do this all day? The Domestic Gross Comparison", x = NULL, y = NULL, caption = "Red -> With Captain America, Blue -> without Captain America, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 1.2))
+
+ggplotly(plot_comp_domGr_capAm, tooltip = "text")
+```
+
+#### Worldwide Gross Comparison
+> Here's for the **'Worldwide Gross'** comparison
+
+```{r, echo=FALSE}
+
+plot_comp_world_capAm <- ggplot(MCU, aes(x = reorder(Movie, WorldwideGross), y = WorldwideGross, text = paste("Worldwide Gross: $", WorldwideGross, "million", "<br>", "Captain America?", CaptainAmerica))) + 
+  coord_flip() + 
+  theme_economist() + 
+  geom_col() + 
+  geom_col(data = capAm_data, fill = "red") + 
+  geom_col(data = head3capAm_no_data_world, fill = "blue") +
+  labs(title = "Can you do this all day? The Worldwide Gross Comparison", x = NULL, y = NULL, caption = "Red -> With Captain America, Blue -> without Captain America, value in million dollars") + 
+  theme(plot.title = element_text(hjust = 1.2))
+
+ggplotly(plot_comp_world_capAm, tooltip = "text")
+```
+
+***

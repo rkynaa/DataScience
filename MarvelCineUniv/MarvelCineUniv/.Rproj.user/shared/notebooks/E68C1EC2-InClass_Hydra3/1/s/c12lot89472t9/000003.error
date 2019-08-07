@@ -1,0 +1,1 @@
+{"frames":[{"character_number":0,"end_character_number":0,"end_line_number":0,"file":"","func":"ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq))","line_number":0}],"message":"Error in ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq)) : \n  object 'temp1' not found\n"}

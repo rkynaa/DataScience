@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563454214158.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "80DE6A2E",
+    "lastKnownWriteTime" : 2466321629402459502,
+    "last_content_update" : 1563454214158,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "CB82890D",
+        "caption" : "avengersEndgame",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=avengersEndgame&cache_key=CB82890D",
+        "displayedObservations" : 1,
+        "environment" : "",
+        "expression" : "avengersEndgame",
+        "object" : "avengersEndgame",
+        "preview" : 0,
+        "totalObservations" : 1,
+        "variables" : 23
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

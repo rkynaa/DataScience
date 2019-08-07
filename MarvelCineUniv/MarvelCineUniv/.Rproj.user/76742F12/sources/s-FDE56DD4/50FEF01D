@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563876542316.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "50FEF01D",
+    "lastKnownWriteTime" : 2663624324312,
+    "last_content_update" : 1563876542316,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "EFCA57D2",
+        "caption" : "mcu.tomatometer.aggr.top10",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=mcu.tomatometer.aggr.top10&cache_key=EFCA57D2",
+        "displayedObservations" : 10,
+        "environment" : "",
+        "expression" : "mcu.tomatometer.aggr.top10",
+        "object" : "mcu.tomatometer.aggr.top10",
+        "preview" : 0,
+        "totalObservations" : 10,
+        "variables" : 3
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 23,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

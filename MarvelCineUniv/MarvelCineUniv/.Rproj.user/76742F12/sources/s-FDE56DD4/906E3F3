@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563453699954.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "906E3F3",
+    "lastKnownWriteTime" : 3472328296227549275,
+    "last_content_update" : 1563453699954,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "A4BA87AE",
+        "caption" : "mcu_movies",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=mcu_movies&cache_key=A4BA87AE",
+        "displayedObservations" : "20",
+        "environment" : "",
+        "expression" : "mcu_movies",
+        "object" : "mcu_movies",
+        "preview" : "0",
+        "totalObservations" : "20",
+        "variables" : "18"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

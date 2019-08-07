@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563457660520.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "FF57962E",
+    "lastKnownWriteTime" : 1188111260600,
+    "last_content_update" : 1563457660520,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "22A20558",
+        "caption" : "avengers_no_data",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=avengers_no_data&cache_key=22A20558",
+        "displayedObservations" : 18,
+        "environment" : "",
+        "expression" : "avengers_no_data",
+        "object" : "avengers_no_data",
+        "preview" : 0,
+        "totalObservations" : 18,
+        "variables" : 23
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

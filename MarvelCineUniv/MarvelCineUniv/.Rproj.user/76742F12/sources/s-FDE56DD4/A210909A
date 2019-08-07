@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563791446913.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A210909A",
+    "lastKnownWriteTime" : 1563791400,
+    "last_content_update" : 1563791446913,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "802F4C5F",
+        "caption" : "mcu.budget.notagg.budVWorld",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=mcu.budget.notagg.budVWorld&cache_key=802F4C5F",
+        "displayedObservations" : "44",
+        "environment" : "",
+        "expression" : "mcu.budget.notagg.budVWorld",
+        "object" : "mcu.budget.notagg.budVWorld",
+        "preview" : "0",
+        "totalObservations" : "44",
+        "variables" : "3"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 18,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

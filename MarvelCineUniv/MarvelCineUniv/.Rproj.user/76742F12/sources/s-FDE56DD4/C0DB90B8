@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563876534389.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "C0DB90B8",
+    "lastKnownWriteTime" : 2663624324312,
+    "last_content_update" : 1563876534389,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "A445B689",
+        "caption" : "mcu.budget.notAgg.top10",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=mcu.budget.notAgg.top10&cache_key=A445B689",
+        "displayedObservations" : 40,
+        "environment" : "",
+        "expression" : "mcu.budget.notAgg.top10",
+        "object" : "mcu.budget.notAgg.top10",
+        "preview" : 0,
+        "totalObservations" : 40,
+        "variables" : 3
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 22,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

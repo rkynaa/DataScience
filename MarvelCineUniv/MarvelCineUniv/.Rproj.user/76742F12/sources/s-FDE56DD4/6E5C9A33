@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563781272654.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6E5C9A33",
+    "lastKnownWriteTime" : 2640161985360,
+    "last_content_update" : 1563781272654,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "2A9EA977",
+        "caption" : "capAm_data",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=capAm_data&cache_key=2A9EA977",
+        "displayedObservations" : 8,
+        "environment" : "",
+        "expression" : "capAm_data",
+        "object" : "capAm_data",
+        "preview" : 0,
+        "totalObservations" : 8,
+        "variables" : 23
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 15,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

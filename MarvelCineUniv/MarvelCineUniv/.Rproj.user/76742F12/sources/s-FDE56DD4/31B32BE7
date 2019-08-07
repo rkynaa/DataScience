@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563875383836.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "31B32BE7",
+    "lastKnownWriteTime" : 2663530110008,
+    "last_content_update" : 1563875383836,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "6EE0F557",
+        "caption" : "mcu.tomatometer",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=mcu.tomatometer&cache_key=6EE0F557",
+        "displayedObservations" : "22",
+        "environment" : "",
+        "expression" : "mcu.tomatometer",
+        "object" : "mcu.tomatometer",
+        "preview" : "0",
+        "totalObservations" : "22",
+        "variables" : "4"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 19,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

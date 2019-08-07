@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563454450205.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "8DFEC8F8",
+    "lastKnownWriteTime" : 7287422520962202146,
+    "last_content_update" : 1563454450205,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "638E2D3D",
+        "caption" : "ironman_data",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=ironman_data&cache_key=638E2D3D",
+        "displayedObservations" : "21",
+        "environment" : "",
+        "expression" : "ironman_data",
+        "object" : "ironman_data",
+        "preview" : "0",
+        "totalObservations" : "21",
+        "variables" : "10"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

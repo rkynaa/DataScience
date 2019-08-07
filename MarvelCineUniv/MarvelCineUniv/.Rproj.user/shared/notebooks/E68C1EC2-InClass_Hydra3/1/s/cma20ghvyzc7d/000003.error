@@ -1,0 +1,1 @@
+{"frames":[{"character_number":0,"end_character_number":0,"end_line_number":0,"file":"","func":"wday(yt_trend.agt$publish_time, label = T, abbr = F, week_start = 1)","line_number":0}],"message":"Error in wday(yt_trend.agt$publish_time, label = T, abbr = F, week_start = 1) : \n  object 'yt_trend.agt' not found\n"}

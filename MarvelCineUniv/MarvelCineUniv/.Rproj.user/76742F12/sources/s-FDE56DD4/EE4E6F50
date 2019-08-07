@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563452823621.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "EE4E6F50",
+    "lastKnownWriteTime" : 1556673835,
+    "last_content_update" : 1556673835,
+    "path" : "~/DataScience/RStudio/MarvelCineUniv/MarvelCineUniv/MCU-master/EndgameGrossPrediction.R",
+    "project_path" : "MCU-master/EndgameGrossPrediction.R",
+    "properties" : {
+        "cursorPosition" : "36,8",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

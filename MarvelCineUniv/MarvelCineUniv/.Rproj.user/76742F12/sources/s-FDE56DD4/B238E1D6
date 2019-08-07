@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563453927894.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B238E1D6",
+    "lastKnownWriteTime" : 2318265657785655866,
+    "last_content_update" : 1563453927894,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "E096FE03",
+        "caption" : "MCU",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=MCU&cache_key=E096FE03",
+        "displayedObservations" : "22",
+        "environment" : "",
+        "expression" : "MCU",
+        "object" : "MCU",
+        "preview" : "0",
+        "totalObservations" : "22",
+        "variables" : "25"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

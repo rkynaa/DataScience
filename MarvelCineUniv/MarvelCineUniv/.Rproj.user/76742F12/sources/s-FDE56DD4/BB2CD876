@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563875427347.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BB2CD876",
+    "lastKnownWriteTime" : 27303403456364592,
+    "last_content_update" : 1563875427347,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "7859A08",
+        "caption" : "mcu.audienceScore",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=mcu.audienceScore&cache_key=7859A08",
+        "displayedObservations" : "22",
+        "environment" : "",
+        "expression" : "mcu.audienceScore",
+        "object" : "mcu.audienceScore",
+        "preview" : "0",
+        "totalObservations" : "22",
+        "variables" : "4"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 20,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

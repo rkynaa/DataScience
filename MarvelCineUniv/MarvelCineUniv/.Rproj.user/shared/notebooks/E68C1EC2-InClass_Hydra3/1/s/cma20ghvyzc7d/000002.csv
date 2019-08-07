@@ -1,0 +1,6 @@
+"0","# Your Answer Here"
+"0",""
+"0","yt_trend.agt$publish_wday <- wday(yt_trend.agt$publish_time, label = T, abbr = F, week_start = 1)"
+"2","Error in wday(yt_trend.agt$publish_time, label = T, abbr = F, week_start = 1) : 
+  object 'yt_trend.agt' not found
+"

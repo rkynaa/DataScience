@@ -1,0 +1,805 @@
+---
+title: 'DV: HydraNight B'
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: 
+        collapsed: false
+    number_sections: true
+    theme: readable
+    highlight: zenburn
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      out.width = '100%')
+options(scipen = 99)
+library(lubridate)
+```
+
+# Day 1: The State of Trending Videos
+
+In order to improve our company's brand awareness, we're working on a video content that later on will be published on YouTube. To improve efficiency of our video content, we're scraping a dataset from YouTube's US Trending Videos.
+
+## Read data:
+
+```{r}
+yt_trend <- read.csv("USvideos.csv")
+
+names(yt_trend)
+```
+
+
+## Take a glimpse of your data:
+
+```{r}
+str(yt_trend)
+```
+
+Recall what you've learned in P4DS. Do the column `title` have stored in the correct class?
+
+```{r}
+yt_trend$title <- as.character(yt_trend$title)
+
+str(yt_trend)
+```
+
+## Working with date/time
+
+Now in order to get the best engagement, we want to publish our video in the "perfectly right" time. Looking back to the structure of our dataset, there are two variables in our dataset which related to datetime data; `trending_date` and `publish_date`.
+
+Previously we've learned base R method to convert our column to date with `as.Date()` function, followed with your data time formatting (if your date data wasn't stored in ISO format;YYYY-MM-DD):
+
+YEAR  
+%Y = YYYY  
+%y = YY   
+  
+MONTH  
+%B = month name e.g. March  
+%b = month name(abbreviation) e.g. Mar  
+%m = 2 digits mo e.g. 03  
+%M = 1 digit mo e.g. 3  
+  
+DAY  
+%A = weekday e.g. Friday  
+%d = weekday digit.
+
+Let's start with `trending_date`. Following our previous knowledge, we'd convert our date variable with: `as.Date(yt_trend$trending_date, "%y.%d.%m")`
+  
+But here, I’ll show you another way of working with dates, and that is through the use of `lubridate`
+
+```{r}
+# install.packages("lubridate")
+library(lubridate)
+```
+
+`lubridate` provides tools that make it easier to parse and manipulate dates.
+
+```{r}
+a <- "08/03/19"
+b <- "8-March-2019"
+c <- "Thursday, 09-05-2019"
+d <- "2019/05/09, 1:42PM"
+
+as.Date(a, "%d/%m/%y")
+
+dmy(a)
+dmy(b)
+dmy(c)
+
+class(ymd_hm(d))
+
+```
+
+**Dive Deeper**: 
+
+Apply what you've learned about lubridate to revert the `trending_date` & `publish_time` column in `yt_trend`!
+
+```{r}
+yt_trend$trending_date <- ydm(yt_trend$trending_date)
+
+tail(yt_trend$trending_date)
+head(yt_trend$trending_date)
+```
+
+```{r}
+yt_trend$publish_time <-  ymd_hms(yt_trend$publish_time,tz = "America/New_York")
+head(yt_trend$publish_time)
+
+```
+
+```{r}
+head(yt_trend)
+```
+
+
+* Hint: 
+```{r}
+head(yt_trend$publish_time)
+```
+
+https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+
+
+Now that we've converted our date column in the right classes, we can extract more information from our datetime data. Let's create another two variables, name `trending_dow` and `trending_month`, which stores the day and month of the video's trending date.
+
+```{r}
+# head(wday(yt_trend$trending_date,
+#           label = T,
+#           abbr = F,
+#           week_start = 1))
+
+yt_trend$trending_dow <- wday(yt_trend$trending_date,
+                           label = T,
+                           abbr = F,
+                           week_start = 1)
+
+yt_trend$trending_month <- month(yt_trend$trending_date,
+                             label = T)
+
+head(yt_trend$trending_month)
+```
+
+**In Class Question**:
+
+- Language in lubridate
+
+Table of locales:
+https://docs.moodle.org/dev/Table_of_locales
+
+```{r}
+sessionInfo()
+
+wday("2018-10-10", locale = "id_ID.UTF-8", label = T)
+```
+
+### if condition
+
+**Dive Deeper**:  
+1. Create a new variable named `publish_wday` which stores the day of the video's publish time!  
+2. Create another named `publish_hour` which stores the hour of the video's publish time!  
+3. Lastly, create a variable named `publish_when` which stores **period of the day** of the video's publish time! The period must follow these conditions:  
+  - If the video published **before 8**, it's on **"12AM to 8AM"** publish period  
+  - If the video published **between 8 and 16**, it's on **"8AM to 3PM"** publish period  
+  - If the video published **after 16**, it's on **"3PM to 12AM"** publish period.  
+  
+  
+Hint for number 3:  
+1. Pass an If Statement, write it as a function, and then use `sapply` to apply the function to your new variable.  
+If Statement example:  
+```{r}
+x <- 5
+
+if (x < 0){
+ print("Negative number")
+}else if (x > 0){
+print("Positive number")
+}else  
+print("Zero")
+
+```
+
+```{r}
+# Your Answer Here
+
+yt_trend.agt$publish_wday <- wday(yt_trend.agt$publish_time, label = T, abbr = F, week_start = 1)
+yt_trend.agt$publish_hour <- hour(yt_trend.agt$publish_time)
+
+# complete the following function:
+pw <- function(x){
+  if(x < 8){
+    x <- "12AM to 7AM"
+  }else if(x >= 8 & x < 16){
+    x <- "8AM to 3PM"
+  }else{
+    x <- "4PM to 12AM"
+  }
+  
+}
+
+yt_trend$publish_when <- as.factor(sapply(yt_trend$publish_hour, pw))
+
+head(yt_trend$publish_wday)
+```
+
+
+## Working with categorical data: reordering factor levels
+
+```{r}
+levels(yt_trend$publish_when)
+```
+
+
+```{r}
+yt_trend$publish_when <- ordered(yt_trend$publish_when,
+                             levels = c("12AM to 7AM",
+                                        "8AM to 3PM",
+                                        "3PM to 12AM"))
+
+levels(yt_trend$publish_when)
+```
+
+
+**In Class Question**: Reordering factor level:
+
+- Reorder based on other values
+```{r}
+agg <- aggregate(likes ~ category_id, yt_trend, sum)
+agg[order(agg$likes),]
+
+levels(with(yt_trend, reorder(category_id, likes)))
+```
+
+- Reorder with relevel:
+```{r, eval=FALSE}
+yt_trend$category_id <- factor(yt_trend$category_id)
+class(yt_trend$category_id)
+
+levels(relevel(yt_trend$category_id, "17"))
+```
+
+3rd options:
+library(forcats)
+
+
+## Using lapply & sapply
+
+### lapply
+
+`lapply` can be a very useful tool to apply a function to multiple variables:
+
+```{r}
+str(yt_trend)
+```
+
+```{r}
+yt_trend[ ,c("views", "likes", "dislikes", "comment_count") ] <- lapply(yt_trend[ ,c("views", "likes", "dislikes", "comment_count") ] ,as.numeric)
+
+str(yt_trend)
+```
+
+### sapply
+
+The raw dataset does not have the proper names for each category, but identify them by an “id” instead. The following code chunk use `sapply` to “switch” them by “id” and also convert that to a factor. 
+
+Extra explanation on `switch()`:
+
+```{r}
+switch(1,
+       "1" = "Low",
+       "2" = "Medium",
+       "3" = "High")
+
+data <- 1:3
+
+sapply(data, switch,
+       "1" = "Low",
+       "2" = "Medium",
+       "3" = "High")
+
+```
+
+```{r}
+yt_trend$category_id <- sapply(as.character(yt_trend$category_id), switch, 
+                           "1" = "Film and Animation",
+                           "2" = "Autos and Vehicles", 
+                           "10" = "Music", 
+                           "15" = "Pets and Animals", 
+                           "17" = "Sports",
+                           "19" = "Travel and Events", 
+                           "20" = "Gaming", 
+                           "22" = "People and Blogs", 
+                           "23" = "Comedy",
+                           "24" = "Entertainment", 
+                           "25" = "News and Politics",
+                           "26" = "Howto and Style", 
+                           "27" = "Education",
+                           "28" = "Science and Technology", 
+                           "29" = "Nonprofit and Activism",
+                           "43" = "Shows")
+
+yt_trend$category_id <- as.factor(yt_trend$category_id)
+```
+
+`yt_trend` has 13400 records of trending videos, but there are many videos that were trending for a few days and we really only have a collection of 2,986 unique videos. On a very broad average, each video was trending for ~4.5 days.
+
+Let’s create a dataframe, call it `yt_trend.u` that takes only the first observation of each `yt_trend$title` within the data. `match` returns a vector of the positions of matches of its first argument in its second:
+
+```{r}
+length(unique(yt_trend$title))
+```
+
+```{r}
+table(yt_trend$trending_date)
+```
+
+```{r}
+
+# yt_trend[order(yt_trend$trending_date),]
+yt_trend.u <- yt_trend[match(unique(yt_trend$title), yt_trend$title), ]
+```
+
+# Base Plotting/Statistical Plots
+
+Statistical plots helps us visually inspect our dataset and there are numerous ways to achieve that in R. The simplest of which is through the `plot()`function. In the following code we create two vectors, x and y, and created a plot:
+
+```{r}
+plot(yt_trend.u$category_id, yt_trend.u$likes/yt_trend.u$views)
+```
+
+Say, one of the content we want to publish have people who interested in "Autos and Vehicles", "Gaming", and "Travel and Events" as our target audience. So let's subset our data based on these particular categories:
+
+```{r}
+yt_trend.agt <- yt_trend.u[yt_trend.u$category_id == "Autos and Vehicles" | 
+                     yt_trend.u$category_id == "Gaming" |
+                     yt_trend.u$category_id == "Travel and Events", ]
+```
+
+```{r}
+yt_trend.agt$likesp <- yt_trend.agt$likes/yt_trend.agt$views
+yt_trend.agt$dislikesp <- yt_trend.agt$dislikes/yt_trend.agt$views
+```
+
+`plot()` knows how to pick sensible defaults based on the input vector it was given. By passing exactly the same function, it gives you different visualization, adjusting to the type of datas you add. 
+
+```{r}
+plot(yt_trend.agt$likesp, yt_trend.agt$dislikesp,
+     xlab = "Likes Ratio",
+     ylab = "Dislikes Ratio",
+     main = "Likes vs Dislikes Ratio")
+```
+
+We can also add extra features to our plot, such as adding line which shows the correlation between the `likes-to-view` and `dislikes-to-view` ratio and  a legend to show how the colors of our scatterplot points map to each level of our `category_id` variable.
+
+```{r}
+yt_trend.agt$category_id <- factor(yt_trend.agt$category_id)
+
+plot(yt_trend.agt$likesp, yt_trend.agt$dislikesp,
+     col=yt_trend.agt$category_id, pch=19)
+abline(lm(yt_trend.agt$dislikesp ~ yt_trend.agt$likesp),
+       col="hotpink",lwd=3,lty=2)
+legend("topright",
+       legend=levels(yt_trend.agt$category_id),
+       fill=1:3)
+```
+
+Apart from using `plot()`, we can also create statistical plots using functions such as `hist()`. `hist()` takes a numeric vector and creates a histogram:
+
+```{r}
+hist(yt_trend.agt$likesp)
+```
+
+We can additionally use the `breaks` argument to control the number of bins if we were not satisfied with the default values:
+
+```{r}
+hist(yt_trend.agt$likesp, breaks = 20)
+```
+
+Just like how we can add `abline` onto our plot, we can add graphical elements like `lines` onto this histogram too. In fact, let’s do that and also use the main argument to give our plot a new main title:
+
+```{r}
+hist(yt_trend.agt$likesp, breaks = 20,
+     ylim = c(0,20),
+     col = "lightblue",
+     main = "Distribution of Likes vs View")
+lines(density(yt_trend.agt$likesp))
+
+```
+
+While base plot can be very simple to use, they can be effective too. In fact, with the use of proper coloring, annotation and a little care on the aesthetic touches, you can communicate a lot in a graph using just R’s built-in plotting system.
+
+In the following code chunk I’m subsetting from yt_trend.agt only trending videos that have more than 10,000 likes and order it by the likes-to-view variable. I added a new variable, col to this new dataframe to be used in my following plot:
+
+```{r}
+yt_trend.ags <- yt_trend.agt[yt_trend.agt$likes > 10000, ]
+yt_trend.ags <- yt_trend.ags[order(yt_trend.ags$likesp), ]
+
+# comparing dot to hist
+dotchart(yt_trend.ags$likesp)
+hist(yt_trend.ags$likesp)
+
+# add color variable
+yt_trend.ags$col[yt_trend.ags$category_id == "Autos and Vehicles"] <- "goldenrod4"
+yt_trend.ags$col[yt_trend.ags$category_id == "Gaming"] <- "dodgerblue4"
+yt_trend.ags$col[yt_trend.ags$category_id == "Travel and Events"] <- "firebrick4"
+
+dotchart(yt_trend.ags$likesp,
+         labels=yt_trend.ags$channel_title, cex=.7, pch=19,
+         groups=yt_trend.ags$category_id,
+         col=yt_trend.ags$col)
+```
+
+Let’s talk about another kind of plot, one that most statisticians find cringeworthy for it’s undeserved popularity and prevalence in the workplace. Yes, it is the pie chart. In R’s official documentation, the pie chart is criticized as being “a very bad way of displaying information [because] the eye is good at judging linear measures and bad at judging relative areas”. 
+
+Almost any data that can be represented in a pie chart can be illustrated with a bar chart.
+If you insist on creating one, here’s the code (I’ve added some colors to make it easier to get a grasp of the measures):
+
+```{r}
+pie(table(yt_trend.agt$publish_hour))
+```
+
+
+```{r}
+pie(table(yt_trend.agt$publish_hour),
+    labels=names(table(yt_trend.agt$publish_hour)),
+    col=topo.colors(24))
+```
+
+(End Of Day 1)
+
+# Grammar of Graphics in R
+
+```{r}
+# install.packages("ggplot2")
+library(ggplot2)
+
+# to load data to chart:
+library(ggpubr)
+library(png)
+```
+
+
+Let us take a look at a simple example, drawing inspiration from the Earthquake incident that happened in the south of Jakarta in 2018, I’ve created a dataframe called gempa:
+
+```{r}
+jak <- readPNG("jakarta.png")
+
+gempa <- data.frame(
+  x=c(3.5,3,4,4.5,4.1),
+  y=c(12,14,12.4,12.5,14), 
+  size=c(14,4,4,6,12)
+)
+
+gempa
+```
+
+```{r}
+ggplot(data = gempa, aes(x = x, y = y))+
+  background_image(jak)+
+  geom_point(size = gempa$size,
+             color = "red")
+  
+```
+
+## Hands On: Simple Explanatory Analysis
+
+Let’s apply what we’ve learned above to create a simple plot. 
+
+```{r}
+yt_trend.ags$commentp <- yt_trend.ags$comment_count/yt_trend.ags$views
+```
+
+1. Create a boxplot which shows dislikes ratio by category_id
+
+```{r}
+ggplot(yt_trend.ags, aes(x = category_id, y = dislikes))+
+  geom_boxplot()
+```
+
+2. Add another geom_element, (`geom_jitter`)
+
+```{r}
+ggplot(yt_trend.ags, aes(x = category_id, y = dislikes))+
+  geom_boxplot()+
+  geom_jitter()
+```
+
+3. Add aes parameter for geom_jitter:
+
+```{r}
+ggplot(yt_trend.ags, aes(x = category_id, y = dislikes))+
+  geom_boxplot()+
+  geom_jitter(aes(col = likesp,
+                  size = commentp),
+                  alpha = 0.6)
+```
+
+4. Add/remove labels:
+
+```{r}
+ggplot(yt_trend.ags, aes(x = category_id, y = dislikes))+
+  geom_boxplot()+
+  geom_jitter(aes(col = likesp,
+                  size = commentp),
+                  alpha = 0.6)+
+  labs(title = "YouTube Trending Videos Engagement Analysis",
+       subtitle = "Data From US Trending: 2017-11-14 to 2018-01-19",
+       size = "Comment/View Ratio",
+       col = "Likes/View Ratio",
+       x = NULL,
+       y= NULL)
+```
+
+**In Class Question**: How to adjust the title/subtitle position?
+
+A: Use `theme(plot.title = element_text(hjust = 0.5))`.  
+  
+`hjust = 0` (default) --> left-justified  
+`hjust = 0.5` --> center-justified  
+`hjust = 1` --> right-justified  
+
+```{r}
+ggplot(yt_trend.ags, aes(x = category_id, y = dislikes))+
+  geom_boxplot()+
+  geom_jitter(aes(col = likesp,
+                  size = commentp),
+                  alpha = 0.6)+
+  labs(title = "YouTube Trending Videos Engagement Analysis",
+       subtitle = "Data From US Trending: 2017-11-14 to 2018-01-19",
+       size = "Comment/View Ratio",
+       col = "Likes/View Ratio",
+       x = NULL,
+       y= NULL)+
+  theme(plot.title = element_text(hjust=0.5),
+        plot.subtitle = element_text(hjust=0.5),
+        legend.position = "top")
+
+
+```
+
+## Hands On: Top Channel in Trending Videos
+
+Now let’s start thinking about a more useful application of plotting. Imagine you’re working with the insights and business intelligence team at a media firm, and were asked to produce a report that illustrates the most prolific producers of trending videos in recent weeks.
+
+Since we’re concerned about the quantity of videos (talking about being prolific!) we will create another subset of the full dataframe, but take only the channels that have at least 10 videos being trending!
+
+```{r}
+temp1 <- as.data.frame(table(Channel = yt_trend.u$channel_title))
+temp1 <- temp1[temp1$Freq >= 10, ]
+temp1 <- temp1[order(temp1$Freq, decreasing = T),]
+
+```
+
+**Dive Deeper**:
+1. Create a bar/column chart with `ggplot` which map Channel and Freq!
+
+```{r}
+ggplot(temp1, aes(x = Channel, y = Freq))+
+  geom_col()
+```
+
+Consider that our axis labels might looks too dense. To makes it easier for the user to read and identify the videos that are more prolific than others in producing trending videos, there are 2 tricks that we can apply:
+
+1. Trick no.1 is to rotate the axis text:
+
+```{r}
+ggplot(temp1, aes(x = Channel, y = Freq))+
+  geom_col()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+2. Another approach is to use `coord_flip` to flip the coordinates:
+
+```{r}
+ggplot(temp1, aes(x = Channel, y = Freq))+
+  geom_col()+
+  coord_flip()
+```
+
+We can also arrange the bar possition by `reorder()`-ing our x input:
+
+```{r}
+ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq))+
+  geom_col()+
+  coord_flip()
+```
+
+**In Class Question**: How to add color to our chart?
+  
+Add `aes(fill = Freq)` to `geom_col()` if we want to add the color according to the value of Freq:
+
+```{r}
+ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq))+
+  geom_col(aes(fill = Freq))+
+  coord_flip()
+```
+
+**In Class Question**: Can we also add the frequency value to our chart?
+
+Yes, we can use `geom_text()` for this task:
+
+```{r}
+ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq))+
+  geom_col(aes(fill = Freq))+
+  geom_text(aes(label = Freq))+
+  coord_flip()
+```
+
+What if we only need to show the value for top 8 data?
+
+First, we have to create another data:
+
+```{r}
+temp1top <- head(temp1, 8)
+```
+
+Then, on our `geom_text()`, instead of only define the `label` argument, we also define our second data (`temp1top`). We also add `hjust` argument to adjust our `geom_text` position
+
+```{r}
+ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq))+
+  geom_col(aes(fill = Freq))+
+  geom_text(data = temp1top, aes(label = Freq), hjust = 0)+
+  coord_flip()
+```
+
+**In Class Question**: Can we adjust our axis scaling/position?
+
+Yes, for example, in this chart we can use `scale_y_continuous()`:
+
+```{r}
+ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq))+
+  geom_col(aes(fill = Freq))+
+  geom_text(data = temp1top, aes(label = Freq), hjust = 0)+
+  coord_flip()+
+  labs(x = NULL,
+       y = NULL,
+       fill = "Number of Videos")+
+  scale_y_continuous(limits = c(0,35),
+                     breaks = seq(0,35,5))
+```
+
+
+**Dive Deeper**:
+
+Highlight top 3 freq with gives different fill of bar!
+
+```{r}
+top3 <- head(temp1, 3)
+
+ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq))+
+  geom_col(fill = "darkcyan")+
+  coord_flip()+
+  geom_col(data = top3, aes(fill = Freq), fill = "hotpink")+
+  labs(x = NULL, y = NULL,
+       title = "Top 3 Channel With Trending Videos")+
+  theme(legend.position = "none", axis.text.x = element_text(margin = margin(b = -200)))
+```
+
+### Lecture Notes on Day 2:
+1. To create a ggplot canvas, use `ggplot(data, aes(x,y))`  
+2. Access geom element with `geom_*`  
+3. To access plot labels (title, subtitle, source, legend, axis, etc.) use `labs()`  
+4. Scale your axis with `scale_x_*` or `scale_y_*`:  
+    - `limits`: to adjust the range of your axis
+    - `breaks`: to adjust the break points of your axis
+    - `labels`: to adjust the label position of your axis
+5. You can also adjust the color of your geom elements with `color`/`fill`:
+    - `fill`: for geom with area (bar, area chart, etc.)
+    - `color`: for geom points, line, etc.  
+    You can map **(inside aes)** a variable of your data to an aesthetic, e.g., aes(..., color = VarX), or ...
+you can set **(outside aes, but inside a geom element)** an aesthetic to a constant value e.g. "blue".
+6. Cheatsheets, documentations, and Google are our best friends!
+
+(End Of Day 2)
+
+
+# Multivariate Plots
+
+To take things up a notch, let’s see how we can apply what we’ve learned to create multivariate plots, or plots designed to reveal the relationship among multiple variables, which in turn help us examine the underlying patterns between pairs of variables.
+
+## Aggregate Data Frame
+
+```{r}
+# take only videos with views higher than 500,000
+yt_trend.hi <- yt_trend.u[yt_trend.u$dislikes >= yt_trend.u$likes & 
+                    yt_trend.u$category_id == "Entertainment" &
+                    yt_trend.u$ratings_disabled == F,]
+
+
+# create likes, dislikes & comment ratio
+yt_trend.hi$likesratio <- yt_trend.hi$likes/yt_trend.hi$views
+yt_trend.hi$dislikesratio <- yt_trend.hi$dislikes/yt_trend.hi$views
+yt_trend.hi$commentratio <- yt_trend.hi$comment_count/yt_trend.hi$views
+
+# aggregate ratio by title
+yt_trend.hi <- aggregate.data.frame(list(likesratio = yt_trend.hi$likesratio,
+                          dislikesratio = yt_trend.hi$dislikesratio,
+                          commentratio = yt_trend.hi$commentratio),
+                     by = list(yt_trend.hi$channel_title),
+                     mean)
+```
+
+## Data Reshaping with `tidyr`
+
+```{r}
+# install.packages("tidyr")
+library(tidyr)
+```
+
+```{r}
+yt_trend.hi <- gather(yt_trend.hi, key = "var", value = "average", -Group.1)
+```
+
+
+## Plotting Data:
+
+```{r}
+top3hi <- head(yt_trend.hi, 3)
+ggplot(yt_trend.hi, aes(x = Group.1, y = average)) + geom_col(aes(fill = var), position = "dodge") + coord_flip() + labs(title = "Comparison of Videos With Most Dislikes Ratio", x = NULL, y = NULL, fill = "Ratio")
+```
+
+```{r}
+ggplot(yt_trend.hi, aes(x = Group.1, y = average)) + geom_col(aes(fill = var), position = "dodge") + coord_flip() + labs(title = "Comparison of Videos With Most Dislikes Ratio", x = NULL, y = NULL, fill = "Ratio") + scale_y_continuous(labels = scales::percent_format(scale = 100))
+```
+
+# Facetting
+
+
+## Facet Wrap
+
+Let's get back to our `yt_trend` video. Now, let's say, we're interested to observe more about videos from "Tasty":
+
+```{r}
+tasty <- yt_trend[yt_trend$channel_title == "Tasty", ]
+tasty
+```
+
+```{r}
+ggplot(tasty, aes(x = trending_date, y = views)) + background_image(blasagna) + geom_col()
+#ggplot(tasty, aes(x = T, y = F)) + geom_col()
+```
+
+```{r}
+tasty.agg <- aggregate.data.frame(tasty$views, by = list(tasty$title), mean)
+names(tasty.agg) <- c("title", "mean")
+tasty.agg
+
+
+
+```
+
+
+```{r}
+g1 <- ggplot(tasty, aes(x = trending_date, y = views)) + geom_col() + geom_point() + geom_hline(data = tasty.agg, aes(yintercept = mean), linetype = 2) + labs(x = NULL, y = NULL)
+
+g1 + facet_wrap(~as.factor(title), scales = "free_x")
+```
+
+## Facet Grid
+
+```{r}
+yt_trend.agt$timetotrend <- yt_trend.agt$trending_date - as.Date(yt_trend.agt$publish_time)
+yt_trend.agt$timetotrend <- as.factor(ifelse(yt_trend.agt$timetotrend <= 7, yt_trend.agt$timetotrend, "8+"))
+```
+
+```{r}
+
+ggplot(data = yt_trend.agt, aes(x = timetotrend, y = likes/views)) + 
+  geom_point(aes(size = views, col = likes)) + 
+  facet_grid(publish_wday ~ as.factor(category_id)) + 
+  theme(legend.position = "none")
+```
+
+# Theme and Coloring in `ggplot2`
+
+# [Optional:]Leaflet
+
+```{r}
+set.seed(418)
+library(leaflet)
+
+# create icon
+ico <- makeIcon(
+    iconUrl = "https://algorit.ma/wp-content/uploads/2017/07/logo_light_trans.png",
+    iconWidth=177/2, iconHeight=41/2
+)
+
+# create random long lat
+loca <- data.frame(lat=runif(5, min = -6.24, max=-6.23),
+                   lng=runif(5, min=106.835, max=106.85))
+```
+
+```{r}
+# create a leaflet map widget
+map1 <- leaflet()
+
+# add tiles from open street map
+map1 <- addTiles(map1)
+
+# add markers
+map1 <- addMarkers(map1, data = loca, icon=ico)
+
+map1
+```
+
