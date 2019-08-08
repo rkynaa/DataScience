@@ -1,0 +1,131 @@
+---
+title: "LBB Regression Model"
+author: "Rakyan Satrya Adhikara"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+# Basic
+
+## Install library
+
+```{r}
+library(knitr)
+library(dplyr,warn.conflicts = F)
+library(leaps, warn.conflicts = F)
+library(MLmetrics, warn.conflicts = F)
+library(ggplot2, warn.conflicts = F)
+library(GGally, warn.conflicts = F)
+library(zoo, warn.conflicts = F)
+library(lmtest,warn.conflicts = F)
+library(carData)
+library(car, warn.conflicts = F)
+library(rmdformats)
+```
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+options(scipen = 12345)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=NA,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+## Insert the dataset
+
+```{r}
+data <- read.csv("MarvelUniverse.csv")
+```
+
+
+```{r, echo=F}
+data_df <- data %>% 
+  select(Budget,DomesticScreens,DomesticGross,TomatoMeter,AScore,IMDB)
+```
+
+# Basic (Regression Model)
+
+## Display correlations
+
+display all correletion between every variables one to another
+
+``` {r}
+data_df %>% 
+  select_if(is.numeric) %>% 
+  ggcorr(label = T)
+```
+
+## Check predictors
+
+Check if every predictor that are being used have any outliers
+
+> Boxplot of Budget
+
+```{r}
+boxplot(data_df$Budget)
+```
+
+> Boxplot of Domestoc screens
+
+```{r}
+boxplot(data_df$DomesticScreens)
+```
+
+
+> Boxplot of *Rotten Tomatoes'* Tomatometer
+
+```{r}
+boxplot(data_df$TomatoMeter)
+```
+
+> Boxplot for *Rotten Tomatoes'* Audience Score
+
+```{r}
+boxplot(data_df$AScore)
+```
+
+```{r, echo=F}
+outlier <- boxplot(data_df$Budget)$out
+```
+
+
+> Boxplot for IMDb Score
+
+```{r}
+boxplot(data_df$IMDB)
+```
+
+# Making Regression Model
+
+## Making full Regression Model
+
+```{r}
+model_mcu_full <- lm(DomesticGross~.,data_df)
+summary(model_mcu_full)
+```
+
+## Step-wise (backward)
+
+```{r}
+model_backward <- step(model_mcu_full, direction = "backward")
+```
+
+## Based on the model...
+
+* The best predictor: 'Budget'
+* Adjusted R-Squared: 0.6726
+* Formula: 
+
+# Error
+
+## MSE (*M*ean *S*quare *E*rror)

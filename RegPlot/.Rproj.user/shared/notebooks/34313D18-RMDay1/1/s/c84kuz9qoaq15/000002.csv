@@ -1,0 +1,2 @@
+"0","pre_copiers_clean <- predict(model_rm, copiers_clean)"
+"0","pre_copiers <- predict(model_rm, copiers)"

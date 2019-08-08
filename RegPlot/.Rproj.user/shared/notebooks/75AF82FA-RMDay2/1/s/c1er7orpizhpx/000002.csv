@@ -1,0 +1,1 @@
+"0","crime_model2 <- lm(formula = inequality~gdp+nonwhites_per1000, crime)"

@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565263940309.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3656213344",
+    "id" : "183C908B",
+    "lastKnownWriteTime" : 1565274627,
+    "last_content_update" : 1565274627036,
+    "path" : "~/DataScience/RStudio/RegPlot/LBB_RegMod/LBB_RegMod.Rmd",
+    "project_path" : "LBB_RegMod.Rmd",
+    "properties" : {
+        "cursorPosition" : "130,27",
+        "scrollLine" : "115",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,5 @@
+"0","# To get the outlier value:"
+"0","sales_out <- boxplot(copiers$Sales, plot = F)$out"
+"0",""
+"0","copiers_clean <- copiers[copiers$Sales<4000, ]"
+"0","copiers_clean_which <- copiers[-which(copiers$Sales %in% sales_out), ]"

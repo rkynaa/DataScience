@@ -1,0 +1,32 @@
+---
+title: "RegModDay1"
+author: "Rakyan Satrya Adhikara"
+date: "5/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Machine-Learning
+
+Is there a target variable:
+
+## 'yes' -> SuperVised Learning
+
+is your target variable have numeric or categorical value?
+
+### 'numeric' -> Regression
+
+
+
+```{r, echo=FALSE}
+
+```
+
+### 'categorical' -> Classification
+
+
+## 'no' -> Unsupervised Learing
+

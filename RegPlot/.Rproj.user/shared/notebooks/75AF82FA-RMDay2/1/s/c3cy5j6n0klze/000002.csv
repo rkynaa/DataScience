@@ -1,0 +1,3 @@
+"0","pred <- predict(crime_model3, crime)"
+"0","plot(pred)"
+"0",""

@@ -1,0 +1,5 @@
+"0","new_copiers <- data.frame("
+"0","  Sales = c(300, 450, 750, 10)"
+"0",")"
+"0",""
+"0","pre_new_copiers <- predict(object = model_rm, newdata = new_copiers)"
