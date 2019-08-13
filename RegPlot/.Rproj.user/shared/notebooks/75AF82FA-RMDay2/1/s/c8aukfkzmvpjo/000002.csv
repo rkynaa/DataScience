@@ -1,2 +1,0 @@
-"0","copiers <- read.csv(""copiers.csv"")"
-"0","copiers_clean <- copiers[copiers$Sales<4000,]"

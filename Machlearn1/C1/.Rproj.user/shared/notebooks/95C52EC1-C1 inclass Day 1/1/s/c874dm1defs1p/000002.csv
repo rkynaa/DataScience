@@ -1,0 +1,5 @@
+"0","total_hour <- sum(example$Sky)
+"
+"2","Error in Summary.factor(c(1L, 2L, 1L, 2L, 2L, 1L, 1L, 2L, 1L, 1L), na.rm = FALSE) : 
+  ‘sum’ not meaningful for factors
+"

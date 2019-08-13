@@ -1,0 +1,4 @@
+"0","example<-data.frame(Sky=c(""Clear"",""Cloudy"",""Clear"",""Cloudy"",""Cloudy"",""Clear"",""Clear"",""Cloudy"",""Clear"",""Clear""),"
+"0","                    Temp=c(""High"",""Normal"",""Normal"",""Low"",""Low"",""High"",""Low"",""Normal"",""Normal"",""High""),"
+"0","                    Rain=c(0,1,1,1,0,0,1,0,1,1)"
+"0","                    )"

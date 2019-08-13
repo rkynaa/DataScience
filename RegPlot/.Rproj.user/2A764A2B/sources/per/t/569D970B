@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565691705518.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2758274622",
+    "id" : "569D970B",
+    "lastKnownWriteTime" : 1565282467,
+    "last_content_update" : 1565282467,
+    "path" : "~/DataScience/RegPlot/RegModDay1.Rmd",
+    "project_path" : "RegModDay1.Rmd",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,1 +1,0 @@
-"0","plot(crime$inequality, model_both_none$residuals, ylim = c(-25,25))"

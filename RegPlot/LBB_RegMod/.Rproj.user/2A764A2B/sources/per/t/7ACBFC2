@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565691646742.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3636029192",
+    "id" : "7ACBFC2",
+    "lastKnownWriteTime" : 1565693841,
+    "last_content_update" : 1565693841200,
+    "path" : "~/DataScience/RegPlot/LBB_RegMod/LBB.Rmd",
+    "project_path" : "LBB.Rmd",
+    "properties" : {
+        "cursorPosition" : "224,44",
+        "scrollLine" : "214",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

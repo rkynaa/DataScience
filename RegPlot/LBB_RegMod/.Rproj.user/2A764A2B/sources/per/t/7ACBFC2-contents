@@ -1,0 +1,226 @@
+---
+title: "LBB Regression Model"
+author: "Rakyan Satrya Adhikara"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+# Making Regression Model with error of Marvel Cinematic Universe's Domestic Gross
+
+# Basic
+
+## Install library
+
+```{r}
+library(knitr)
+library(scales)
+library(dplyr,warn.conflicts = F)
+library(leaps, warn.conflicts = F)
+library(MLmetrics, warn.conflicts = F)
+library(ggplot2, warn.conflicts = F)
+library(GGally, warn.conflicts = F)
+library(zoo, warn.conflicts = F)
+library(lmtest,warn.conflicts = F)
+library(carData)
+library(car, warn.conflicts = F)
+library(rmdformats)
+```
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+options(scipen = 12345)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=NA,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+## Insert the dataset
+
+```{r}
+data <- read.csv("MarvelUniverse.csv")
+```
+
+
+```{r, echo=F}
+data_df <- data %>% 
+  select(Budget,DomesticScreens,DomesticGross,TomatoMeter,AScore,IMDB)
+```
+
+# Basic (Regression Model)
+
+## Display correlations
+
+display all correletion between every variables one to another
+
+``` {r}
+data_df %>% 
+  select_if(is.numeric) %>% 
+  ggcorr(label = T)
+```
+
+## Check predictors
+
+Check if every predictor that are being used have any outliers
+
+> Boxplot of Budget
+
+```{r}
+boxplot(data_df$Budget)
+```
+
+> Boxplot of Domestoc screens
+
+```{r}
+boxplot(data_df$DomesticScreens)
+```
+
+
+> Boxplot of *Rotten Tomatoes'* Tomatometer
+
+```{r}
+boxplot(data_df$TomatoMeter)
+```
+
+> Boxplot for *Rotten Tomatoes'* Audience Score
+
+```{r}
+boxplot(data_df$AScore)
+```
+
+```{r, echo=F}
+outlier <- boxplot(data_df$Budget)$out
+```
+
+
+> Boxplot for IMDb Score
+
+```{r}
+boxplot(data_df$IMDB)
+```
+
+# Making Regression Model
+
+## Making full Regression Model
+
+```{r}
+model_mcu_full <- lm(DomesticGross~.,data_df)
+summary(model_mcu_full)
+```
+
+## Step-wise (backward)
+
+```{r}
+model_backward <- step(model_mcu_full, direction = "backward")
+summary(model_backward)
+```
+
+## Based on the model...
+
+* The best predictor: 'Budget'
+* Adjusted R-Squared: 0.6726
+* Formula: 
+
+# Error
+
+```{r}
+prediction <- predict(model_backward, data_df)
+comma(prediction)
+plot(prediction)
+```
+
+## MSE (*M*ean *S*quare *E*rror)
+
+```{r, echo=F}
+mse_res <- MSE(prediction, data_df$DomesticGross)
+print(paste0("$ ",comma(mse_res)," dollars"))
+```
+
+## RMSE (*R*oot *M*ean *S*quare *E*rror)
+
+```{r, echo=F}
+rmse_res <- RMSE(prediction, data_df$DomesticGross)
+print(paste0("$ ",comma(rmse_res)," dollars"))
+```
+
+## MAE (*M*ean *A*bsolute *E*rror)
+
+```{r, echo=F}
+mae_res <- MAE(prediction, data_df$DomesticGross)
+print(paste0("$ ",comma(mae_res)," dollars"))
+```
+
+# Assumption
+
+## Residual normally spreaded 'shapiro.test'
+
+H0: Residual normally spreaded
+H1: Residual **not** normally spreaded
+
+Declining H0 Hypothesis if **P-Value < Alpha**
+
+Residual can be accepted as 'normal' if p-value > 0,05
+
+```{r, echo=F}
+hist(model_backward$residuals, breaks = 15)
+shapiro.test(model_backward$residuals)
+```
+
+
+## Unpatterned Residual 'lmtest::bptes'
+
+H0: Homostedasticity Model
+
+H1: Heterostedasticity Model
+
+Model can be accepted as Homostedasticity if p-value > alpha
+
+```{r, echo=F}
+plot(data_df$DomesticGross, model_backward$residuals)
+abline(h = 0, col = "red")
+```
+
+
+## Every x (predictors) are nor relateable to each other 'car::vif' -> multicolinearity
+
+vif < 10 -> GOOD
+
+vif > 10 -> BAD
+
+```{r, echo=F}
+vif(model_backward)
+```
+
+
+## Linearity 'cor.text'
+
+H0: Correlaion is equal to 0
+
+H1: Correlation is not equal to 0
+
+> cor.test() between Domesic Gross and Domestic Screens
+
+```{r, echo=F}
+cor.test(data_df$DomesticGross, data_df$DomesticScreens)
+```
+
+> cor.test() between Domesic Gross and Budget
+
+```{r, echo=F}
+cor.test(data_df$DomesticGross, data_df$Budget)
+```
+
+> cor.test() between Domesic Gross and IMDb Score
+
+```{r, echo=F}
+cor.test(data_df$DomesticGross, data_df$IMDB)
+```

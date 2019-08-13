@@ -1,0 +1,1 @@
+"0","plot(data_df$DomesticGross, model_backward$residuals)"

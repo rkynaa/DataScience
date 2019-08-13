@@ -1,0 +1,153 @@
+---
+title: "RMDay1"
+author: "Rakyan Satrya Adhikara"
+date: "5/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Regression Model
+
+Ex/ 
+Predicting the price of a house with only a 'house price' variable, the best approaching that can be used is with the value of mean.
+
+## Simple Linear Regression
+
+```{r, echo=FALSE}
+copiers <- read.csv("copiers.csv")
+str(copiers)
+```
+
+Connection plot between Sales and profit to predict profit based on Sales:
+
+```{r, echo=FALSE}
+plot(copiers$Sales, copiers$Profit)
+```
+
+Checking outlier using 'boxplot()':
+
+```{r, echo=FALSE}
+boxplot(copiers$Sales)
+```
+
+``` {r, echo = F}
+# To get the outlier value:
+sales_out <- boxplot(copiers$Sales, plot = F)$out
+
+copiers_clean <- copiers[copiers$Sales<4000, ]
+copiers_clean_which <- copiers[-which(copiers$Sales %in% sales_out), ]
+```
+
+
+The corelation between 'profit' and 'sales' variables:
+
+> Approaching 1: Good, strongly related
+
+> Approaching -1: Bad, weakly related
+
+```{r, echo=F}
+cor(copiers$Sales, copiers$Profit)
+```
+
+Making Linear Regression Model
+
+```{r, echo = F}
+model_rm <- lm(formula = Profit~Sales, data=copiers_clean)
+summary(model_rm)
+```
+
+### Formula dari model_rm:
+
+Intercept = -83.54810
+Slope = 0.39444
+
+Profit = -83.54810 + 0.39444 * Sales
+
+It means that every time sales went uo by 1, the profit will be up too with 0.39444
+
+```{r, echo=FALSE}
+plot(copiers_clean$Sales, copiers_clean$Profit)
+abline(a = -83.54810, b = 0.39444) # abline(model_rm)
+```
+
+> P-Value on every coefficient will show significance level as a predictor. **The most recommended predictor** is the one with **at least 0.05 or at least on '*'**
+
+> the **R-Squared** range is in *between 0 and 1*. *The more it gets into 1, the more accurate the predictor can describe the target*. In this case, the R-Squared of 'Sales' is ~0.85. Thus, 'Sales' can describe 85% of the 'Profit'
+
+Exe/
+
+* if 'Sales' is equal to 350, how much is the profit?
+
+```{r, echo=F}
+profit_temp <- -83.54810 + 0.39444 * 350
+profit_temp
+```
+
+* if 'Sales' is equal to 245, how much is the profit?
+
+```{r, echo=F}
+profit_temp <- -83.54810 + 0.39444 * 245
+profit_temp
+```
+
+* if 'Sales' is equal to 245, 370, 210 and 400, how much is the profir for every 'Sales'?
+
+```{r, echo= F}
+sales_temp <- c(245, 370, 210, 400)
+profit_temp <- -83.54810 + 0.39444 * sales_temp
+profit_temp
+```
+
+### Predict
+
+the 'predict()' function  is used to predict the data.
+The parameter that are being used are the model and the data that are going to be predicted
+
+```{r}
+predict(object = model_rm, newdata = data.frame(Sales = c(245, 370, 210, 400)))
+```
+
+```{r, echo=FALSE}
+new_copiers <- data.frame(
+  Sales = c(300, 450, 750, 10)
+)
+
+pre_new_copiers <- predict(object = model_rm, newdata = new_copiers)
+```
+
+```{r, echo=F}
+pre_copiers_clean <- predict(model_rm, copiers_clean)
+pre_copiers <- predict(model_rm, copiers)
+```
+
+### Error
+
+```{r, echo=F}
+# pre_copiers - copiers$Sales
+```
+
+* #### MSE (**M**ean **S**quare **E**rror)
+
+The **M**ean value of **S**quared **E**rrors
+
+* #### RMSE (**R**oot **M**ean **S**quare **E**rror)
+
+The **R**ooted value of **MSE**
+
+* #### MAE (**M**ean **A**bsolute **E**rror)
+
+The **M**ean Value of '**A**bsolute' condition of the **E**rrors
+
+* #### RMSE v MAE
+    1. RMSE **!<** MAE
+    2. RMSE can be used if the *'extreme'* error are getting displayed since the characteristic of square is to make big values become bigger and small values become smaller
+    3. MAE can be used if **not** the *'extreme'* error are getting displayed.
+
+## Terms that are being used in 'Machine-Learning':
+* X1, X2, X3, ... -> Predictors, Independent Variables
+* Y -> Target, Dependent Variable
+* Residual = Error -> 'Expectation - Reality'
+* R-Squared -> on what percentage the predictor can describe the target

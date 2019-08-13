@@ -1,0 +1,6 @@
+"0","mse_res <- MSE(prediction, data_df$DomesticGross)"
+"0","print(paste0(""$ "",comma(mse_res),"" dollars""))"
+"1","[1]"
+"1"," ""$ 8,765,696,867,357,659 dollars"""
+"1","
+"

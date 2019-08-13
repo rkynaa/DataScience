@@ -1,0 +1,2 @@
+"0","honors <- read.csv(""data_input/sample.csv"")"
+"0","honors$hon <- as.factor(honors$hon)"

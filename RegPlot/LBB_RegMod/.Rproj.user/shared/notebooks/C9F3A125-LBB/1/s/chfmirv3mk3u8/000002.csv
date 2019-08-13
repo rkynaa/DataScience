@@ -1,0 +1,6 @@
+"0","mae_res <- MAE(prediction, data_df$DomesticGross)"
+"0","print(paste0(""$ "",comma(mae_res),"" dollars""))"
+"1","[1]"
+"1"," ""$ 68,943,857 dollars"""
+"1","
+"

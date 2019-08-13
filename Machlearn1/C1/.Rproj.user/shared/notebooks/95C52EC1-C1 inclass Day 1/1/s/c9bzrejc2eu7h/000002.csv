@@ -1,0 +1,2 @@
+"0","library(gtools)"
+"0","curve(logit(x),from=0,to=1,xlab=""Probability"",ylab=""Log of Odds"")"

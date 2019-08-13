@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1548910119222.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3897497514",
+    "id" : "F0EB661",
+    "lastKnownWriteTime" : 1548911835,
+    "last_content_update" : 1548911835492,
+    "path" : "C:/Users/teama/Downloads/[Algoritma] Data Science Academy_ Classification in Machine Learning 1/C1/classification1.Rmd",
+    "project_path" : "classification1.Rmd",
+    "properties" : {
+        "cursorPosition" : "1098,240",
+        "scrollLine" : "1092"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
