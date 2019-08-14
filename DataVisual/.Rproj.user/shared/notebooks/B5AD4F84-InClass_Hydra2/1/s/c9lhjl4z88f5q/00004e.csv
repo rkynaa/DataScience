@@ -1,4 +1,0 @@
-"0","temp1 <- as.data.frame(table(Channel = yt_trend.u$channel_title))"
-"0","temp1 <- temp1[temp1$Freq >= 10, ]"
-"0","temp1 <- temp1[order(temp1$Freq, decreasing = T), ]"
-"0","temp1"

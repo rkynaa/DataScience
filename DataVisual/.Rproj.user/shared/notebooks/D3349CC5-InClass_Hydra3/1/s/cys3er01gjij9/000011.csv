@@ -1,5 +1,0 @@
-"0",""
-"0","ggplot(data = yt_trend.agt, aes(x = timetotrend, y = likes/views)) + "
-"0","  geom_point(aes(size = views, col = likes)) + "
-"0","  facet_grid(publish_wday ~ as.factor(category_id)) + "
-"0","  theme(legend.position = ""none"")"

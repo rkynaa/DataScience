@@ -1,7 +1,0 @@
-"0","head3Temp <- head(temp1, 3)"
-"0","tail8Temp <- tail(temp1, 8)"
-"0","tempGG <- ggplot(temp1, aes(x = reorder(Channel, Freq), y = Freq)) +  geom_col(aes(fill = Freq)) + coord_flip() + labs(title = ""Channel w/ Most Trending Videos"", y = NULL, x = NULL, fill = ""Number of Videos"", caption = ""'Bob or vagana, whichever will it be' - The #1 Youtuber ever exist"") + scale_fill_continuous(high = ""red"", low = ""dark blue"") + scale_y_continuous(limits = c(0, 35), breaks = seq(0,30,5)) + geom_col(data = head3Temp, aes(fill = Freq), fill = ""light blue"") + theme(legend.position = ""none"") + theme(plot.title = element_text(hjust = 5, size = 16), plot.caption = element_text(face = ""bold""))"
-"0",""
-"0","top8Temp <- ggplot(head(temp1, 8), aes(x = reorder(Channel, Freq), y = Freq)) + geom_col(aes(fill = Freq)) + coord_flip() + labs(y = NULL, x = NULL, fill = ""Number of Videos"") + scale_fill_continuous(high = ""dark red"", low = ""dark blue"")"
-"0","bot8Temp <- ggplot(tail(temp1, 8), aes(x = reorder(Channel, Freq), y = Freq)) + geom_col(aes(fill = Freq)) + coord_flip() + labs(y = NULL, x = NULL, fill = ""Number of Videos"") + scale_fill_continuous(high = ""dark red"", low = ""dark blue"")"
-"0","tempGG"

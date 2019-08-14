@@ -1,0 +1,241 @@
+---
+title: "C1 inclass Day 1"
+author: "Steven Surya Tanujaya"
+date: "August 13, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction to (Binary) Classification using Logistic Regression
+
+Here, we will learn about the basic ideas of logistic regression. The objective of logistic regression is to use linear regression model for probability prediction (can be used for classification). Before that, there are some important statistics/mathematics basic that we need to discuss as follows.
+
+## Probability and Conditional Probability
+
+```{r}
+example<-data.frame(Sky=c("Clear","Cloudy","Clear","Cloudy","Cloudy","Clear","Clear","Cloudy","Clear","Clear"),
+                    Temp=c("High","Normal","Normal","Low","Low","High","Low","Normal","Normal","High"),
+                    Rain=c(0,1,1,1,0,0,1,0,1,1)
+                    )
+```
+
+Please calculate the probability of Rain on the chunk below.
+```{r}
+# Probability of Rain / P(Rain=1).
+prob.rain <- sum(example$Rain)/nrow(example)
+
+prop.table.rain <- prop.table(table(example$Rain))
+
+```
+
+As exercise, calculate the following probability.
+```{r}
+# P(Sky = "Clear"). = 0.6
+prop.table.sky.clear <- prop.table(table(example$Sky))
+# P(Temp = "High"). = 0.3
+prop.table.temp.high <- prop.table(table(example$Temp))
+# P(Temp != "Normal"). = 0.3 (high) + 0.3 (low) = 0.6
+```
+
+As addition, Let's say today's temperature is Normal, can you calculate the probability that rain occurs today?
+
+```{r}
+# Calculate the P(Rain=1 | Temp="Normal").
+ex.temp.normal <- example[example$Temp == "Normal",]
+prop.table.rain.normal <- prop.table(table(ex.temp.normal$Rain))
+```
+
+The 'P(Rain=1 | Temp="Normal")' is called The conditional probability of Rain occurs given the temperature is Normal.
+
+## Odds and Log function/transformation
+
+Have you ever heard about "odds"? Basically the definition of 'odds' and 'probability' are more likely same in non-statistics term. In statistics, they are similar but not same. Odds is the other representation of probability. Mathematically, Let $X$ be a Random variable, the odds of event $x$ occurs from all the possibilities outcome of $X$ can be writen as $Odds(X=x)=\frac{P(X=x)}{P(X\neq x)}$.
+
+From the exercise above, can you calculate the odds of rain occurs?
+```{r}
+# Calculate the Odds(Rain=1).
+
+
+```
+
+What is the direct meaning of odds? What is the simple mathematical difference between 'odds' and 'probability'?
+
+Discussion:
+
+Odds: rain is 1.5 time more possiblly to happen than not rain
+Probability: it is 60% chance for raining
+
+
+Now, Calculate the 'P(Rain=1 | Sky="Clear")' and 'P(Rain=1 | Sky="Cloudy")' and the odds.
+
+```{r}
+# P(Rain=1 | Sky="Clear") and Odds(Rain=1 | Sky="Clear") = 0.667 / 0.333 = 2
+ex.sky.clear <- example[example$Sky == "Clear",]
+prop.table.rain.clear <- prop.table(table(ex.sky.clear$Rain))
+
+# P(Rain=1 | Sky="Cloudy") and Odds(Rain=1 | Sky="Cloudy")
+ex.sky.cloudy <- example[example$Sky == "Cloudy",]
+prop.table.rain.cloudy <- prop.table(table(ex.sky.cloudy$Rain))
+
+# Now, Calculate Odds(Rain=1 | Sky="Clear")/Odds(Rain=1 | Sky="Cloudy")
+(32/77)/(17/74)
+```
+
+What is the meaning of (conditional) odds ratio?
+
+Discussion:
+It is 2x more possible that rain can be happening on clear sky rather than raining on cloudy sky.
+
+
+Another special thing about odds is its Invertibility (because of its monotonic property).
+
+```{r}
+# Find the probability of delay when we know that the odds of delay is 0.3
+```
+
+For more detail, observe the plot below.
+```{r}
+# Odds function
+curve(x/(1-x),from=0,to=1,xlab="Probability",ylab="Odds")
+```
+
+Does this odds already meet our need (See its range value)? why?
+
+Here, I introduce you the log function. Log function/transformation is commonly known in many fields especially when facing high difference value problem. Observe the following plot.
+
+```{r}
+curve(log(x),from=0,to=10,xlab="Input",ylab="Log value")
+```
+
+What makes this function mathematically special?
+1. Input: [0, inf)
+2. Output: (-inf, inf)
+3. Invertibility: using exponential function
+4. Summation(or substraction) to multiplication(or division) property
+
+Check it here:
+```{r}
+# Checking log function
+log(5) + log(7)
+log(35)
+
+log(12) - log(6)
+log(2)
+
+log(25)
+```
+
+Log value of odds is called 'log of odds' and the function itself is `logit()`. Clearly this transformation meets our need when it is collaborated with odds function.
+
+```{r}
+library(gtools)
+curve(logit(x),from=0,to=1,xlab="Probability",ylab="Log of Odds")
+```
+
+Find the log of odds on some event from the example above.
+
+```{r}
+# Logit(Rain=1)
+logit(0.6)
+# Logit(Rain=1 | Sky="Clear")
+logit(2/3)
+# Logit(Rain=1 | Sky="Cloudy")
+logit(0.5)
+```
+
+Since Log function and Odds function is invertible, the logit function is also invertible.
+
+```{r}
+# Find the probability of Rain, given logit(Rain=1)=2.5
+exp(2.5)/(exp(2.5)+1)
+inv.logit(2.5)
+```
+
+---------------------------------------- END OF INTRODUCTION SECTION -----------------------------------------
+
+# Logistic Regression
+
+The idea of logistic regression is simply just predicting log of odds using regression model.
+```{r}
+curve(inv.logit(x),from=-10,to=10,xlab="Predicted Log of Odds",ylab="Probability")
+```
+
+## Importing dataset
+
+We will use the 'honors' dataset.
+```{r}
+honors <- read.csv("data_input/sample.csv")
+honors$hon <- as.factor(honors$hon)
+```
+
+## Logistic regression with no predictor
+
+```{r}
+# Create a logistic regression model to predict honors using no predictor.
+summary(glm(hon~1,data = honors,family = "binomial"))
+```
+
+What value does this model give? Try to find where the value come from in the chunk below.
+
+```{r}
+library(dplyr, warn.conflicts = F)
+honors %>% 
+  select(hon) %>% 
+  table() %>% 
+  prop.table()
+exp(0.59)/(exp(0.59)+1)
+log(32/77)
+log(0.245/0.755)
+```
+
+
+## Logistic regression with one categorical predictor
+
+Now, Let we create a logistic regression model using `female` as its predictor.
+```{r}
+# Create a logistic regression model to predict honors using 'female' as its predictor.
+summary(glm(hon~female,data=honors,family="binomial"))
+```
+
+What value does this model give? Try to find where the value come from in the chunk below.
+
+```{r}
+
+```
+
+Notes: Slope: log of odds ratio
+
+## Logistic regression with one numeric predictor
+
+```{r}
+# Create a logistic regression model to predict honors using 'math' as its predictor.
+
+summary(glm(hon~math,data=honors,family="binomial"))
+```
+
+What value does this model give? Try to find where the value come from in the chunk below.
+
+```{r}
+exp(0.1564)
+```
+
+## Multipredictor Logistic Regression
+
+```{r}
+summary(glm(hon~female+read+math,data=honors,family = "binomial"))
+
+#if A => Read: 80, Math = 90, Female
+#if B => Read: 80, Math = 70, Female
+
+logitA <- -11.77025+(0.97995)+80*(0.05906)+90*(0.12296)
+logitA <- -11.77025+(0.97995)+80*(0.05906)+70*(0.12296)
+```
+
+Notes:
+* intercept: is a login(hon) value if math, read and female value is 0.
+* coefficient of a predictor is an additional logit value if that predictor's value increased by 1.
+
+# Additional Exercise

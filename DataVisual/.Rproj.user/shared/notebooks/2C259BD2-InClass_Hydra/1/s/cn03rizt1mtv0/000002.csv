@@ -1,5 +1,0 @@
-"0","#yt_trend <- yt_trend_undo"
-"0","yt_trend$publish_time <- ymd_hms(yt_trend$publish_time, tz = ""America/New_York"")"
-"2","Date in ISO8601 format; converting timezone from UTC to ""America/New_York"".
-"
-"0","yt_trend$trending_date <- ydm(yt_trend$trending_date)"

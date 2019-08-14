@@ -1,1 +1,0 @@
-"0","hist(yt_trend.agt$likesp, breaks = 20, ylim = c(0,20), col = ""dark blue"", main = ""Distribution of likes v view"")"

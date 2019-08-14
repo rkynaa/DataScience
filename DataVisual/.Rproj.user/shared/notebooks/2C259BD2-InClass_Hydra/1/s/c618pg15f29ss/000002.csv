@@ -1,1 +1,0 @@
-"0","yt_trend.agt <- yt_trend.u[yt_trend.u$category_id == ""Autos and Vehicles"" | yt_trend.u$category_id == ""Gaming"" | yt_trend.u$category_id == ""Travel and Events"", ]"

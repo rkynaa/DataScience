@@ -1,3 +1,0 @@
-"0","g1 <- ggplot(tasty, aes(x = trending_date, y = views)) + geom_col() + geom_point() + geom_hline(data = tasty.agg, aes(yintercept = mean), linetype = 2) + labs(x = NULL, y = NULL)"
-"0",""
-"0","g1 + facet_wrap(~as.factor(title), scales = ""free_x"")"

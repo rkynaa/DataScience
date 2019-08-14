@@ -1,1 +1,0 @@
-"0","yt_trend.hi <- gather(yt_trend.hi, key = ""var"", value = ""average"", -Group.1)"

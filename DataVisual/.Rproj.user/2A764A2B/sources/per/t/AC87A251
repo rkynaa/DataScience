@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565746757511.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1000966830",
+    "id" : "AC87A251",
+    "lastKnownWriteTime" : 1565282433,
+    "last_content_update" : 1565760495316,
+    "path" : "~/DataScience/DataVisual/InClass_Hydra3.Rmd",
+    "project_path" : "InClass_Hydra3.Rmd",
+    "properties" : {
+        "cursorPosition" : "655,88",
+        "last_setup_crc32" : "FDD711CE5b175d4a",
+        "scrollLine" : "643"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

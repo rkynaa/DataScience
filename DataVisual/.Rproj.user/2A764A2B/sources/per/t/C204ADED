@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565746589239.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3599058445",
+    "id" : "C204ADED",
+    "lastKnownWriteTime" : 1565282433,
+    "last_content_update" : 1565282433,
+    "path" : "~/DataScience/DataVisual/InClass_Hydra.Rmd",
+    "project_path" : "InClass_Hydra.Rmd",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

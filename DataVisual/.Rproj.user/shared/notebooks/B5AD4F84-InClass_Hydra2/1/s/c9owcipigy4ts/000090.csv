@@ -1,2 +1,0 @@
-"0","yt_trend.ags$commentp <- yt_trend.ags$comment_count/yt_trend.ags$views"
-"0","ggplot(yt_trend.ags, aes(x = category_id, y = dislikes)) + geom_boxplot() + geom_jitter(aes(col = likesp, size = commentp)) + labs(title = ""YouTube Trending Videos Engagement Analysis"", subtitle = ""Data From US Trending: 2017-11-4 to 2018-01-19"") + theme(plot.title = element_text(hjust = .5))"
