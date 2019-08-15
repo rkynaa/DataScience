@@ -1,0 +1,4 @@
+"0","model1<-glm(hon~1,data=honors,family=""binomial"")"
+"0","model2<-glm(hon~female,data=honors,family=""binomial"")"
+"0","model3<-glm(hon~math,data=honors,family=""binomial"")"
+"0","model4<-glm(hon~math+female+read,data=honors,family=""binomial"")"

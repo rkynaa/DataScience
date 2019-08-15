@@ -23,6 +23,10 @@ glm(hon~math+read+female,data=honors,family="binomial")
 ```{r}
 #example: A dan B keduanya perempuan. Nilai read=80. Nilai math A=90 dan nilai math B=70. 'Seberapa mungkin'(Odds) A dapat honors dibandingkan B?
 
+exp(20*0.12296)
+
+# 20 = Nilai Math A - Nilai Math B
+# 0.12296 = Log of Odds buat Math terhadap honors
 
 ```
 
@@ -44,18 +48,35 @@ model4<-glm(hon~math+female+read,data=honors,family="binomial")
 ## AIC
 ```{r}
 # Show the AIC value of each model.
+aic_model1 <- model1$aic
+aic_model2 <- model2$aic
+aic_model3 <- model3$aic
+aic_model4 <- model4$aic
 
+aic_model1
+aic_model2
+aic_model3
+aic_model4
 ```
 
 ## Null deviance and residual deviance
 ```{r}
 # Show the Null deviance and residual deviance of each model.
 
+nullDev_model1 <- model1$null.deviance
+nullDev_model2 <- model2$null.deviance
+nullDev_model3 <- model3$null.deviance
+nullDev_model4 <- model4$null.deviance
+
+nullDev_model1
+nullDev_model2
+nullDev_model3
+nullDev_model4
 ```
 
 What do you observe there? List them below:
-- 
--
+- Semakin banyak predictor, semaik sedikit value AIC dan residual deviance
+- AIC bisa dipakai untuk mebandingkan model mana yang terbaik jika n banyak model memiliki jumlah predictor yang sama
 -
 
 ## Perfect Separation
@@ -67,15 +88,17 @@ model5<-glm(hon~math+read+write+female,data=honors,family="binomial")
 ```
 
 Is the model fine for you? why?
--
--
--
+Ans: No
+- AIC dan residual deviance sangat kecil dari standarnya
+- Ada predictor yang "Terlalu" dominan daripada yang lain.
 
 ```{r}
 # Make some observation to support your idea here.
+table(honors$hon, honors$write)
 ```
 
 What is the indication of 'perfect separation'?
+Jika ada predictor yang "log of odds"nya lebih dari 10 atau kurang dari -10 -> perfect separation
 
 
 --------------------------------End of Section 1--------------------------------------
@@ -109,23 +132,23 @@ Some Description:
 
 Note:
 
-
+Jika `log_inc` dan `annual_inc` dibuatkan sebagai predictor pada waktu yang sama, terjadi multicolinearity.
 
 
 First, take a look into our data.
 
 ```{r}
 # Observe the data here
-
+prop.table.purp <- prop.table(table(loans.s$purpose))
 ```
 
 ## Cross-Validation
 
 Cross-validation is the method that people use for validating or evaluating the model's quality. Basically in cross-validation we divide our data into 3 parts, as follows:
 
-- Train:
-- Test:
-- Evaluation:
+- Train: Data untuk buat model
+- Test: Data untuk menguji akurasi model (boleh tidak acak)
+- Evaluation: Data untuk menguji akurasi model (**harus** acak)
 
 The method of cross-validation:
 - Simple cross-validation,
@@ -136,6 +159,7 @@ We just want to discuss about simple cross-validation here (the k-fold cross val
 ```{r}
 set.seed(417)
 intrain <- sample(nrow(loans.s), nrow(loans.s)*0.8)
+length(intrain)
 loans.train <- loans.s[intrain, ]
 loans.test <- loans.s[-intrain, ]
 ```
@@ -145,22 +169,27 @@ This section we will create a logistic regression: not_paid ~ verified + purpose
 
 ```{r}
 # Create the glm model here using TRAIN DATASET only and name it 'creditrisk'.
+
+creditrisk <- glm(not_paid ~ verified + purpose + installment + int_rate + home_ownership + grdCtoA + annual_inc, data = loans.train, family = "binomial")
+
+summary(creditrisk)
 ```
 
 Note:
--
--
+- Paling signifikan: installment
+- Menurunkan resiko bayar: 'annual_inc' dan 'gradeCtoA'
+- Base model: nasabah yang purposenya 'credit card' dan ownershipnya 'mortgage'
 
 The prediction can be done using `predict()` function.
 
 Try to predict the probability of `not_paid` in the chunk below. 
 ```{r}
-loans.test$pred.Risk <- 
+loans.test$pred.Risk <- predict(creditrisk,loans.test,type = "response")
 ```
 
 Type of logistic regression prediction:
-- "Response":
-- "Link":
+- "Response": Output berupa probability
+- "Link": Output berupa 'Log of Odds'
 
 ```{r}
 table("predicted"=as.numeric(loans.test$pred.Risk>=0.5), "actual"=loans.test$not_paid)
@@ -168,17 +197,25 @@ table("predicted"=as.numeric(loans.test$pred.Risk>=0.5), "actual"=loans.test$not
 
 Accuracy:
 ```{r}
-
+(93+94)/(93+94+57+88)
 ```
+
+Notes:
+* Actual == Prediction (P) -> True Positive
+* Actual == Prediction (N) -> True Negative
+* Actual != Prediction (P) -> False Positive
+* Actual != Prediction (N) -> False Negative
 
 Recall:
 ```{r}
-
+# True Positive / (True Positive + False Negative)
+94/(94+57)
 ```
 
 Precision:
 ```{r}
-
+# True Positive / (True Positive + False Positive)
+94/(94+68)
 ```
 
 Specificity:
@@ -189,7 +226,7 @@ Specificity:
 We can also use `caret` package.
 
 ```{r}
-caret::confusionMatrix()
+caret::confusionMatrix(data = loans.test, Actual = loans.test$not_paid,predict=as.factor(as.numeric(loans.test$pred.Risk >= 0.5)))
 ```
 
 # Additional: Step function & How to increase our recall/precision.

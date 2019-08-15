@@ -1,0 +1,5 @@
+"0","caret::confusionMatrix(data = loans.test, Actual = loans.test$not_paid,predict=as.factor(as.numeric(loans.test$pred.Risk >= 0.5)))
+"
+"2","Error in is.factor(reference) : 
+  argument ""reference"" is missing, with no default
+"

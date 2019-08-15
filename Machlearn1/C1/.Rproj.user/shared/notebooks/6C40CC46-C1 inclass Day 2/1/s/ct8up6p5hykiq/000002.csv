@@ -1,0 +1,4 @@
+"0","loans.test$pred.Risk <- predict(creditrisk,loans.test,type = ""respomse"")"
+"2","Error in match.arg(type) : 
+  'arg' should be one of “link”, “response”, “terms”
+"

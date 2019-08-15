@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565789461431.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2C0A6BE7",
+    "lastKnownWriteTime" : 2071696783736,
+    "last_content_update" : 1565789461431,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "8757bb7e95924fafb37594f9f62be2c2",
+        "name" : "creditrisk",
+        "title" : "creditrisk"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}

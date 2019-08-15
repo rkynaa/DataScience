@@ -1,0 +1,245 @@
+---
+title: "C1 inclass Day 3"
+author: "Steven Surya Tanujaya"
+date: "August 15, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Review Day 2
+
+```{r}
+loans.s <- read.csv("data_input/loan2017Q4.csv")
+str(loans.s)
+```
+
+```{r}
+set.seed(417)
+intrain <- sample(nrow(loans.s), nrow(loans.s)*0.8)
+loans.train <- loans.s[intrain, ]
+loans.test <- loans.s[-intrain, ]
+```
+
+```{r}
+creditrisk<-glm(not_paid ~ verified + purpose + installment + int_rate + home_ownership + grdCtoA + annual_inc, data=loans.train,family = "binomial")
+summary(creditrisk)
+```
+
+```{r}
+loans.test$pred.Risk <- predict(creditrisk,loans.test,type = "response")
+```
+
+```{r}
+library(gmodels)
+CrossTable(x=loans.test$not_paid, y=as.numeric(loans.test$pred.Risk>=0.5), dnn=c("actual", "prediction"))
+```
+
+```{r}
+caret::confusionMatrix(data=as.factor(as.numeric(loans.test$pred.Risk>=0.5)),reference=as.factor(loans.test$not_paid),dnn=c("Pred","Act"),positive="1")
+```
+
+Accuracy:
+Recall:
+Precision:
+Specificity:
+
+# How to improve our model
+
+Discussion:
+
+
+## Changing Threshold
+```{r}
+# Evaluate the model's quality using different threshold. Which threshold give you best result for your objective?
+
+```
+
+## Step function
+```{r}
+# Try to use step function, Compare the result from the previous model using the same threshold 0.5. Is it a better model?
+
+
+```
+
+---------------------- End of Logistic Regression Model Section ----------------------
+
+# k-NN (k-Nearest Neighbors) 'Method'
+
+As an illustration, we will use the following sample experiment dataset.
+
+```{r}
+# Create our dataset
+food <- data.frame(list(c("apple", "bacon", "banana", "carrot","celery", "cheese","cucumber", "fish", "grape", "green bean", "lettuce", "nuts", "pear", "shrimp","orange"),
+                        c(10,1,10,6,3,1,2,3,10,3,1,3,10,2,9),
+                        c(9,4,1,10,10,1,8,2,5,7,10,5,7,2,3), 
+                        c("fruit", "protein", "fruit", "vegetable", "vegetable", "protein", "vegetable", "protein", "fruit", "vegetable", "vegetable", "proteins", "fruit","protein", "fruit")))
+
+# Give each feature appropriate names
+colnames(food)<- c("Ingredient", "Sweetness", "Crunchiness", "Type")
+```
+
+We can observe the 'coordinates' of each food in cartesian diagram.
+```{r}
+library(ggplot2)
+
+plot.fruit <- ggplot(food, aes(x=food$Sweetness, y=food$Crunchiness))+
+  geom_point(alpha = 0.05)+
+  geom_label(aes(label=food$Ingredient),nudge_x=0.5, nudge_y=0, label.size=0.6)+
+  labs(x="how sweet the food tastes", y="how crunchy the food is")
+plot.fruit
+```
+
+Let's say we want to predict which group the tomato is. Observe the following plot.
+
+```{r}
+library(grid)
+grob = grobTree(textGrob("tomato", x=0.6, y=0.4, hjust=0, gp=gpar(col="darkorange", fontsize=14)))
+
+plot.fruit + annotation_custom(grob)
+```
+
+Do you have any consideration that tomato is a fruits, vegetables, or proteins? Why?
+
+
+
+It is called k-NN for a reason. When we discuss about 'Neighbors', there is a simple concept we need to revisit: Distance.
+
+## Distance
+
+The 'Euclidean' Distance is the most common distance that we use, basically it is the square root of of sum squared error that we have learned in regression model class.
+
+```{r}
+head(food)
+```
+
+Let's say tomato has 6 for sweetness level and 4 for crunchiness level. Could you find the 'distance' between Apple and Tomato? How about Bacon and Tomato? Which one is 'closer' to Tomato? Answer it using chunk below.
+
+```{r}
+# Calculate the Euclidean distance below.
+
+```
+
+## Scaling 
+
+Let's say we add one more value: Spiciness, with 0 to 100 range of value. What will happen to our model? Why? How to anticipate this problem?
+
+### Min-max scaling
+```{r}
+normalize <- function(x){
+  return ( 
+    (x - min(x))/(max(x) - min(x)) 
+           )
+        }
+```
+
+### Mean-Var scaling (z-score standardization)
+```{r}
+
+```
+
+## Choosing appropriate k
+
+What will happen if you use an arbitrarily large value of k (or small)?
+Discussion:
+-
+-
+
+So, what is the appropriate value of k from mathematical point of view?
+
+## Characteristics of k-NN
+
+Advantages:
++
++
++
+
+Disadvantages:
+-
+-
+-
+
+k-NN Process:
+1. Scaling,
+2. Pick a number K,
+3. Select K nearest neighbors in 'train' data for each 'test' data,  
+4. Classify based on 'Majority Voting'.
+
+## Predicting using k-NN
+
+The following 'Wisconsin Breast Cancer Diagnostics' dataset is provided by UCI Machine Learning repositories on their website.
+
+```{r}
+library(dplyr)
+wbcd <- read.csv("data_input/wisc_bc_data.csv", stringsAsFactors = FALSE) %>%
+  select(-1)
+  
+str(wbcd[,1:5])
+```
+
+```{r}
+wbcd$diagnosis <- factor(wbcd$diagnosis, levels = c("B", "M"), labels = c("Benign", "Malignant"))
+table(wbcd$diagnosis)
+```
+
+Let we observe the correlation. 
+```{r}
+pairs(wbcd[,2:6])
+```
+
+What things that you observe here?
+-
+
+
+First, Let we scale our data.
+```{r}
+wbcd_n <- as.data.frame(lapply(wbcd[,2:31], normalize))
+```
+
+Here, we will start from doing cross-validation. Please split the dataset into train-test dataset with 100 test data.
+
+```{r}
+# Train-test: Name them 'wbcd_train' and 'wbcd_test', exclude the label column
+
+# Label Train-test: Name them 'wbcd_train_label' and 'wbcd_test_label'
+
+```
+
+Create the prediction using `knn()` function in `class` package, store the result in `wbcd_pred`.  
+
+```{r}
+library(class)
+
+```
+
+Create a confusion matrix from the result. Is the model good enough? why?
+
+```{r}
+# Create a confusion matrix here
+
+```
+
+How to improve k-NN result?
+
+# Additional Exercise: Wholesale dataset.
+
+```{r}
+wholesale <- read.csv("data_input/wholesale.csv", header=TRUE)
+wholesale <- wholesale[,-2]
+
+# Change the label
+wholesale$Industry <- factor(wholesale$Channel, levels = c(1, 2), labels = c("horeca", "retail"))
+
+# After doing that we can remove the original Channel feature
+wholesale <- wholesale[,-1]
+table(wholesale$Industry)
+```
+
+Use k-NN method here:
+
+```{r}
+
+```
+

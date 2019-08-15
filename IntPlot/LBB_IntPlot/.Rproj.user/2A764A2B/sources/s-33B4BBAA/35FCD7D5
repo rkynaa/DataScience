@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565692100743.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "77291447",
+    "id" : "35FCD7D5",
+    "lastKnownWriteTime" : 1565784419,
+    "last_content_update" : 1565784419502,
+    "path" : "~/DataScience/IntPlot/LBB_IntPlot/LBB/app.R",
+    "project_path" : "LBB/app.R",
+    "properties" : {
+        "cursorPosition" : "64,1",
+        "scrollLine" : "48"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

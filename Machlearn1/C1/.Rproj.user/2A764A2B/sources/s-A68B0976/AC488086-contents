@@ -1,0 +1,232 @@
+---
+title: "C1 inclass Day 2"
+author: "Steven Surya Tanujaya"
+date: "August 14, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Day 1 Review
+
+```{r}
+honors <- read.csv("data_input/sample.csv")
+honors$hon <- as.factor(honors$hon)
+```
+
+```{r}
+glm(hon~math+read+female,data=honors,family="binomial")
+```
+
+```{r}
+#example: A dan B keduanya perempuan. Nilai read=80. Nilai math A=90 dan nilai math B=70. 'Seberapa mungkin'(Odds) A dapat honors dibandingkan B?
+
+exp(20*0.12296)
+
+# 20 = Nilai Math A - Nilai Math B
+# 0.12296 = Log of Odds buat Math terhadap honors
+
+```
+
+```{r}
+#Next example: A dan B keduanya memiliki nilai math dan read yang identik. Jika A adalah wanita dan B adalah pria, 'Seberapa mungkin'(Odds) A dapat honors dibandingkan B?
+```
+
+# Goodness of fit and Perfect Separation
+
+Now, as the first glimpse as indication about the model's quality there are some measurements that we better know about. Now, let's consider several models.
+
+```{r}
+model1<-glm(hon~1,data=honors,family="binomial")
+model2<-glm(hon~female,data=honors,family="binomial")
+model3<-glm(hon~math,data=honors,family="binomial")
+model4<-glm(hon~math+female+read,data=honors,family="binomial")
+```
+
+## AIC
+```{r}
+# Show the AIC value of each model.
+aic_model1 <- model1$aic
+aic_model2 <- model2$aic
+aic_model3 <- model3$aic
+aic_model4 <- model4$aic
+
+aic_model1
+aic_model2
+aic_model3
+aic_model4
+```
+
+## Null deviance and residual deviance
+```{r}
+# Show the Null deviance and residual deviance of each model.
+
+nullDev_model1 <- model1$null.deviance
+nullDev_model2 <- model2$null.deviance
+nullDev_model3 <- model3$null.deviance
+nullDev_model4 <- model4$null.deviance
+
+nullDev_model1
+nullDev_model2
+nullDev_model3
+nullDev_model4
+```
+
+What do you observe there? List them below:
+- Semakin banyak predictor, semaik sedikit value AIC dan residual deviance
+- AIC bisa dipakai untuk mebandingkan model mana yang terbaik jika n banyak model memiliki jumlah predictor yang sama
+-
+
+## Perfect Separation
+
+The explanation of this term will be given by example. Consider model5 below.
+
+```{r}
+model5<-glm(hon~math+read+write+female,data=honors,family="binomial")
+```
+
+Is the model fine for you? why?
+Ans: No
+- AIC dan residual deviance sangat kecil dari standarnya
+- Ada predictor yang "Terlalu" dominan daripada yang lain.
+
+```{r}
+# Make some observation to support your idea here.
+table(honors$hon, honors$write)
+```
+
+What is the indication of 'perfect separation'?
+Jika ada predictor yang "log of odds"nya lebih dari 10 atau kurang dari -10 -> perfect separation
+
+
+--------------------------------End of Section 1--------------------------------------
+
+# Prediction, Accuracy, and other metrics
+
+Here we use the borrowed data from unsupervised learning material, the "loan" dataset.
+
+```{r}
+loans.s <- read.csv("data_input/loan2017Q4.csv")
+str(loans.s)
+```
+
+Some Description:
+- `initial_list_status` : Either w (whole) or f (fractional). This variable indicates if the loan was a whole loan or fractional loan. For background: Some institutional investors have a preference to purchase loans in their entirety to obtain legal and accounting treatment specific to their situation - with the added benefit of “instant funding” to borrowers
+- `purpose` : Simplified from the original data; One of: credit_card, debt_consolidation,  home_improvement, major_purchase and small_business
+- `int_rate` : Interest rate in percentages
+- `installment` : Monthly payment owed by the borrower
+- `annual_inc` : Self-reported annual income provided by the borrower / co-borrowers during application
+- `dti` : A ratio of the borrower’s total monthly debt payments on his/her total obligations to the self-reported monthly income
+- `verification_status` : is the reported income verified, not verified, or if the income source was verified
+- `grade` : software-assigned loan grade
+- `revol_bal` : total credit revolving balance (in the case of credit card, it refers to the portion of credit card spending that goes unpaid at the end of a billing cycle)
+- `inq_last_12m` : number of credit inquiries in the last 12 months
+- `delinq_2yrs` : number of 30+ days past-due incidences of delinquency in the borrower’s credit file for the past 2 years
+- `home_ownership` : one of MORTGAGE, OWN and RENT
+- `not_paid` : 1 for fully-paid loans, 0 for charged-off, past-due / grace period or defaulted
+- `log_inc` : log of annual_inc
+- `verified` : 0 for “Not verified” under verification_status, 1 otherwise
+- `grdCtoA` : 1 for a grade of A, B or C, 0 otherwise
+
+Note:
+
+Jika `log_inc` dan `annual_inc` dibuatkan sebagai predictor pada waktu yang sama, terjadi multicolinearity.
+
+
+First, take a look into our data.
+
+```{r}
+# Observe the data here
+prop.table.purp <- prop.table(table(loans.s$purpose))
+```
+
+## Cross-Validation
+
+Cross-validation is the method that people use for validating or evaluating the model's quality. Basically in cross-validation we divide our data into 3 parts, as follows:
+
+- Train: Data untuk buat model
+- Test: Data untuk menguji akurasi model (boleh tidak acak)
+- Evaluation: Data untuk menguji akurasi model (**harus** acak)
+
+The method of cross-validation:
+- Simple cross-validation,
+- k-fold cross-validation.
+
+We just want to discuss about simple cross-validation here (the k-fold cross validation will be discussed in the fourth day or the next week class). Sometimes for a simpler cross-validation, we just divide our data into train-test dataset.
+
+```{r}
+set.seed(417)
+intrain <- sample(nrow(loans.s), nrow(loans.s)*0.8)
+length(intrain)
+loans.train <- loans.s[intrain, ]
+loans.test <- loans.s[-intrain, ]
+```
+
+
+This section we will create a logistic regression: not_paid ~ verified + purpose + installment + int_rate + home_ownership + grdCtoA + annual_inc.
+
+```{r}
+# Create the glm model here using TRAIN DATASET only and name it 'creditrisk'.
+
+creditrisk <- glm(not_paid ~ verified + purpose + installment + int_rate + home_ownership + grdCtoA + annual_inc, data = loans.train, family = "binomial")
+
+summary(creditrisk)
+```
+
+Note:
+- Paling signifikan: installment
+- Menurunkan resiko bayar: 'annual_inc' dan 'gradeCtoA'
+- Base model: nasabah yang purposenya 'credit card' dan ownershipnya 'mortgage'
+
+The prediction can be done using `predict()` function.
+
+Try to predict the probability of `not_paid` in the chunk below. 
+```{r}
+loans.test$pred.Risk <- predict(creditrisk,loans.test,type = "response")
+```
+
+Type of logistic regression prediction:
+- "Response": Output berupa probability
+- "Link": Output berupa 'Log of Odds'
+
+```{r}
+table("predicted"=as.numeric(loans.test$pred.Risk>=0.5), "actual"=loans.test$not_paid)
+```
+
+Accuracy:
+```{r}
+(93+94)/(93+94+57+88)
+```
+
+Notes:
+* Actual == Prediction (P) -> True Positive
+* Actual == Prediction (N) -> True Negative
+* Actual != Prediction (P) -> False Positive
+* Actual != Prediction (N) -> False Negative
+
+Recall:
+```{r}
+# True Positive / (True Positive + False Negative)
+94/(94+57)
+```
+
+Precision:
+```{r}
+# True Positive / (True Positive + False Positive)
+94/(94+68)
+```
+
+Specificity:
+```{r}
+
+```
+
+We can also use `caret` package.
+
+```{r}
+caret::confusionMatrix(data = loans.test, Actual = loans.test$not_paid,predict=as.factor(as.numeric(loans.test$pred.Risk >= 0.5)))
+```
+
+# Additional: Step function & How to increase our recall/precision.

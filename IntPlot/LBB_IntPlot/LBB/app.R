@@ -1,25 +1,24 @@
-library(shiny)
-library(shinydashboard)
-library(scales)
-library(plotly)
-library(magrittr)
-library(graphics)
-library(knitr)
-library(rmdformats)
-library(ggpubr)
-library(ggthemes)
-library(splines)
-library(lubridate)
-library(timevis)
-library(GGally)
-library(network)
-library(sna)
-library(ggplot2)
-library(igraph)
-library(ndtv)
-library(visNetwork)
+library(shiny, warn.conflicts = F)
+library(shinydashboard, warn.conflicts =F)
+library(scales, warn.conflicts = F)
+library(magrittr, warn.conflicts = F)
+library(graphics, warn.conflicts = F)
+library(knitr, warn.conflicts = F)
+library(rmdformats, warn.conflicts = F)
+library(ggpubr, warn.conflicts = F)
+library(ggthemes, warn.conflicts = F)
+library(splines, warn.conflicts = F)
+library(lubridate, warn.conflicts = F)
+library(timevis, warn.conflicts = F)
+library(network, warn.conflicts = F)
+library(sna, warn.conflicts = F)
+library(ggplot2, warn.conflicts = F)
+library(igraph, warn.conflicts = F)
+library(ndtv, warn.conflicts = F)
+library(plotly, warn.conflicts = F)
+library(GGally, warn.conflicts = F)
+library(visNetwork, warn.conflicts = F)
 library(tidyr, warn.conflicts = FALSE)
-library(plotly,warn.conflicts = FALSE)
 
 data <- read.csv("MarvelUniverse.csv")
 data.conn <- read.csv("CharacterNetwork.csv")
@@ -63,10 +62,6 @@ data.time.df.timeMovie <- data.frame(
     content = data.time$Movie,
     start = data.time$Time,
     end = c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA)
-)
-
-data.frame.node <- data.frame(
-    nodes = node
 )
 
 data.time.df.timeStory <- data.frame(
@@ -168,12 +163,6 @@ ui <-
                         ),
                         tabBox(width = 12,
                             tabPanel(
-                                "Analytics",
-                                dataTableOutput(
-                                    "table_analytics_gen"
-                                )
-                            ),
-                            tabPanel(
                                 "Graph",
                                 fluidRow(
                                     box(
@@ -194,6 +183,12 @@ ui <-
                                         "valueBoxOutputGen3"
                                     )
                                 )
+                            ),
+                            tabPanel(
+                                "Analytics",
+                                dataTableOutput(
+                                    "table_analytics_gen"
+                                )
                             )
                         )
                     )
@@ -210,12 +205,6 @@ ui <-
                             ),
                         tabBox(
                             width = 12,
-                            tabPanel(
-                                "Analytics",
-                                dataTableOutput(
-                                    "table_analytics_year"
-                                )
-                            ),
                             tabPanel(
                                 "Graph",
                                 fluidRow(
@@ -234,6 +223,12 @@ ui <-
                                         "valueBoxOutputYearly2",width = 7
                                     )
                                 )
+                            ),
+                            tabPanel(
+                                "Analytics",
+                                dataTableOutput(
+                                    "table_analytics_year"
+                                )
                             )
                         )
                     )
@@ -248,12 +243,6 @@ ui <-
                         ),
                         tabBox(
                             width = 12,
-                            tabPanel(
-                                "Analytics",
-                                dataTableOutput(
-                                    "table_analytics_top10"
-                                )
-                            ),
                             tabPanel(
                                 "Graph",
                                 fluidRow(
@@ -274,6 +263,12 @@ ui <-
                                     valueBoxOutput(
                                         "valueBoxOutputTop10_3",width = 5
                                     )
+                                )
+                            ),
+                            tabPanel(
+                                "Analytics",
+                                dataTableOutput(
+                                    "table_analytics_top10"
                                 )
                             )
                         )
